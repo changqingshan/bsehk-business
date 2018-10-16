@@ -1,0 +1,17 @@
+package com.bsehk.business.dao.mapper;
+
+import com.bsehk.business.domain.Exercise;
+
+public interface ExerciseMapper {
+    int deleteByPrimaryKey(Long id);
+
+    int insert(Exercise record);
+
+    int insertSelective(Exercise record);
+
+    Exercise selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(Exercise record);
+
+    int updateByPrimaryKey(Exercise record);
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.MemberLevelMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.MemberLevel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="venue_id" jdbcType="BIGINT" property="venueId" />
+    <result column="member_desc" jdbcType="VARCHAR" property="memberDesc" />
+    <result column="discount_type" jdbcType="INTEGER" property="discountType" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, venue_id, member_desc, discount_type, discount, gmt_create, gmt_modified, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member_level
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from member_level
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.MemberLevel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into member_level (venue_id, member_desc, discount_type, 
+      discount, gmt_create, gmt_modified, 
+      is_delete)
+    values (#{venueId,jdbcType=BIGINT}, #{memberDesc,jdbcType=VARCHAR}, #{discountType,jdbcType=INTEGER}, 
+      #{discount,jdbcType=DECIMAL}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.MemberLevel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into member_level
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="venueId != null">
+        venue_id,
+      </if>
+      <if test="memberDesc != null">
+        member_desc,
+      </if>
+      <if test="discountType != null">
+        discount_type,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="venueId != null">
+        #{venueId,jdbcType=BIGINT},
+      </if>
+      <if test="memberDesc != null">
+        #{memberDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="discountType != null">
+        #{discountType,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.MemberLevel">
+    update member_level
+    <set>
+      <if test="venueId != null">
+        venue_id = #{venueId,jdbcType=BIGINT},
+      </if>
+      <if test="memberDesc != null">
+        member_desc = #{memberDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="discountType != null">
+        discount_type = #{discountType,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.MemberLevel">
+    update member_level
+    set venue_id = #{venueId,jdbcType=BIGINT},
+      member_desc = #{memberDesc,jdbcType=VARCHAR},
+      discount_type = #{discountType,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=DECIMAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

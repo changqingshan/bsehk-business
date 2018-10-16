@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.Customer">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="wx_user_info_id" jdbcType="BIGINT" property="wxUserInfoId" />
+    <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
+    <result column="is_member" jdbcType="INTEGER" property="isMember" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="identity_type" jdbcType="INTEGER" property="identityType" />
+    <result column="identity_url" jdbcType="VARCHAR" property="identityUrl" />
+    <result column="identity_no" jdbcType="VARCHAR" property="identityNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="birth" jdbcType="TIMESTAMP" property="birth" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="fixed_line_number" jdbcType="VARCHAR" property="fixedLineNumber" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="emergency_name" jdbcType="VARCHAR" property="emergencyName" />
+    <result column="emergency_mobile" jdbcType="VARCHAR" property="emergencyMobile" />
+    <result column="relationship_id" jdbcType="BIGINT" property="relationshipId" />
+    <result column="emergency_location" jdbcType="VARCHAR" property="emergencyLocation" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, wx_user_info_id, account_no, is_member, card_no, identity_type, identity_url, 
+    identity_no, name, gender, birth, location, expire_time, phone, fixed_line_number, 
+    company, emergency_name, emergency_mobile, relationship_id, emergency_location, remark, 
+    gmt_create, gmt_modified, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from customer
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.Customer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into customer (wx_user_info_id, account_no, is_member, 
+      card_no, identity_type, identity_url, 
+      identity_no, name, gender, 
+      birth, location, expire_time, 
+      phone, fixed_line_number, company, 
+      emergency_name, emergency_mobile, relationship_id, 
+      emergency_location, remark, gmt_create, 
+      gmt_modified, is_delete)
+    values (#{wxUserInfoId,jdbcType=BIGINT}, #{accountNo,jdbcType=VARCHAR}, #{isMember,jdbcType=INTEGER}, 
+      #{cardNo,jdbcType=VARCHAR}, #{identityType,jdbcType=INTEGER}, #{identityUrl,jdbcType=VARCHAR}, 
+      #{identityNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
+      #{birth,jdbcType=TIMESTAMP}, #{location,jdbcType=VARCHAR}, #{expireTime,jdbcType=TIMESTAMP}, 
+      #{phone,jdbcType=VARCHAR}, #{fixedLineNumber,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{emergencyName,jdbcType=VARCHAR}, #{emergencyMobile,jdbcType=VARCHAR}, #{relationshipId,jdbcType=BIGINT}, 
+      #{emergencyLocation,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.Customer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wxUserInfoId != null">
+        wx_user_info_id,
+      </if>
+      <if test="accountNo != null">
+        account_no,
+      </if>
+      <if test="isMember != null">
+        is_member,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="identityType != null">
+        identity_type,
+      </if>
+      <if test="identityUrl != null">
+        identity_url,
+      </if>
+      <if test="identityNo != null">
+        identity_no,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="expireTime != null">
+        expire_time,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="fixedLineNumber != null">
+        fixed_line_number,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="emergencyName != null">
+        emergency_name,
+      </if>
+      <if test="emergencyMobile != null">
+        emergency_mobile,
+      </if>
+      <if test="relationshipId != null">
+        relationship_id,
+      </if>
+      <if test="emergencyLocation != null">
+        emergency_location,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wxUserInfoId != null">
+        #{wxUserInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="accountNo != null">
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        #{isMember,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null">
+        #{identityType,jdbcType=INTEGER},
+      </if>
+      <if test="identityUrl != null">
+        #{identityUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNo != null">
+        #{identityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="expireTime != null">
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedLineNumber != null">
+        #{fixedLineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyName != null">
+        #{emergencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyMobile != null">
+        #{emergencyMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="relationshipId != null">
+        #{relationshipId,jdbcType=BIGINT},
+      </if>
+      <if test="emergencyLocation != null">
+        #{emergencyLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.Customer">
+    update customer
+    <set>
+      <if test="wxUserInfoId != null">
+        wx_user_info_id = #{wxUserInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="accountNo != null">
+        account_no = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        is_member = #{isMember,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null">
+        identity_type = #{identityType,jdbcType=INTEGER},
+      </if>
+      <if test="identityUrl != null">
+        identity_url = #{identityUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNo != null">
+        identity_no = #{identityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="expireTime != null">
+        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedLineNumber != null">
+        fixed_line_number = #{fixedLineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyName != null">
+        emergency_name = #{emergencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyMobile != null">
+        emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="relationshipId != null">
+        relationship_id = #{relationshipId,jdbcType=BIGINT},
+      </if>
+      <if test="emergencyLocation != null">
+        emergency_location = #{emergencyLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Customer">
+    update customer
+    set wx_user_info_id = #{wxUserInfoId,jdbcType=BIGINT},
+      account_no = #{accountNo,jdbcType=VARCHAR},
+      is_member = #{isMember,jdbcType=INTEGER},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      identity_type = #{identityType,jdbcType=INTEGER},
+      identity_url = #{identityUrl,jdbcType=VARCHAR},
+      identity_no = #{identityNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      location = #{location,jdbcType=VARCHAR},
+      expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      phone = #{phone,jdbcType=VARCHAR},
+      fixed_line_number = #{fixedLineNumber,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      emergency_name = #{emergencyName,jdbcType=VARCHAR},
+      emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
+      relationship_id = #{relationshipId,jdbcType=BIGINT},
+      emergency_location = #{emergencyLocation,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

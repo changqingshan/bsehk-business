@@ -1,5 +1,6 @@
 com\bsehk\business\dao\mapper\CardOperationMapper.class
 com\bsehk\business\dao\mapper\TicketRoundMapper.class
+com\bsehk\business\dao\mapper\RoundMapper.class
 com\bsehk\business\dao\mapper\BusinessTypeMapper.class
 com\bsehk\business\dao\mapper\SaleWeekMapper.class
 com\bsehk\business\dao\mapper\BrandMapper.class
@@ -43,6 +44,5 @@ com\bsehk\business\dao\mapper\OperationMapper.class
 com\bsehk\business\dao\BsehkDaoApplication.class
 com\bsehk\business\dao\config\MybatisConfig.class
 com\bsehk\business\dao\mapper\VenueNoticeMapper.class
-com\bsehk\business\dao\mapper\ROUNDMapper.class
 com\bsehk\business\dao\mapper\TicketTypeMapper.class
 com\bsehk\business\dao\mapper\VenueBannerMapper.class

@@ -5,7 +5,6 @@ com\bsehk\business\domain\VenueBanner.class
 com\bsehk\business\domain\Operation.class
 com\bsehk\business\domain\Ticket.class
 com\bsehk\business\domain\CardDiscountInfo.class
-com\bsehk\business\domain\ROUND.class
 com\bsehk\business\domain\Coach.class
 com\bsehk\business\domain\Exercise.class
 com\bsehk\business\domain\BusinessType.class
@@ -21,6 +20,7 @@ com\bsehk\business\domain\Venue.class
 com\bsehk\business\domain\TicketRound.class
 com\bsehk\business\domain\VenueServiceSite.class
 com\bsehk\business\domain\Infrastructure.class
+com\bsehk\business\domain\Round.class
 com\bsehk\business\domain\SaleWeek.class
 com\bsehk\business\domain\CardBusiness.class
 com\bsehk\business\domain\MerchantCompany.class

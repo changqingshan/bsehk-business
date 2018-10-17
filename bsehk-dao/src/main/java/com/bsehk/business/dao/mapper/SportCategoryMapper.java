@@ -2,6 +2,8 @@ package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.SportCategory;
 
+import java.util.List;
+
 public interface SportCategoryMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -10,6 +12,8 @@ public interface SportCategoryMapper {
     int insertSelective(SportCategory record);
 
     SportCategory selectByPrimaryKey(Long id);
+
+    List<SportCategory> selectAllSport();
 
     int updateByPrimaryKeySelective(SportCategory record);
 

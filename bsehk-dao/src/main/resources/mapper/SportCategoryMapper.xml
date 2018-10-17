@@ -12,6 +12,10 @@
   <sql id="Base_Column_List">
     id, sport_name, parent_id, gmt_create, gmt_modified, is_delete
   </sql>
+  <select id="selectAllSport" resultMap="BaseResultMap">
+    select id,sport_name,parent_id
+    from sport_category
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

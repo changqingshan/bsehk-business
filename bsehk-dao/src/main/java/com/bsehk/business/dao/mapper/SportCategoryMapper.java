@@ -15,6 +15,8 @@ public interface SportCategoryMapper {
 
     List<SportCategory> selectAllSport();
 
+    List<SportCategory> selectSportByParentId(Long parentId);
+
     int updateByPrimaryKeySelective(SportCategory record);
 
     int updateByPrimaryKey(SportCategory record);

@@ -33,5 +33,13 @@ public class SportCategoryController {
         return ResultData.success(sportCategoryVOList);
     }
 
+    /*
+    * 查询所有的运动大类
+    * */
+    @RequestMapping("/selectParentSport")
+    public  ResultData selectParentSport(){
+        List<SportCategory> parentSports = sportCategoryService.selectParentSport();
+        return ResultData.success(parentSports);
+    }
 
 }

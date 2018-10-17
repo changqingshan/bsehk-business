@@ -18,9 +18,11 @@ public class SportCategoryServiceImpl implements SportCategoryService {
     SportCategoryMapper sportCategoryMapper;
 
     @Override
+    //获取体育类别的二级页数据
     public List<SportCategoryVO> selectAllSport() {
         List<SportCategoryVO> sportVOList = new ArrayList<SportCategoryVO>();
 
+        //获取所有运动类别
         List<SportCategory> sportCategories = sportCategoryMapper.selectAllSport();
 
         //添加体育类的父类集合
@@ -44,5 +46,11 @@ public class SportCategoryServiceImpl implements SportCategoryService {
         }
 
         return sportVOList;
+    }
+
+    @Override
+    //获取所有体育类别,父id为0的都是运动大类
+    public List<SportCategory> selectParentSport() {
+        return sportCategoryMapper.selectSportByParentId(0L);
     }
 }

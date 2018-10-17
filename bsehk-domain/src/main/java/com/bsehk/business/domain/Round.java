@@ -2,7 +2,7 @@ package com.bsehk.business.domain;
 
 import java.util.Date;
 
-public class ROUND {
+public class Round {
     private Long id;
 
     private Long sportCategoryId;

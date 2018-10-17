@@ -1,0 +1,8 @@
+com\bsehk\business\biz\config\FeignMultipartEncoder$HttpOutputMessageImpl.class
+com\bsehk\business\biz\config\FeignMultipartSupportConfig.class
+com\bsehk\business\biz\feign\FileService.class
+com\bsehk\business\biz\feign\FileServiceFallBackFactory.class
+com\bsehk\business\biz\impl\BrandServiceImpl.class
+com\bsehk\business\biz\config\FeignMultipartEncoder.class
+com\bsehk\business\biz\config\FeignMultipartEncoder$DefaultEncoder.class
+com\bsehk\business\biz\config\RedisConfig.class

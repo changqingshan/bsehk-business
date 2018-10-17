@@ -23,7 +23,7 @@ import java.util.Properties;
 @Slf4j
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.bsehk.business.mapper")
+@MapperScan("com.bsehk.business.dao")
 public class MybatisConfig {
 
     @Bean

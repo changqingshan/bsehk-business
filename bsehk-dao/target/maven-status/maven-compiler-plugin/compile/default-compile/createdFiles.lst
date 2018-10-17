@@ -40,6 +40,7 @@ com\bsehk\business\dao\mapper\TicketMapper.class
 com\bsehk\business\dao\mapper\CardBusinessMapper.class
 com\bsehk\business\dao\mapper\ChildTickerMapper.class
 com\bsehk\business\dao\mapper\OperationMapper.class
+com\bsehk\business\dao\BsehkDaoApplication.class
 com\bsehk\business\dao\config\MybatisConfig.class
 com\bsehk\business\dao\mapper\VenueNoticeMapper.class
 com\bsehk\business\dao\mapper\ROUNDMapper.class

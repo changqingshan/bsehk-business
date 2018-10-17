@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bsehk.business.dao.mapper.ROUNDMapper">
-  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.ROUND">
+<mapper namespace="com.bsehk.business.dao.mapper.RoundMapperMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.Round">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="sport_category_id" jdbcType="BIGINT" property="sportCategoryId" />
     <result column="round_name" jdbcType="VARCHAR" property="roundName" />
@@ -25,7 +25,7 @@
     delete from round
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.bsehk.business.domain.ROUND">
+  <insert id="insert" parameterType="com.bsehk.business.domain.Round">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -36,7 +36,7 @@
       #{endTime,jdbcType=TIME}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
       #{isDelete,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bsehk.business.domain.ROUND">
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.Round">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -88,7 +88,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.ROUND">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.Round">
     update round
     <set>
       <if test="sportCategoryId != null">
@@ -115,7 +115,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.ROUND">
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Round">
     update round
     set sport_category_id = #{sportCategoryId,jdbcType=BIGINT},
       round_name = #{roundName,jdbcType=VARCHAR},

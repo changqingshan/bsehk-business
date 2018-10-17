@@ -1,6 +1,5 @@
 package com.bsehk.business.web.controller;
 
-import com.bsehk.business.domain.SportCategory;
 import com.bsehk.business.service.SportCategoryService;
 import com.bsehk.business.service.vo.SportCategoryVO;
 import com.bsehk.common.exception.BizException;

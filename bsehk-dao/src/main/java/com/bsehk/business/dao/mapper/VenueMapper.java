@@ -2,6 +2,7 @@ package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.Venue;
 
+
 public interface VenueMapper {
     int deleteByPrimaryKey(Long id);
 

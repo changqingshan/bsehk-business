@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SportCategoryService {
     List<SportCategoryVO> selectAllSport();
+
+    List<SportCategory> selectParentSport();
 }

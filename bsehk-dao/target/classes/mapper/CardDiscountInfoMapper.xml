@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.CardDiscountInfoMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.CardDiscountInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ticket_id" jdbcType="BIGINT" property="ticketId" />
+    <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId" />
+    <result column="round_id" jdbcType="BIGINT" property="roundId" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ticket_id, member_level_id, round_id, discount, gmt_create, gmt_modified, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from card_discount_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from card_discount_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.CardDiscountInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card_discount_info (ticket_id, member_level_id, round_id, 
+      discount, gmt_create, gmt_modified, 
+      is_delete)
+    values (#{ticketId,jdbcType=BIGINT}, #{memberLevelId,jdbcType=BIGINT}, #{roundId,jdbcType=BIGINT}, 
+      #{discount,jdbcType=DECIMAL}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.CardDiscountInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card_discount_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ticketId != null">
+        ticket_id,
+      </if>
+      <if test="memberLevelId != null">
+        member_level_id,
+      </if>
+      <if test="roundId != null">
+        round_id,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ticketId != null">
+        #{ticketId,jdbcType=BIGINT},
+      </if>
+      <if test="memberLevelId != null">
+        #{memberLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="roundId != null">
+        #{roundId,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.CardDiscountInfo">
+    update card_discount_info
+    <set>
+      <if test="ticketId != null">
+        ticket_id = #{ticketId,jdbcType=BIGINT},
+      </if>
+      <if test="memberLevelId != null">
+        member_level_id = #{memberLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="roundId != null">
+        round_id = #{roundId,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.CardDiscountInfo">
+    update card_discount_info
+    set ticket_id = #{ticketId,jdbcType=BIGINT},
+      member_level_id = #{memberLevelId,jdbcType=BIGINT},
+      round_id = #{roundId,jdbcType=BIGINT},
+      discount = #{discount,jdbcType=DECIMAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

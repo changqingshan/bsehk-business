@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.CardMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.Card">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="card_type" jdbcType="INTEGER" property="cardType" />
+    <result column="card_name" jdbcType="VARCHAR" property="cardName" />
+    <result column="is_gift_card" jdbcType="INTEGER" property="isGiftCard" />
+    <result column="sale_start" jdbcType="TIMESTAMP" property="saleStart" />
+    <result column="sale_end" jdbcType="TIMESTAMP" property="saleEnd" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="times" jdbcType="INTEGER" property="times" />
+    <result column="valid_type" jdbcType="INTEGER" property="validType" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="period_start" jdbcType="TIMESTAMP" property="periodStart" />
+    <result column="period_end" jdbcType="TIMESTAMP" property="periodEnd" />
+    <result column="member_level_id" jdbcType="BIGINT" property="memberLevelId" />
+    <result column="usage_start" jdbcType="TIME" property="usageStart" />
+    <result column="usage_end" jdbcType="TIME" property="usageEnd" />
+    <result column="allow_gate" jdbcType="INTEGER" property="allowGate" />
+    <result column="auto_activate" jdbcType="INTEGER" property="autoActivate" />
+    <result column="activate_interval" jdbcType="INTEGER" property="activateInterval" />
+    <result column="sale_price" jdbcType="DECIMAL" property="salePrice" />
+    <result column="continue_price" jdbcType="DECIMAL" property="continuePrice" />
+    <result column="entry_number" jdbcType="INTEGER" property="entryNumber" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="entry_time" jdbcType="INTEGER" property="entryTime" />
+    <result column="free_time" jdbcType="INTEGER" property="freeTime" />
+    <result column="timeout_price" jdbcType="INTEGER" property="timeoutPrice" />
+    <result column="pay_unit" jdbcType="VARCHAR" property="payUnit" />
+    <result column="sale_low_number" jdbcType="INTEGER" property="saleLowNumber" />
+    <result column="sale_hign_number" jdbcType="INTEGER" property="saleHignNumber" />
+    <result column="sale_wx" jdbcType="INTEGER" property="saleWx" />
+    <result column="priority" jdbcType="VARCHAR" property="priority" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, card_type, card_name, is_gift_card, sale_start, sale_end, amount, times, valid_type, 
+    period, unit, period_start, period_end, member_level_id, usage_start, usage_end, 
+    allow_gate, auto_activate, activate_interval, sale_price, continue_price, entry_number, 
+    discount, entry_time, free_time, timeout_price, pay_unit, sale_low_number, sale_hign_number, 
+    sale_wx, priority, gmt_create, gmt_modified, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from card
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from card
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.Card">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card (card_type, card_name, is_gift_card, 
+      sale_start, sale_end, amount, 
+      times, valid_type, period, 
+      unit, period_start, period_end, 
+      member_level_id, usage_start, usage_end, 
+      allow_gate, auto_activate, activate_interval, 
+      sale_price, continue_price, entry_number, 
+      discount, entry_time, free_time, 
+      timeout_price, pay_unit, sale_low_number, 
+      sale_hign_number, sale_wx, priority, 
+      gmt_create, gmt_modified, is_delete
+      )
+    values (#{cardType,jdbcType=INTEGER}, #{cardName,jdbcType=VARCHAR}, #{isGiftCard,jdbcType=INTEGER}, 
+      #{saleStart,jdbcType=TIMESTAMP}, #{saleEnd,jdbcType=TIMESTAMP}, #{amount,jdbcType=DECIMAL}, 
+      #{times,jdbcType=INTEGER}, #{validType,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, 
+      #{unit,jdbcType=VARCHAR}, #{periodStart,jdbcType=TIMESTAMP}, #{periodEnd,jdbcType=TIMESTAMP}, 
+      #{memberLevelId,jdbcType=BIGINT}, #{usageStart,jdbcType=TIME}, #{usageEnd,jdbcType=TIME}, 
+      #{allowGate,jdbcType=INTEGER}, #{autoActivate,jdbcType=INTEGER}, #{activateInterval,jdbcType=INTEGER}, 
+      #{salePrice,jdbcType=DECIMAL}, #{continuePrice,jdbcType=DECIMAL}, #{entryNumber,jdbcType=INTEGER}, 
+      #{discount,jdbcType=DECIMAL}, #{entryTime,jdbcType=INTEGER}, #{freeTime,jdbcType=INTEGER}, 
+      #{timeoutPrice,jdbcType=INTEGER}, #{payUnit,jdbcType=VARCHAR}, #{saleLowNumber,jdbcType=INTEGER}, 
+      #{saleHignNumber,jdbcType=INTEGER}, #{saleWx,jdbcType=INTEGER}, #{priority,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.Card">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardType != null">
+        card_type,
+      </if>
+      <if test="cardName != null">
+        card_name,
+      </if>
+      <if test="isGiftCard != null">
+        is_gift_card,
+      </if>
+      <if test="saleStart != null">
+        sale_start,
+      </if>
+      <if test="saleEnd != null">
+        sale_end,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="times != null">
+        times,
+      </if>
+      <if test="validType != null">
+        valid_type,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="periodStart != null">
+        period_start,
+      </if>
+      <if test="periodEnd != null">
+        period_end,
+      </if>
+      <if test="memberLevelId != null">
+        member_level_id,
+      </if>
+      <if test="usageStart != null">
+        usage_start,
+      </if>
+      <if test="usageEnd != null">
+        usage_end,
+      </if>
+      <if test="allowGate != null">
+        allow_gate,
+      </if>
+      <if test="autoActivate != null">
+        auto_activate,
+      </if>
+      <if test="activateInterval != null">
+        activate_interval,
+      </if>
+      <if test="salePrice != null">
+        sale_price,
+      </if>
+      <if test="continuePrice != null">
+        continue_price,
+      </if>
+      <if test="entryNumber != null">
+        entry_number,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="entryTime != null">
+        entry_time,
+      </if>
+      <if test="freeTime != null">
+        free_time,
+      </if>
+      <if test="timeoutPrice != null">
+        timeout_price,
+      </if>
+      <if test="payUnit != null">
+        pay_unit,
+      </if>
+      <if test="saleLowNumber != null">
+        sale_low_number,
+      </if>
+      <if test="saleHignNumber != null">
+        sale_hign_number,
+      </if>
+      <if test="saleWx != null">
+        sale_wx,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardType != null">
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardName != null">
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGiftCard != null">
+        #{isGiftCard,jdbcType=INTEGER},
+      </if>
+      <if test="saleStart != null">
+        #{saleStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleEnd != null">
+        #{saleEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="times != null">
+        #{times,jdbcType=INTEGER},
+      </if>
+      <if test="validType != null">
+        #{validType,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="periodStart != null">
+        #{periodStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="periodEnd != null">
+        #{periodEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberLevelId != null">
+        #{memberLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="usageStart != null">
+        #{usageStart,jdbcType=TIME},
+      </if>
+      <if test="usageEnd != null">
+        #{usageEnd,jdbcType=TIME},
+      </if>
+      <if test="allowGate != null">
+        #{allowGate,jdbcType=INTEGER},
+      </if>
+      <if test="autoActivate != null">
+        #{autoActivate,jdbcType=INTEGER},
+      </if>
+      <if test="activateInterval != null">
+        #{activateInterval,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null">
+        #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="continuePrice != null">
+        #{continuePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="entryNumber != null">
+        #{entryNumber,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="entryTime != null">
+        #{entryTime,jdbcType=INTEGER},
+      </if>
+      <if test="freeTime != null">
+        #{freeTime,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutPrice != null">
+        #{timeoutPrice,jdbcType=INTEGER},
+      </if>
+      <if test="payUnit != null">
+        #{payUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="saleLowNumber != null">
+        #{saleLowNumber,jdbcType=INTEGER},
+      </if>
+      <if test="saleHignNumber != null">
+        #{saleHignNumber,jdbcType=INTEGER},
+      </if>
+      <if test="saleWx != null">
+        #{saleWx,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.Card">
+    update card
+    <set>
+      <if test="cardType != null">
+        card_type = #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardName != null">
+        card_name = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGiftCard != null">
+        is_gift_card = #{isGiftCard,jdbcType=INTEGER},
+      </if>
+      <if test="saleStart != null">
+        sale_start = #{saleStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleEnd != null">
+        sale_end = #{saleEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="times != null">
+        times = #{times,jdbcType=INTEGER},
+      </if>
+      <if test="validType != null">
+        valid_type = #{validType,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="periodStart != null">
+        period_start = #{periodStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="periodEnd != null">
+        period_end = #{periodEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberLevelId != null">
+        member_level_id = #{memberLevelId,jdbcType=BIGINT},
+      </if>
+      <if test="usageStart != null">
+        usage_start = #{usageStart,jdbcType=TIME},
+      </if>
+      <if test="usageEnd != null">
+        usage_end = #{usageEnd,jdbcType=TIME},
+      </if>
+      <if test="allowGate != null">
+        allow_gate = #{allowGate,jdbcType=INTEGER},
+      </if>
+      <if test="autoActivate != null">
+        auto_activate = #{autoActivate,jdbcType=INTEGER},
+      </if>
+      <if test="activateInterval != null">
+        activate_interval = #{activateInterval,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null">
+        sale_price = #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="continuePrice != null">
+        continue_price = #{continuePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="entryNumber != null">
+        entry_number = #{entryNumber,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="entryTime != null">
+        entry_time = #{entryTime,jdbcType=INTEGER},
+      </if>
+      <if test="freeTime != null">
+        free_time = #{freeTime,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutPrice != null">
+        timeout_price = #{timeoutPrice,jdbcType=INTEGER},
+      </if>
+      <if test="payUnit != null">
+        pay_unit = #{payUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="saleLowNumber != null">
+        sale_low_number = #{saleLowNumber,jdbcType=INTEGER},
+      </if>
+      <if test="saleHignNumber != null">
+        sale_hign_number = #{saleHignNumber,jdbcType=INTEGER},
+      </if>
+      <if test="saleWx != null">
+        sale_wx = #{saleWx,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Card">
+    update card
+    set card_type = #{cardType,jdbcType=INTEGER},
+      card_name = #{cardName,jdbcType=VARCHAR},
+      is_gift_card = #{isGiftCard,jdbcType=INTEGER},
+      sale_start = #{saleStart,jdbcType=TIMESTAMP},
+      sale_end = #{saleEnd,jdbcType=TIMESTAMP},
+      amount = #{amount,jdbcType=DECIMAL},
+      times = #{times,jdbcType=INTEGER},
+      valid_type = #{validType,jdbcType=INTEGER},
+      period = #{period,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=VARCHAR},
+      period_start = #{periodStart,jdbcType=TIMESTAMP},
+      period_end = #{periodEnd,jdbcType=TIMESTAMP},
+      member_level_id = #{memberLevelId,jdbcType=BIGINT},
+      usage_start = #{usageStart,jdbcType=TIME},
+      usage_end = #{usageEnd,jdbcType=TIME},
+      allow_gate = #{allowGate,jdbcType=INTEGER},
+      auto_activate = #{autoActivate,jdbcType=INTEGER},
+      activate_interval = #{activateInterval,jdbcType=INTEGER},
+      sale_price = #{salePrice,jdbcType=DECIMAL},
+      continue_price = #{continuePrice,jdbcType=DECIMAL},
+      entry_number = #{entryNumber,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=DECIMAL},
+      entry_time = #{entryTime,jdbcType=INTEGER},
+      free_time = #{freeTime,jdbcType=INTEGER},
+      timeout_price = #{timeoutPrice,jdbcType=INTEGER},
+      pay_unit = #{payUnit,jdbcType=VARCHAR},
+      sale_low_number = #{saleLowNumber,jdbcType=INTEGER},
+      sale_hign_number = #{saleHignNumber,jdbcType=INTEGER},
+      sale_wx = #{saleWx,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

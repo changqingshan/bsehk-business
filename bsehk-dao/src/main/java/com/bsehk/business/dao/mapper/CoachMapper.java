@@ -2,6 +2,8 @@ package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.Coach;
 
+import java.util.List;
+
 public interface CoachMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,6 @@ public interface CoachMapper {
     int updateByPrimaryKeySelective(Coach record);
 
     int updateByPrimaryKey(Coach record);
+
+    List<Coach> selectCoachByCoachId(List<Long> coachIdList);
 }

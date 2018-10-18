@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.CardBusinessMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.CardBusiness">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="card_id" jdbcType="BIGINT" property="cardId" />
+    <result column="vnueu_id" jdbcType="BIGINT" property="vnueuId" />
+    <result column="business_type_id" jdbcType="BIGINT" property="businessTypeId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, card_id, vnueu_id, business_type_id, gmt_create, gmt_modified, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from card_business
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from card_business
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.CardBusiness">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card_business (card_id, vnueu_id, business_type_id, 
+      gmt_create, gmt_modified, is_delete
+      )
+    values (#{cardId,jdbcType=BIGINT}, #{vnueuId,jdbcType=BIGINT}, #{businessTypeId,jdbcType=BIGINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.CardBusiness">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card_business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardId != null">
+        card_id,
+      </if>
+      <if test="vnueuId != null">
+        vnueu_id,
+      </if>
+      <if test="businessTypeId != null">
+        business_type_id,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardId != null">
+        #{cardId,jdbcType=BIGINT},
+      </if>
+      <if test="vnueuId != null">
+        #{vnueuId,jdbcType=BIGINT},
+      </if>
+      <if test="businessTypeId != null">
+        #{businessTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.CardBusiness">
+    update card_business
+    <set>
+      <if test="cardId != null">
+        card_id = #{cardId,jdbcType=BIGINT},
+      </if>
+      <if test="vnueuId != null">
+        vnueu_id = #{vnueuId,jdbcType=BIGINT},
+      </if>
+      <if test="businessTypeId != null">
+        business_type_id = #{businessTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.CardBusiness">
+    update card_business
+    set card_id = #{cardId,jdbcType=BIGINT},
+      vnueu_id = #{vnueuId,jdbcType=BIGINT},
+      business_type_id = #{businessTypeId,jdbcType=BIGINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -41,6 +41,7 @@ com\bsehk\business\domain\ValueCardChargeRule.class
 com\bsehk\business\domain\SaleDiscountRule.class
 com\bsehk\business\domain\VenueSportCategory.class
 com\bsehk\business\domain\VenueNotice.class
+com\bsehk\business\domain\VenueSport.class
 com\bsehk\business\domain\ExerciseField.class
 com\bsehk\business\domain\RefundRule.class
 com\bsehk\business\domain\SportCategory.class

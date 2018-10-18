@@ -27,6 +27,7 @@
 *.ear
 .idea
 *.iml
+.lst
 
 
 #project file #

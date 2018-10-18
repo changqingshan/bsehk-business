@@ -121,4 +121,15 @@
     <include refid="Base_Column_List" />
     from city where is_delete = #{isDeleted}
   </select>
+
+  <select id="listByIds"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from city where id IN
+    <foreach collection="list" open="(" close=")" item="id">
+      #{id}
+    </foreach>
+     AND is_delete = #{isDeleted}
+  </select>
+
 </mapper>

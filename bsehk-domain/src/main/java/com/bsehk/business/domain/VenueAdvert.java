@@ -7,6 +7,8 @@ import java.util.Date;
 public class VenueAdvert {
     private Long id;
 
+    private Long venueId;
+
     private String content;
 
     private String url;
@@ -20,6 +22,5 @@ public class VenueAdvert {
     private Date gmtModified;
 
     private Byte isDelete;
-
 
 }

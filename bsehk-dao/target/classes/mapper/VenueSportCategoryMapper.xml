@@ -9,6 +9,9 @@
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
+
+
+
   <sql id="Base_Column_List">
     id, venue_id, sport_category_id, gmt_create, gmt_modified, is_delete
   </sql>
@@ -101,4 +104,15 @@
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="listVenueSport" resultType="com.bsehk.business.domain.VenueSport">
+    select
+      v.venue_id AS venueId ,s.sport_name AS  sportName
+    from venue_sport_category v INNER JOIN
+        sport_category  s ON  v.sport_category_id = s.id
+    where v.venue_id IN
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+         #{id}
+    </foreach>
+  </select>
 </mapper>

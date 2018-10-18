@@ -10,6 +10,7 @@ com\bsehk\business\biz\impl\SaleWeekServiceImpl.class
 com\bsehk\business\biz\impl\ValueCardChargeRuleServiceImpl.class
 com\bsehk\business\biz\impl\CoachMediaServiceImpl.class
 com\bsehk\business\biz\impl\SaleDiscountRuleServiceImpl.class
+com\bsehk\business\biz\BsehkBizApplication.class
 com\bsehk\business\biz\impl\InfrastructureServiceImpl.class
 com\bsehk\business\biz\impl\VenueSportCategoryServiceImpl.class
 com\bsehk\business\biz\config\FeignMultipartSupportConfig.class

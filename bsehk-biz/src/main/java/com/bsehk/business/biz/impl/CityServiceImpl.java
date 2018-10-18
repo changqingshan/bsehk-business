@@ -25,7 +25,6 @@ public class CityServiceImpl implements CityService {
         if(cities == null || cities.isEmpty()){
             return Collections.emptyList();
         }
-
         List<CityVO> cityVOS = new ArrayList<>();
         cities.forEach(city -> {
             if(city.getParentId() == 0){

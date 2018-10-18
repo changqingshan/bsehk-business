@@ -3,8 +3,9 @@
 <mapper namespace="com.bsehk.business.dao.mapper.CoachMapper">
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.Coach">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="venue_id" jdbcType="BIGINT" property="venueId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="identity_no" jdbcType="VARCHAR" property="identityNo" />
@@ -14,7 +15,7 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, venue_id, name, gender, phone, identity_no, is_personal, gmt_create, gmt_modified, 
+    id, name, title, intro, gender, phone, identity_no, is_personal, gmt_create, gmt_modified, 
     is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -22,6 +23,14 @@
     <include refid="Base_Column_List" />
     from coach
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectCoachByCoachId" resultMap="BaseResultMap">
+    select id,title,name
+    from coach
+    where id in
+    <foreach collection="list" open="(" close=")" separator="," item="coachId">
+      #{coachId}
+    </foreach>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from coach
@@ -31,14 +40,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into coach (venue_id, name, gender, 
-      phone, identity_no, is_personal, 
-      gmt_create, gmt_modified, is_delete
-      )
-    values (#{venueId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR}, #{identityNo,jdbcType=VARCHAR}, #{isPersonal,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
-      )
+    insert into coach (name, title, intro, 
+      gender, phone, identity_no, 
+      is_personal, gmt_create, gmt_modified, 
+      is_delete)
+    values (#{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{identityNo,jdbcType=VARCHAR}, 
+      #{isPersonal,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.Coach">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -46,11 +55,14 @@
     </selectKey>
     insert into coach
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="venueId != null">
-        venue_id,
-      </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="intro != null">
+        intro,
       </if>
       <if test="gender != null">
         gender,
@@ -75,11 +87,14 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="venueId != null">
-        #{venueId,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=INTEGER},
@@ -107,11 +122,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.Coach">
     update coach
     <set>
-      <if test="venueId != null">
-        venue_id = #{venueId,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=INTEGER},
@@ -139,8 +157,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Coach">
     update coach
-    set venue_id = #{venueId,jdbcType=BIGINT},
-      name = #{name,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
       identity_no = #{identityNo,jdbcType=VARCHAR},

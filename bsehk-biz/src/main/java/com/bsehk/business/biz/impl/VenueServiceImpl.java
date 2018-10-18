@@ -33,6 +33,8 @@ public class VenueServiceImpl implements VenueService {
     @Resource
     private VenueSportCategoryService venueSportCategoryService;
 
+
+
     @Override
     public List<VenueBriefVO> searchVenue(Long cityId, Long sportCategoryId, double longitude, double latitude, String venueName) {
         if(StringUtil.isBlank(venueName)){
@@ -76,5 +78,11 @@ public class VenueServiceImpl implements VenueService {
 
 
         return venueBriefVOS;
+
+    }
+
+    @Override
+    public Venue selectByPrimaryKey(Long id) {
+        return venueMapper.selectByPrimaryKey(id);
     }
 }

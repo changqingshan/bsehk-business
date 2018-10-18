@@ -1,5 +1,6 @@
 package com.bsehk.business.web.controller;
 
+import com.bsehk.business.domain.Brand;
 import com.bsehk.business.domain.VenueAdvert;
 import com.bsehk.business.domain.VenueNotice;
 import com.bsehk.business.service.BrandService;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/venue")
-public class VenueBannerController {
+public class VenueHomeController {
     @Resource
     VenueBannerService venueBannerService;
     @Resource
@@ -52,7 +53,7 @@ public class VenueBannerController {
     //场馆品牌介绍
     @RequestMapping("selectBrandByVenueId")
     public ResultData selectBrandByVenueId(Long venueId){
-
-        return ResultData.success("");
+        Brand brand = brandService.selectBrandByVenueId(venueId);
+        return ResultData.success(brand);
     }
 }

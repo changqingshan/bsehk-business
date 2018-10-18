@@ -38,6 +38,11 @@ public class SportCategoryServiceImpl implements SportCategoryService {
         }
         //为每个父类添加他的子类集合
         for (int i=0;i<sportVOList.size();i++) {
+             SportCategory sportCategory = new SportCategory();
+                sportCategory.setId(-sportVOList.get(i).getId());
+                sportCategory.setSportName("全部");
+            sportVOList.get(i).getChildList().add(sportCategory);
+
             for (int j=0;j<sportCategories.size();j++) {
                 if (sportVOList.get(i).getId() == sportCategories.get(j).getParentId()){
                     sportVOList.get(i).getChildList().add(sportCategories.get(j));
@@ -52,5 +57,12 @@ public class SportCategoryServiceImpl implements SportCategoryService {
     //获取所有体育类别,父id为0的都是运动大类
     public List<SportCategory> selectParentSport() {
         return sportCategoryMapper.selectSportByParentId(0L);
+    }
+
+
+    @Override
+    public List<SportCategory> listByParentId(Long sportCategoryId) {
+        List<SportCategory> sportCategories = this.sportCategoryMapper.listByParentId(sportCategoryId,false);
+        return sportCategories;
     }
 }

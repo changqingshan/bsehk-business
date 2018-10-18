@@ -2,6 +2,7 @@ package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.VenueSport;
 import com.bsehk.business.domain.VenueSportCategory;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface VenueSportCategoryMapper {
 
     int updateByPrimaryKey(VenueSportCategory record);
 
-    List<VenueSport> listVenueSport(List<Long> venueIds);
+    List<VenueSport> listVenueSport( List<Long> venueIds);
 }

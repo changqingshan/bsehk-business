@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,18 +29,12 @@ public class VenueServiceTest {
     private VenueMapper venueMapper;
 
 
-    @Test
-    public void searchVenueTest(){
-        Long cityId = 5L;
-        Long sportCategoryId = 4L;
-        String  venueName = "亚泰";
-        List<VenueBriefVO> venueBriefVOS = this.venueService.searchVenue(cityId,sportCategoryId,0,0,venueName);
-        log.info("venueBriefVOS   ---------------->  [{}]",venueBriefVOS);
-    }
 
     @Test
     public void getVenueTest(){
-        List<Venue> venues = venueMapper.searchVenue(5L,4L,"亚泰");
+        List<Long> list = new ArrayList<>();
+        list.add(4L);
+        List<Venue> venues = venueMapper.searchVenue(5L,list,"亚泰");
         log.info("venues  ------> [{}]",venues);
     }
 

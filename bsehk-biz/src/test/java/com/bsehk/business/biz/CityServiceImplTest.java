@@ -1,5 +1,6 @@
 package com.bsehk.business.biz;
 
+import com.alibaba.fastjson.JSON;
 import com.bsehk.business.service.CityService;
 import com.bsehk.business.service.vo.CityVO;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class CityServiceImplTest {
     @Test
     public void listCityTest(){
         List<CityVO> cityVOList = cityService.listCity();
-        log.info("cityVOList ------>   [{}]",cityVOList);
+        log.info("cityVOList ------>   [{}]", JSON.toJSONString(cityVOList));
     }
 
 

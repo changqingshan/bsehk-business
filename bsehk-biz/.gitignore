@@ -29,7 +29,6 @@
 *.iml
 *.lst
 
-
 #project file #
 .project
 .classpath
@@ -37,4 +36,3 @@
 target/*
 test-output/*
 /target/
-application-local

@@ -27,7 +27,7 @@
 *.ear
 .idea
 *.iml
-.lst
+*.lst
 
 #project file #
 .project
@@ -36,3 +36,4 @@
 target/*
 test-output/*
 /target/
+application-local.properties

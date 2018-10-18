@@ -274,11 +274,19 @@
          venue_sport_category vsc
     ON  venue.id = vsc.venue_id
     where
-    <if test="cityId != null">
+
+    <if test="cityId != null and cityId > 0">
       venue.city_id = #{cityId} AND
     </if>
-    <if test="sportCategoryId != null">
-      vsc.sport_category_id = #{sportCategoryId} AND
+    <if test="cityId != null and cityId &lt; 0">
+      venue.province_id = abs( #{cityId} )AND
+    </if>
+    <if test="list.size > 0">
+      vsc.sport_category_id  IN
+      <foreach collection="list" open="(" close=")" item="item" >
+        #{item}
+      </foreach>
+       AND
     </if>
     <if test="venueName != null">
       venue.venue_name LIKE concat('%',#{venueName},'%') AND

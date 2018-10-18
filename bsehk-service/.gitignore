@@ -29,7 +29,6 @@
 *.iml
 *.lst
 
-
 #project file #
 .project
 .classpath

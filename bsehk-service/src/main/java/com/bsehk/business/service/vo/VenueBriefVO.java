@@ -15,6 +15,6 @@ public class VenueBriefVO {
     private Long venueId;
     private String venueName;
     private String location;
-    private List<String>  sportLabel;
     private Long distance;
+    private List<String>  sportLabel;
 }

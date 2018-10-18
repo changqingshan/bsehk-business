@@ -19,7 +19,7 @@ public interface VenueMapper {
 
     int updateByPrimaryKey(Venue record);
 
-    List<Venue> searchVenue(@Param("cityId") Long cityId,@Param("sportCategoryId") Long sportCategoryId,@Param("venueName") String venueName);
+    List<Venue> searchVenue(@Param("cityId") Long cityId,@Param("list") List<Long> sportCategoryIds,@Param("venueName") String venueName);
 
 
 }

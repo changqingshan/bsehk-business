@@ -1,12 +1,11 @@
 package com.bsehk.business.biz.impl;
 
+import com.bsehk.business.dao.mapper.CityMapper;
 import com.bsehk.business.dao.mapper.VenueMapper;
 import com.bsehk.business.dao.mapper.VenueSportCategoryMapper;
-import com.bsehk.business.domain.City;
-import com.bsehk.business.domain.Venue;
-import com.bsehk.business.domain.VenueSport;
-import com.bsehk.business.domain.VenueSportCategory;
+import com.bsehk.business.domain.*;
 import com.bsehk.business.service.CityService;
+import com.bsehk.business.service.SportCategoryService;
 import com.bsehk.business.service.VenueService;
 import com.bsehk.business.service.VenueSportCategoryService;
 import com.bsehk.business.service.vo.VenueBriefVO;
@@ -15,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +29,8 @@ public class VenueServiceImpl implements VenueService {
     @Resource
     private CityService cityService;
     @Resource
+    private SportCategoryService sportCategoryService;
+    @Resource
     private VenueSportCategoryService venueSportCategoryService;
 
 
@@ -39,7 +41,17 @@ public class VenueServiceImpl implements VenueService {
            venueName = null;
         }
 
-        List<Venue> venues = this.venueMapper.searchVenue(cityId,sportCategoryId,venueName);
+        List<Long> sportCategoryIds = new ArrayList<>();
+        if(sportCategoryId > 0){
+            sportCategoryIds.add(sportCategoryId);
+        }else if(sportCategoryId < 0){
+            // 该运动大类下所有的运动
+            Long primarySportCategoryId = Math.abs(sportCategoryId);
+            List<SportCategory> sportCategories = this.sportCategoryService.listByParentId(primarySportCategoryId);
+            sportCategoryIds = sportCategories.parallelStream().map(SportCategory::getId).collect(Collectors.toList());
+        }
+
+        List<Venue> venues = this.venueMapper.searchVenue(cityId,sportCategoryIds,venueName);
         if(venues == null || venues.isEmpty()){
             return Collections.emptyList();
         }

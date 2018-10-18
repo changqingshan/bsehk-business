@@ -38,12 +38,16 @@ public class CityServiceImpl implements CityService {
             }
         });
 
-        cityVOS.forEach(cityVO -> cities.forEach(city -> {
-            if(cityVO.getId().equals(city.getParentId())){
-                CityVO child = CityVO.builder().id(city.getId()).name(city.getName()).build();
-                cityVO.getChildren().add(child);
-            }
-        }));
+        for(int i =0;i<cityVOS.size();i++){
+            CityVO cityVO = cityVOS.get(i);
+            cityVO.getChildren().add(CityVO.builder().id(-cityVO.getId()).name("全部").build());
+
+            cities.forEach(city -> {
+                if(cityVO.getId().equals(city.getParentId())){
+                    CityVO child = CityVO.builder().id(city.getId()).name(city.getName()).build();
+                    cityVO.getChildren().add(child);
+                } });
+        }
         return cityVOS;
     }
 

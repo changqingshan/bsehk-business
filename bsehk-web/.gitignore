@@ -12,6 +12,7 @@
 
 ### IntelliJ IDEA ###
 .idea
+.lst
 *.iws
 *.iml
 *.ipr
@@ -23,3 +24,21 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+.idea
+*.iml
+.lst
+
+#project file #
+.project
+.classpath
+.settings/
+target/*
+test-output/*
+/target/

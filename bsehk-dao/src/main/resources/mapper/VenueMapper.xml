@@ -6,7 +6,7 @@
     <result column="brand_id" jdbcType="BIGINT" property="brandId" />
     <result column="venue_name" jdbcType="VARCHAR" property="venueName" />
     <result column="venue_category" jdbcType="INTEGER" property="venueCategory" />
-    <result column="privince_id" jdbcType="BIGINT" property="privinceId" />
+    <result column="province_id" jdbcType="BIGINT" property="provinceId" />
     <result column="city_id" jdbcType="BIGINT" property="cityId" />
     <result column="district_id" jdbcType="BIGINT" property="districtId" />
     <result column="detail_location" jdbcType="VARCHAR" property="detailLocation" />
@@ -23,7 +23,7 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, brand_id, venue_name, venue_category, privince_id, city_id, district_id, detail_location, 
+    id, brand_id, venue_name, venue_category, province_id, city_id, district_id, detail_location,
     longitude, latitude, intro, mobile, start_week, end_week, open_time, end_time, gmt_create, 
     gmt_modified, is_delete
   </sql>
@@ -42,14 +42,14 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into venue (brand_id, venue_name, venue_category, 
-      privince_id, city_id, district_id, 
+      province_id, city_id, district_id,
       detail_location, longitude, latitude, 
       intro, mobile, start_week, 
       end_week, open_time, end_time, 
       gmt_create, gmt_modified, is_delete
       )
     values (#{brandId,jdbcType=BIGINT}, #{venueName,jdbcType=VARCHAR}, #{venueCategory,jdbcType=INTEGER}, 
-      #{privinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{districtId,jdbcType=BIGINT}, 
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{districtId,jdbcType=BIGINT},
       #{detailLocation,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
       #{intro,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{startWeek,jdbcType=TINYINT}, 
       #{endWeek,jdbcType=TINYINT}, #{openTime,jdbcType=TIME}, #{endTime,jdbcType=TIME}, 
@@ -71,8 +71,8 @@
       <if test="venueCategory != null">
         venue_category,
       </if>
-      <if test="privinceId != null">
-        privince_id,
+      <if test="provinceId != null">
+        province_id,
       </if>
       <if test="cityId != null">
         city_id,
@@ -127,8 +127,8 @@
       <if test="venueCategory != null">
         #{venueCategory,jdbcType=INTEGER},
       </if>
-      <if test="privinceId != null">
-        #{privinceId,jdbcType=BIGINT},
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=BIGINT},
       </if>
       <if test="cityId != null">
         #{cityId,jdbcType=BIGINT},
@@ -186,8 +186,8 @@
       <if test="venueCategory != null">
         venue_category = #{venueCategory,jdbcType=INTEGER},
       </if>
-      <if test="privinceId != null">
-        privince_id = #{privinceId,jdbcType=BIGINT},
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=BIGINT},
       </if>
       <if test="cityId != null">
         city_id = #{cityId,jdbcType=BIGINT},
@@ -239,7 +239,7 @@
     set brand_id = #{brandId,jdbcType=BIGINT},
       venue_name = #{venueName,jdbcType=VARCHAR},
       venue_category = #{venueCategory,jdbcType=INTEGER},
-      privince_id = #{privinceId,jdbcType=BIGINT},
+      province_id = #{provinceId,jdbcType=BIGINT},
       city_id = #{cityId,jdbcType=BIGINT},
       district_id = #{districtId,jdbcType=BIGINT},
       detail_location = #{detailLocation,jdbcType=VARCHAR},
@@ -256,4 +256,35 @@
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="searchVenue"  resultMap="BaseResultMap">
+    select
+      venue.id AS  id,
+      venue.venue_name AS venue_name,
+      venue.venue_category AS venue_category,
+      venue.province_id AS province_id,
+      venue.city_id AS city_id,
+      venue.district_id as district_id,
+      venue.detail_location AS detail_location,
+      venue.longitude as longitude,
+      venue.latitude as latitude
+    from
+        venue
+    INNER JOIN
+         venue_sport_category vsc
+    ON  venue.id = vsc.venue_id
+    where
+    <if test="cityId != null">
+      venue.city_id = #{cityId} AND
+    </if>
+    <if test="sportCategoryId != null">
+      vsc.sport_category_id = #{sportCategoryId} AND
+    </if>
+    <if test="venueName != null">
+      venue.venue_name LIKE concat('%',#{venueName},'%') AND
+    </if>
+    1 = 1
+  </select>
+
+
 </mapper>

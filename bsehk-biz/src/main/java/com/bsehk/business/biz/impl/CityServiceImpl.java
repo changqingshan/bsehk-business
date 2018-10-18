@@ -46,4 +46,11 @@ public class CityServiceImpl implements CityService {
         }));
         return cityVOS;
     }
+
+
+    @Override
+    public List<City> listByIds(List<Long> cityIds) {
+        List<City> cities = this.cityMapper.listByIds(cityIds,false);
+        return cities;
+    }
 }

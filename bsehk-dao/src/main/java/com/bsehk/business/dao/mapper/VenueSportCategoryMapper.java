@@ -1,6 +1,9 @@
 package com.bsehk.business.dao.mapper;
 
+import com.bsehk.business.domain.VenueSport;
 import com.bsehk.business.domain.VenueSportCategory;
+
+import java.util.List;
 
 public interface VenueSportCategoryMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,6 @@ public interface VenueSportCategoryMapper {
     int updateByPrimaryKeySelective(VenueSportCategory record);
 
     int updateByPrimaryKey(VenueSportCategory record);
+
+    List<VenueSport> listVenueSport(List<Long> venueIds);
 }

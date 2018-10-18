@@ -10,11 +10,6 @@
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
 
 ### NetBeans ###
 /nbproject/private/
@@ -23,3 +18,21 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+.idea
+*.iml
+.lst
+
+#project file #
+.project
+.classpath
+.settings/
+target/*
+test-output/*
+/target/

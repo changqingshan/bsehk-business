@@ -13,7 +13,7 @@ public class Venue {
 
     private Integer venueCategory;
 
-    private Long privinceId;
+    private Long provinceId;
 
     private Long cityId;
 

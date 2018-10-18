@@ -3,6 +3,7 @@
 <mapper namespace="com.bsehk.business.dao.mapper.VenueAdvertMapper">
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.VenueAdvert">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="venue_id" jdbcType="BIGINT" property="venueId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
@@ -12,13 +13,20 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, content, url, start_time, end_time, gmt_create, gmt_modified, is_delete
+    id, venue_id, content, url, start_time, end_time, gmt_create, gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from venue_advert
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAdvertByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id,content,end_time
+    from venue_advert
+    where venue_id = #{venue_id,jdbcType=BIGINT}
+    order by start_time desc
+    limit 0,1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from venue_advert
@@ -28,12 +36,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue_advert (content, url, start_time, 
-      end_time, gmt_create, gmt_modified, 
-      is_delete)
-    values (#{content,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{isDelete,jdbcType=TINYINT})
+    insert into venue_advert (venue_id, content, url, 
+      start_time, end_time, gmt_create, 
+      gmt_modified, is_delete)
+    values (#{venueId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.VenueAdvert">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -41,6 +49,9 @@
     </selectKey>
     insert into venue_advert
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="venueId != null">
+        venue_id,
+      </if>
       <if test="content != null">
         content,
       </if>
@@ -64,6 +75,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="venueId != null">
+        #{venueId,jdbcType=BIGINT},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
@@ -90,6 +104,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.VenueAdvert">
     update venue_advert
     <set>
+      <if test="venueId != null">
+        venue_id = #{venueId,jdbcType=BIGINT},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -116,7 +133,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.VenueAdvert">
     update venue_advert
-    set content = #{content,jdbcType=VARCHAR},
+    set venue_id = #{venueId,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},

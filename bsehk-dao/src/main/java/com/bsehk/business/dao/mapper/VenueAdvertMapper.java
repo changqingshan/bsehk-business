@@ -11,6 +11,8 @@ public interface VenueAdvertMapper {
 
     VenueAdvert selectByPrimaryKey(Long id);
 
+    VenueAdvert selectAdvertByVenueId(Long venueId);
+
     int updateByPrimaryKeySelective(VenueAdvert record);
 
     int updateByPrimaryKey(VenueAdvert record);

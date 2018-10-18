@@ -58,6 +58,7 @@ public class IndexController {
      */
     @RequestMapping("/secondary/data")
     public ResultData secondaryPage(Long cityId,Long sportCategoryId,double longitude,double latitude){
+
         Map<String,Object> map  = this.indexService.secondaryPageData( cityId, sportCategoryId, longitude, latitude);
         return ResultData.success(map);
     }

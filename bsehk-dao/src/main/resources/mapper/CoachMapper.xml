@@ -23,6 +23,11 @@
     from coach
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectAllCoach" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from coach
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from coach
     where id = #{id,jdbcType=BIGINT}
@@ -150,4 +155,15 @@
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="listByIds"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from coach
+    where id in
+    <foreach collection="list" open="(" close=")" item="id">
+      #{id}
+    </foreach>
+
+  </select>
 </mapper>

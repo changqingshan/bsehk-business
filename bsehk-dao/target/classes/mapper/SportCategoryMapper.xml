@@ -16,6 +16,11 @@
     select id,sport_name,parent_id
     from sport_category
   </select>
+  <select id="selectSportByParentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id,sport_name
+    from sport_category
+    where parent_id = #{parent_id,jdbcType=BIGINT}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -114,4 +114,11 @@
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="listAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from city where is_delete = #{isDeleted}
+  </select>
 </mapper>

@@ -2,6 +2,8 @@ package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.Exercise;
 
+import java.util.List;
+
 public interface ExerciseMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -10,6 +12,8 @@ public interface ExerciseMapper {
     int insertSelective(Exercise record);
 
     Exercise selectByPrimaryKey(Long id);
+
+    List<Exercise> selectAllExercise();
 
     int updateByPrimaryKeySelective(Exercise record);
 

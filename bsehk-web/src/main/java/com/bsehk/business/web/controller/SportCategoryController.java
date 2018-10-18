@@ -22,7 +22,7 @@ public class SportCategoryController {
     SportCategoryService sportCategoryService;
 
     /*
-    * 查询所有运动类别
+    * 查询所有运动类别,运动类别分类标签
     * */
     @RequestMapping("/selectAllSport")
     public ResultData selectAllSport(){

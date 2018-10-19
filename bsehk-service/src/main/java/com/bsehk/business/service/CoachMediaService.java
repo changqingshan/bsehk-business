@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CoachMediaService {
     List<CoachMedia> selectPhotoByCoachId(List<Coach> coacheList);
+
+    List<CoachMedia> selectOneByCochId(Long venueId);
 }

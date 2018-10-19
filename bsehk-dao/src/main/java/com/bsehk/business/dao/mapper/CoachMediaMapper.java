@@ -19,4 +19,6 @@ public interface CoachMediaMapper {
     int updateByPrimaryKeySelective(CoachMedia record);
 
     int updateByPrimaryKey(CoachMedia record);
+
+    List<CoachMedia> selectOneByCochId(Long venueId);
 }

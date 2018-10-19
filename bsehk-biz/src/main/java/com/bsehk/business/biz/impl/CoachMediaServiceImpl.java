@@ -20,4 +20,9 @@ public class CoachMediaServiceImpl implements CoachMediaService {
         return coachMediaMapper.selectByCoachId(coacheList);
 
     }
+
+    @Override
+    public List<CoachMedia> selectOneByCochId(Long venueId) {
+        return coachMediaMapper.selectOneByCochId(venueId);
+    }
 }

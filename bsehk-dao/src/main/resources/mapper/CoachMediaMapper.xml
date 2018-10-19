@@ -31,6 +31,11 @@
     and media_type = 1
     and is_top = 1
   </select>
+  <select id="selectOneByCochId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id,media_type,title,is_top,url
+    from coach_media
+    where coach_id = #{coachId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from coach_media
     where id = #{id,jdbcType=BIGINT}

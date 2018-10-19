@@ -20,4 +20,5 @@ public interface VenueSportCategoryMapper {
     int updateByPrimaryKey(VenueSportCategory record);
 
     List<VenueSport> listVenueSport( List<Long> venueIds);
+
 }

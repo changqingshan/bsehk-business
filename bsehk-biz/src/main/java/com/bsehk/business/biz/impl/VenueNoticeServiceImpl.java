@@ -23,6 +23,7 @@ public class VenueNoticeServiceImpl implements VenueNoticeService {
         //获取当前日期
         Date nowDate = new Date();
         VenueNotice venueNotice = venueNoticeMapper.selectNoticeByVenueId(venueId);
+        log.info("venueNotce :  [{}]" ,venueNotice);
         if(venueNotice.getExpireTime().before(nowDate)){
             throw new BizException("当前没有发布的公告");
         }

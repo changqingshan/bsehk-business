@@ -20,7 +20,7 @@
     from venue_notice
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectAdvertByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectNoticeByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select id,content,url,end_time
     from venue_advert
     where venue_id = #{venue_id,jdbcType=BIGINT}

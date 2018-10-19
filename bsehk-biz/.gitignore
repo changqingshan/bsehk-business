@@ -36,5 +36,5 @@
 target/*
 test-output/*
 /target/
-
+*.lst
 application-local.properties

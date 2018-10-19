@@ -1,6 +1,7 @@
 package com.bsehk.business.biz.impl;
 
 import com.bsehk.business.dao.mapper.BrandMapper;
+
 import com.bsehk.business.domain.Brand;
 import com.bsehk.business.domain.Venue;
 import com.bsehk.business.service.BrandService;
@@ -22,8 +23,14 @@ public class BrandServiceImpl implements BrandService {
     @Resource
     VenueService venueService;
 
+    public Brand selectBrandById(long id) {
+        Brand brand = brandMapper.selectByPrimaryKey(id);
+        return brand;
+    }
+
     @Override
     public Brand selectBrandByVenueId(Long venueId) {
+
         Venue venue = venueService.selectByPrimaryKey(venueId);
         if(venue.getBrandId()==null){
             throw new BizException("该场馆没有品牌介绍");

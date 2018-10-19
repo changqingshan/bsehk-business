@@ -1,29 +1,30 @@
 package com.bsehk.business.biz.impl;
 
-import com.bsehk.business.dao.mapper.CityMapper;
 import com.bsehk.business.dao.mapper.VenueMapper;
-import com.bsehk.business.dao.mapper.VenueSportCategoryMapper;
 import com.bsehk.business.domain.*;
 import com.bsehk.business.service.CityService;
 import com.bsehk.business.service.SportCategoryService;
 import com.bsehk.business.service.VenueService;
 import com.bsehk.business.service.VenueSportCategoryService;
 import com.bsehk.business.service.vo.VenueBriefVO;
+import com.bsehk.business.service.vo.VenueVo;
 import com.bsehk.common.util.StringUtil;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 @Service
 @Slf4j
 public class VenueServiceImpl implements VenueService {
-
     @Resource
     private VenueMapper venueMapper;
     @Resource
@@ -32,6 +33,21 @@ public class VenueServiceImpl implements VenueService {
     private SportCategoryService sportCategoryService;
     @Resource
     private VenueSportCategoryService venueSportCategoryService;
+
+
+    public VenueVo selectVenueById(long id) {
+        VenueVo venueVo = new VenueVo();
+        List<String> sportList = new ArrayList<>();
+        List<Infrastructure> infrastructuresList = new ArrayList<>();
+        List<FunctionZone> functionZoneList = new ArrayList<>();
+        Venue venue = venueMapper.selectByPrimaryKey(id);
+        venueVo.setSportList(sportList);
+        venueVo.setInfrastructuresList(infrastructuresList);
+        venueVo.setFunctionZoneList(functionZoneList);
+        venueVo.setVenue(venue);
+        return venueVo;
+    }
+
 
 
 
@@ -79,10 +95,12 @@ public class VenueServiceImpl implements VenueService {
 
         return venueBriefVOS;
 
+
     }
 
     @Override
     public Venue selectByPrimaryKey(Long id) {
         return venueMapper.selectByPrimaryKey(id);
+
     }
 }

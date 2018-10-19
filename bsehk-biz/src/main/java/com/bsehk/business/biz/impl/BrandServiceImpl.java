@@ -23,11 +23,6 @@ public class BrandServiceImpl implements BrandService {
     @Resource
     VenueService venueService;
 
-    public Brand selectBrandById(long id) {
-        Brand brand = brandMapper.selectByPrimaryKey(id);
-        return brand;
-    }
-
     @Override
     public Brand selectBrandByVenueId(Long venueId) {
 

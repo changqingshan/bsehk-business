@@ -25,11 +25,6 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <select id="selectAllCoach" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from coach
-  </select>
   <select id="selectCoachByCoachId" resultMap="BaseResultMap">
     select id,title,name
     from coach

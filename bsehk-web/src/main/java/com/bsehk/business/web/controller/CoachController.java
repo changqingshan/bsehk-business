@@ -21,31 +21,6 @@ public class CoachController {
     @Resource
     CoachService coachService;
 
-    /**
-     * 查询教练列表
-     */
-    @RequestMapping("selectAllCoach")
-    public ResultData selectAllCoach(){
-        List<Coach> coachList=coachService.selectAllCoach();
-        if (coachList.size()==0){
-            throw new BizException("没有找到教练");
-        }
-        return ResultData.success(coachList);
-    }
-    /**
-     * 查询单个教练
-     */
-    @RequestMapping("selectCoachById")
-    public ResultData selectCoachById(long id){
-        Coach coach=coachService.selectCoachById(id);
-        if (coach==null){
-            throw new BizException("没有该教练信息");
-        }
-        return ResultData.success(coach);
-    }
-
-
-
     /*
     * 教练展示接口
     * */

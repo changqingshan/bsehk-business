@@ -36,7 +36,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         for (int i=0;i<exercises.size();i++){
             Long coachId=exercises.get(i).getCoachId();
-            Coach coach=coachService.selectCoachById(coachId);
         }
 
         return null;

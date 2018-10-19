@@ -103,9 +103,9 @@
   </update>
   
   <select id="selectVenueInfrastructureInfoByVenueId" resultType="com.bsehk.business.domain.VenueInfrastructureInfo">
-    select  v.venue_id as venueId,i.id as infrastructureId,i.name as infrastructureName,i.logo as logo
+    select  v.venue_id as venueId,i.id as infrastructureId,i.infrastructure_name as infrastructureName,i.logo as logo
     from venue_infrastructure  v INNER JOIN
-         infrastructure i on v.infrastructure_id = i.id
+         infrastructure i on v.infrastructrue_id = i.id
     where v.venue_id = #{venueId}
   </select>
 </mapper>

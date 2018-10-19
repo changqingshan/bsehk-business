@@ -283,8 +283,8 @@
     </if>
     <if test="list.size > 0">
       vsc.sport_category_id  IN
-      <foreach collection="list" open="(" close=")" item="item" >
-        #{item}
+      <foreach collection="list" open="(" close=")" item="id" >
+        #{id}
       </foreach>
        AND
     </if>

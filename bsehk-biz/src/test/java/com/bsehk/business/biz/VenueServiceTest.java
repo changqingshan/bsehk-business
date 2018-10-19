@@ -1,5 +1,6 @@
 package com.bsehk.business.biz;
 
+import com.alibaba.fastjson.JSON;
 import com.bsehk.business.dao.mapper.VenueMapper;
 import com.bsehk.business.domain.Venue;
 import com.bsehk.business.service.VenueService;
@@ -34,8 +35,9 @@ public class VenueServiceTest {
     public void getVenueTest(){
         List<Long> list = new ArrayList<>();
         list.add(4L);
+      //  list.add(5L);
         List<Venue> venues = venueMapper.searchVenue(5L,list,"亚泰");
-        log.info("venues  ------> [{}]",venues);
+        log.info("venues  ------> [{}]", JSON.toJSONString(venues));
     }
 
 

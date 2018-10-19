@@ -38,8 +38,8 @@ public class CoachServiceImpl implements CoachService {
      */
     public List<Coach> selectAllCoach(){
 
-        List<Coach> coachList=coachMapper.selectAllCoach();
-       return  coachList;
+       // List<Coach> coachList=coachMapper.selectAllCoach();
+       return  null;
     }
 
     @Override

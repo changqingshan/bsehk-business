@@ -56,7 +56,13 @@ public class SportCategoryServiceImpl implements SportCategoryService {
     @Override
     //获取所有体育类别,父id为0的都是运动大类
     public List<SportCategory> selectParentSport() {
-        return sportCategoryMapper.selectSportByParentId(0L);
+        List<SportCategory> sportCategories = sportCategoryMapper.selectSportByParentId(0L);
+        SportCategory sportCategory = new SportCategory();
+          sportCategory.setId(null);
+          sportCategory.setSportName("全部运动类别");
+
+        sportCategories.add(sportCategory);
+        return sportCategories;
     }
 
 
@@ -64,5 +70,11 @@ public class SportCategoryServiceImpl implements SportCategoryService {
     public List<SportCategory> listByParentId(Long sportCategoryId) {
         List<SportCategory> sportCategories = this.sportCategoryMapper.listByParentId(sportCategoryId,false);
         return sportCategories;
+    }
+
+    @Override
+    public SportCategory selectById(Long sportCategoryId) {
+        SportCategory sportCategory = this.sportCategoryMapper.selectByPrimaryKey(sportCategoryId);
+        return sportCategory;
     }
 }

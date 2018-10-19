@@ -10,6 +10,7 @@ import lombok.Data;
 public class VenueSport {
     private Long venueId;
     private String sportName;
+    private Long parentId;
 
 
 

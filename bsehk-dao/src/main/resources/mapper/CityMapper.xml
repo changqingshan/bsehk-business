@@ -126,7 +126,7 @@
     select
     <include refid="Base_Column_List" />
     from city where id IN
-    <foreach collection="list" open="(" close=")" item="id">
+    <foreach collection="list" open="(" close=")" item="id" separator=",">
       #{id}
     </foreach>
      AND is_delete = #{isDeleted}

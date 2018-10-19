@@ -177,7 +177,7 @@
     <include refid="Base_Column_List" />
     from coach
     where id in
-    <foreach collection="list" open="(" close=")" item="id">
+    <foreach collection="list" open="(" close=")" item="id" separator=",">
       #{id}
     </foreach>
 

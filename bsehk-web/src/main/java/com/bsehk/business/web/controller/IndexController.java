@@ -28,7 +28,7 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/index/data")
-    public ResultData  index(Long cityId,double longitude,double latitude){
+    public ResultData  index(Long cityId,Double longitude,Double latitude){
         Map<String,Object> map = this.indexService.getPageHomeData(cityId,longitude,latitude);
         return ResultData.success(map);
     }
@@ -42,7 +42,7 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/index/search/venue")
-    public ResultData searchIndexVenue(Long cityId,String venueName,double longitude,double latitude){
+    public ResultData searchIndexVenue(Long cityId,String venueName,Double longitude,Double latitude){
         Map<String,Object> map = this.indexService.searchIndexVenue(cityId,venueName,longitude,latitude);
         return ResultData.success(map);
     }
@@ -57,7 +57,7 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/secondary/data")
-    public ResultData secondaryPage(Long cityId,Long sportCategoryId,double longitude,double latitude){
+    public ResultData secondaryPage(Long cityId,Long sportCategoryId,Double longitude,Double latitude){
 
         Map<String,Object> map  = this.indexService.secondaryPageData( cityId, sportCategoryId, longitude, latitude);
         return ResultData.success(map);
@@ -72,7 +72,7 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/secondary/search/venue")
-    public ResultData searchVenue(Long cityId,Long sportCategoryId,double longitude,double latitude){
+    public ResultData searchVenue(Long cityId,Long sportCategoryId,Double longitude,Double latitude){
         Map<String,Object> map = this.indexService.searchVenue(cityId,sportCategoryId,longitude,latitude);
         return ResultData.success(map);
     }

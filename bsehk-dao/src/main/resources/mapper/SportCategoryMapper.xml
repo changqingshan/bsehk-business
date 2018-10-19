@@ -111,7 +111,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="listByParentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="listByParentId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sport_category

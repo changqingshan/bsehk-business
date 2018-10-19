@@ -33,5 +33,11 @@ public class CoachController {
     /*
     * 教练详情展示
     * */
+    @RequestMapping("/selectCoachInfoById")
+    public ResultData selectCoachInfoById(Long coachId){
+        CoachVO coachVO = coachService.selectCoachInfoById(coachId);
+        return ResultData.success(coachVO);
+
+    }
 
 }

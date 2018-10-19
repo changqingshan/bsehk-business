@@ -52,16 +52,29 @@ public class VenueServiceImpl implements VenueService {
 
 
     @Override
-    public List<VenueBriefVO> searchVenue(Long cityId, Long sportCategoryId, double longitude, double latitude, String venueName) {
+    public List<VenueBriefVO> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName) {
         if(StringUtil.isBlank(venueName)){
            venueName = null;
         }
 
-        List<Long> sportCategoryIds = new ArrayList<>();
-        if(sportCategoryId > 0){
-            sportCategoryIds.add(sportCategoryId);
-        }else if(sportCategoryId < 0){
+        List<Long> sportCategoryIds;
+        if(sportCategoryId == null){
+            // 选择一级页的全部运动标签或者没有选择运动标签
+            sportCategoryIds = Collections.emptyList();
+        }else if(  sportCategoryId > 0){
+            sportCategoryIds = new ArrayList<>();
+            // 判断可能是出入二级页时的运动标签
+             SportCategory sportCategory = this.sportCategoryService.selectById(sportCategoryId);
+             if(sportCategory != null){
+                 // 是刚进入二级页面时选择的运动标签
+                 List<SportCategory> sportCategories = this.sportCategoryService.listByParentId(sportCategoryId);
+                 sportCategoryIds = sportCategories.parallelStream().map(SportCategory::getId).collect(Collectors.toList());
+             }else{
+               sportCategoryIds.add(sportCategoryId);
+             }
+        }else{
             // 该运动大类下所有的运动
+            //为负数
             Long primarySportCategoryId = Math.abs(sportCategoryId);
             List<SportCategory> sportCategories = this.sportCategoryService.listByParentId(primarySportCategoryId);
             sportCategoryIds = sportCategories.parallelStream().map(SportCategory::getId).collect(Collectors.toList());
@@ -78,7 +91,7 @@ public class VenueServiceImpl implements VenueService {
                                                  Collectors.mapping(VenueSport::getSportName,Collectors.toList())));
 
         // 查询场馆地址 市具体地址
-        List<Long> cityIds = venues.parallelStream().map(Venue::getCityId).collect(Collectors.toList());
+        List<Long> cityIds = venues.parallelStream().map(Venue::getCityId).distinct().collect(Collectors.toList());
         List<City> cities  = this.cityService.listByIds(cityIds);
         Map<Long,String> venueCityMap = cities.parallelStream().collect(Collectors.toMap(City::getId,City::getName));
         // 计算距离

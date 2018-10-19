@@ -11,4 +11,6 @@ public interface SportCategoryService {
     List<SportCategory> selectParentSport();
 
     List<SportCategory> listByParentId(Long sportCategoryId);
+
+    SportCategory selectById(Long sportCategoryId);
 }

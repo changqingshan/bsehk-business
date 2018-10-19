@@ -7,8 +7,6 @@ import com.bsehk.business.domain.Brand;
  */
 public interface BrandService {
 
-    Brand selectBrandById(long id);
-
     Brand selectBrandByVenueId(Long venueId);
 
 }

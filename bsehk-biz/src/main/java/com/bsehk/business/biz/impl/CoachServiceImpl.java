@@ -31,14 +31,15 @@ public class CoachServiceImpl implements CoachService {
     @Resource
     CoachMediaService coachMediaService;
 
+
     /**
      *  获取所有教练
      * @return
      */
     public List<Coach> selectAllCoach(){
 
-        List<Coach> coachList=coachMapper.selectAllCoach();
-       return  coachList;
+       // List<Coach> coachList=coachMapper.selectAllCoach();
+       return  null;
     }
 
     @Override
@@ -50,6 +51,7 @@ public class CoachServiceImpl implements CoachService {
      *  获取单个教练信息
      * @return
      */
+
 
 
     @Override

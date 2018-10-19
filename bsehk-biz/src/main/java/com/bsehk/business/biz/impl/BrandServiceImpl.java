@@ -2,10 +2,11 @@ package com.bsehk.business.biz.impl;
 
 import com.bsehk.business.dao.mapper.BrandMapper;
 
-import com.bsehk.business.dao.mapper.VenueMapper;
-
 import com.bsehk.business.domain.Brand;
+import com.bsehk.business.domain.Venue;
 import com.bsehk.business.service.BrandService;
+import com.bsehk.business.service.VenueService;
+import com.bsehk.common.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class BrandServiceImpl implements BrandService {
     @Resource
     BrandMapper brandMapper;
     @Resource
-    VenueMapper venueMapper;
+    VenueService venueService;
 
     public Brand selectBrandById(long id) {
         Brand brand = brandMapper.selectByPrimaryKey(id);
@@ -29,7 +30,12 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Brand selectBrandByVenueId(Long venueId) {
-        return null;
 
+        Venue venue = venueService.selectByPrimaryKey(venueId);
+        if(venue.getBrandId()==null){
+            throw new BizException("该场馆没有品牌介绍");
+        }
+        Brand brand = brandMapper.selectByPrimaryKey(venue.getBrandId());
+        return brand;
     }
 }

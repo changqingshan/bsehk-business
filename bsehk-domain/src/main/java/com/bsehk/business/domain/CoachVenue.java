@@ -2,18 +2,12 @@ package com.bsehk.business.domain;
 
 import java.util.Date;
 
-public class CoachMedia {
+public class CoachVenue {
     private Long id;
 
     private Long coachId;
 
-    private Integer mediaType;
-
-    private String title;
-
-    private String url;
-
-    private Integer isTop;
+    private Long venueId;
 
     private Date gmtCreate;
 
@@ -37,36 +31,12 @@ public class CoachMedia {
         this.coachId = coachId;
     }
 
-    public Integer getMediaType() {
-        return mediaType;
+    public Long getVenueId() {
+        return venueId;
     }
 
-    public void setMediaType(Integer mediaType) {
-        this.mediaType = mediaType;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Integer getIsTop() {
-        return isTop;
-    }
-
-    public void setIsTop(Integer isTop) {
-        this.isTop = isTop;
+    public void setVenueId(Long venueId) {
+        this.venueId = venueId;
     }
 
     public Date getGmtCreate() {

@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface CoachMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -20,5 +22,9 @@ public interface CoachMapper {
 
     int updateByPrimaryKey(Coach record);
 
+
     List<Coach> listByIds(@Param("list") List<Long> coachIds);
+
+    List<Coach> selectCoachByCoachId(List<Long> coachIdList);
+
 }

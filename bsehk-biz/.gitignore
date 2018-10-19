@@ -19,9 +19,6 @@
 /nbdist/
 /.nb-gradle/
 
-application-local.properties
-
-
 *.class
 
 # Package Files #
@@ -39,6 +36,5 @@ application-local.properties
 target/*
 test-output/*
 /target/
-
+*.lst
 application-local.properties
-

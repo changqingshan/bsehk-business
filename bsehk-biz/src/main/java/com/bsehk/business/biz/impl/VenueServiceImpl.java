@@ -2,12 +2,9 @@ package com.bsehk.business.biz.impl;
 
 import com.bsehk.business.dao.mapper.VenueMapper;
 import com.bsehk.business.domain.*;
-import com.bsehk.business.service.CityService;
-import com.bsehk.business.service.SportCategoryService;
-import com.bsehk.business.service.VenueService;
-import com.bsehk.business.service.VenueSportCategoryService;
+import com.bsehk.business.service.*;
 import com.bsehk.business.service.vo.VenueBriefVO;
-import com.bsehk.business.service.vo.VenueVo;
+import com.bsehk.business.service.vo.VenueVO;
 import com.bsehk.common.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +30,40 @@ public class VenueServiceImpl implements VenueService {
     private SportCategoryService sportCategoryService;
     @Resource
     private VenueSportCategoryService venueSportCategoryService;
+    @Resource
+    private VenueInfrastructureService venueInfrastructureService;
 
+    @Override
+    public VenueVO selectVenueById(Long venueId) {
+        //获取场馆信息
+        Venue venue = venueMapper.selectByPrimaryKey(venueId);
+        //获取场馆所有运动类别
+        List<Long> venueIds = new ArrayList<>();
+        venueIds.add(venueId);
+        List<VenueSport> venueSports = venueSportCategoryService.listVenueSport(venueIds);
+        //获取免费设施
+        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId);
+        VenueVO venueVO = VenueVO.builder()
+                .venueId(venueId)
+                .venueName(venue.getVenueName())
+                .detailLocation(venue.getDetailLocation())
+                .mobile(venue.getMobile())
+                .startWeek(venue.getStartWeek())
+                .endWeek(venue.getEndWeek())
+                .openTime(venue.getOpenTime())
+                .endTime(venue.getEndTime())
+                .infrastructuresList(venueInfrastructureInfos)
+                .build();
+        //筛选场馆运动类中的小类
+        List<VenueSport> venueSmallSports = new ArrayList<>();
+        for (int i=0;i<venueSports.size();i++){
+            if(venueSports.get(i).getParentId()!=0){
+                venueSmallSports.add(venueSports.get(i));
+            }
+        }
+        venueVO.setVenueSportList(venueSmallSports);
 
-    public VenueVo selectVenueById(long id) {
-        VenueVo venueVo = new VenueVo();
-        List<String> sportList = new ArrayList<>();
-        List<Infrastructure> infrastructuresList = new ArrayList<>();
-        List<FunctionZone> functionZoneList = new ArrayList<>();
-        Venue venue = venueMapper.selectByPrimaryKey(id);
-        venueVo.setSportList(sportList);
-        venueVo.setInfrastructuresList(infrastructuresList);
-        venueVo.setFunctionZoneList(functionZoneList);
-        venueVo.setVenue(venue);
-        return venueVo;
+        return venueVO;
     }
 
 

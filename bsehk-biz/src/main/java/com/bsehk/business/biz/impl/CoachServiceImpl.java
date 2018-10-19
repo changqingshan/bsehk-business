@@ -8,6 +8,7 @@ import com.bsehk.business.service.CoachMediaService;
 import com.bsehk.business.service.CoachService;
 import com.bsehk.business.service.CoachVenueService;
 import com.bsehk.business.service.vo.CoachVO;
+import com.bsehk.common.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ import javax.annotation.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,6 +29,7 @@ public class CoachServiceImpl implements CoachService {
     CoachVenueService coachVenueService;
     @Resource
     CoachMediaService coachMediaService;
+
     /**
      *  获取所有教练
      * @return
@@ -35,14 +39,17 @@ public class CoachServiceImpl implements CoachService {
         List<Coach> coachList=coachMapper.selectAllCoach();
        return  coachList;
     }
+
+    @Override
+    public Coach selectCoachById(long id) {
+        return null;
+    }
+
     /**
      *  获取单个教练信息
      * @return
      */
-    public Coach selectCoachById(long id){
-        Coach coach=coachMapper.selectByPrimaryKey(id);
-        return  coach;
-    }
+
 
     @Override
     public List<Coach> listByIds(List<Long> coachIds) {
@@ -54,8 +61,12 @@ public class CoachServiceImpl implements CoachService {
     @Override
     public List<CoachVO> selectCoachByVenueId(Long venueId) {
         List<CoachVO> coachVOList = new ArrayList<>();
+
         //通过场馆id获取教练id集合
         List<Long> coachIdList = coachVenueService.selectByVenueId(venueId);
+        if(coachIdList.size() == 0){
+            throw new BizException("该场馆没有教练");
+        }
         //通过教练id集合获取教练的名称，职称，
         List<Coach> coacheList = coachMapper.selectCoachByCoachId(coachIdList);
         //通过教练的id获取教练的topphoto，id，放入coachMedia集合
@@ -81,6 +92,29 @@ public class CoachServiceImpl implements CoachService {
         return coachVOList;
     }
 
+    @Override
+    public CoachVO selectCoachInfoById(Long coachId) {
+        Coach coach = coachMapper.selectByPrimaryKey(coachId);
+        List<CoachMedia> coachMediaList = coachMediaService.selectOneByCochId(coachId);
+        //类型：1、照片；2、15s短视频；3、长视频；4、资质证明，默认media_type只有1、2、3、4
+        Map<Integer, List<CoachMedia>> map = coachMediaList.parallelStream().collect(Collectors.groupingBy(CoachMedia::getMediaType));
+        CoachVO coachVO = CoachVO.builder()
+                        .id(coach.getId())
+                        .title(coach.getTitle())
+                        .name(coach.getName())
+                        .intro(coach.getIntro())
+                        .photoList(map.get(1))
+                        .shortVideoList(map.get(2))
+                        .longVideoList(map.get(3))
+                        .qualificationList(map.get(4))
+                        .build();
+        for (int i = 0;i<map.get(1).size();i++){
+            if(map.get(1).get(i).getIsTop() == 1){
+                coachVO.setTopPhotoUrl(map.get(1).get(i).getUrl());
+            }
+        }
 
+        return coachVO;
+    }
 
 }

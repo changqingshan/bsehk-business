@@ -1,50 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bsehk.business.dao.mapper.VenueSportCategoryMapper">
-  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.VenueSportCategory">
+<mapper namespace="com.bsehk.business.dao.mapper.VenueInfrastructureMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.VenueInfrastructure">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
-    <result column="sport_category_id" jdbcType="BIGINT" property="sportCategoryId" />
+    <result column="infrastructrue_id" jdbcType="BIGINT" property="infrastructrueId" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
-
-
-
   <sql id="Base_Column_List">
-    id, venue_id, sport_category_id, gmt_create, gmt_modified, is_delete
+    id, venue_id, infrastructrue_id, gmt_create, gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from venue_sport_category
+    from venue_infrastructure
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from venue_sport_category
+    delete from venue_infrastructure
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.bsehk.business.domain.VenueSportCategory">
+  <insert id="insert" parameterType="com.bsehk.business.domain.VenueInfrastructure">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue_sport_category (venue_id, sport_category_id, gmt_create, 
+    insert into venue_infrastructure (venue_id, infrastructrue_id, gmt_create, 
       gmt_modified, is_delete)
-    values (#{venueId,jdbcType=BIGINT}, #{sportCategoryId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+    values (#{venueId,jdbcType=BIGINT}, #{infrastructrueId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bsehk.business.domain.VenueSportCategory">
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.VenueInfrastructure">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue_sport_category
+    insert into venue_infrastructure
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="venueId != null">
         venue_id,
       </if>
-      <if test="sportCategoryId != null">
-        sport_category_id,
+      <if test="infrastructrueId != null">
+        infrastructrue_id,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -60,8 +57,8 @@
       <if test="venueId != null">
         #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="sportCategoryId != null">
-        #{sportCategoryId,jdbcType=BIGINT},
+      <if test="infrastructrueId != null">
+        #{infrastructrueId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -74,14 +71,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.VenueSportCategory">
-    update venue_sport_category
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.VenueInfrastructure">
+    update venue_infrastructure
     <set>
       <if test="venueId != null">
         venue_id = #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="sportCategoryId != null">
-        sport_category_id = #{sportCategoryId,jdbcType=BIGINT},
+      <if test="infrastructrueId != null">
+        infrastructrue_id = #{infrastructrueId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -95,24 +92,20 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.VenueSportCategory">
-    update venue_sport_category
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.VenueInfrastructure">
+    update venue_infrastructure
     set venue_id = #{venueId,jdbcType=BIGINT},
-      sport_category_id = #{sportCategoryId,jdbcType=BIGINT},
+      infrastructrue_id = #{infrastructrueId,jdbcType=BIGINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="listVenueSport" resultType="com.bsehk.business.domain.VenueSport">
-    select
-      v.venue_id AS venueId ,s.sport_name AS  sportName,s.parent_id AS parentId
-    from venue_sport_category v INNER JOIN
-        sport_category  s ON  v.sport_category_id = s.id
-    where v.venue_id IN
-    <foreach collection="list" open="(" close=")" separator="," item="id">
-         #{id}
-    </foreach>
+  
+  <select id="selectVenueInfrastructureInfoByVenueId" resultType="com.bsehk.business.domain.VenueInfrastructureInfo">
+    select  v.venue_id as venueId,i.id as infrastructureId,i.name as infrastructureName,i.logo as logo
+    from venue_infrastructure  v INNER JOIN
+         infrastructure i on v.infrastructure_id = i.id
+    where v.venue_id = #{venueId}
   </select>
 </mapper>

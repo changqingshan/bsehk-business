@@ -19,9 +19,6 @@
 /nbdist/
 /.nb-gradle/
 
-application-local.properties
-
-
 *.class
 
 # Package Files #

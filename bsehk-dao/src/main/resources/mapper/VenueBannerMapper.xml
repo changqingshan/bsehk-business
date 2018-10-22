@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.VenueBanner">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
     <result column="size" jdbcType="BIGINT" property="size" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -13,7 +13,7 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, venue_id, type, size, url, remark, gmt_create, gmt_modified, is_delete
+    id, venue_id, type_name, size, url, remark, gmt_create, gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -22,7 +22,7 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectBannerByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id,type,url
+    select id,type_name,url
     from venue_banner
     where venue_id = #{venue_id,jdbcType=BIGINT}
   </select>
@@ -34,10 +34,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue_banner (venue_id, type, size, 
+    insert into venue_banner (venue_id, type_name, size,
       url, remark, gmt_create, 
       gmt_modified, is_delete)
-    values (#{venueId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
+    values (#{venueId,jdbcType=BIGINT}, #{typeName,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT},
       #{url,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
   </insert>
@@ -50,8 +50,8 @@
       <if test="venueId != null">
         venue_id,
       </if>
-      <if test="type != null">
-        type,
+      <if test="type_name != null">
+        typeName,
       </if>
       <if test="size != null">
         size,
@@ -76,8 +76,8 @@
       <if test="venueId != null">
         #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
+      <if test="type_name != null">
+        #{typeName,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
         #{size,jdbcType=BIGINT},
@@ -105,8 +105,8 @@
       <if test="venueId != null">
         venue_id = #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
+      <if test="type_name != null">
+        type = #{typeName,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
         size = #{size,jdbcType=BIGINT},
@@ -132,7 +132,7 @@
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.VenueBanner">
     update venue_banner
     set venue_id = #{venueId,jdbcType=BIGINT},
-      type = #{type,jdbcType=VARCHAR},
+      type_name= #{typeName,jdbcType=VARCHAR},
       size = #{size,jdbcType=BIGINT},
       url = #{url,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},

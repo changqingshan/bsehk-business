@@ -5,6 +5,7 @@ import com.bsehk.business.domain.*;
 import com.bsehk.business.service.*;
 import com.bsehk.business.service.vo.VenueBannerVO;
 import com.bsehk.business.service.vo.VenueBriefVO;
+import com.bsehk.business.service.vo.VenueInfoVo;
 import com.bsehk.business.service.vo.VenueVO;
 import com.bsehk.common.util.StringUtil;
 
@@ -13,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -33,6 +31,8 @@ public class VenueServiceImpl implements VenueService {
     private VenueSportCategoryService venueSportCategoryService;
     @Resource
     private VenueInfrastructureService venueInfrastructureService;
+    @Resource
+    private  VenueFunctionZoneService venueFunctionZoneService;
     @Resource
     VenueBannerService venueBannerService;
     @Resource
@@ -153,7 +153,37 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public Venue selectByPrimaryKey(Long id) {
+
         return venueMapper.selectByPrimaryKey(id);
 
     }
+//获取场馆基础信息
+    @Override
+    public VenueInfoVo selectVenueInfoById(Long venueId) {
+        //获取场馆信息
+        Venue venue = venueMapper.selectByPrimaryKey(venueId);
+//        获取场馆基础设施
+        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId);
+//        获取场馆功能区
+        List<VenueFunctionZoneInfo> venueFunctionZoneInfos = venueFunctionZoneService.selectVenueFunctionZoneInfoByVenueId(venueId);
+//        获取场馆品牌介绍
+        Brand brand = brandService.selectBrandByVenueId(venueId);
+        //数据打包
+        VenueInfoVo venueInfoVo= VenueInfoVo.builder()
+                .venueId(venue.getId())
+                .infrastructuresList(venueInfrastructureInfos)
+                .functionZoneInfoList(venueFunctionZoneInfos)
+                .brand(brand)
+                .intro(venue.getIntro())
+                .startWeek(venue.getStartWeek())
+                .endWeek(venue.getEndWeek())
+                .openTime(venue.getOpenTime())
+                .endTime(venue.getEndTime()).
+                build();
+
+
+        return venueInfoVo;
+    }
+
+
 }

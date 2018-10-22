@@ -114,4 +114,12 @@
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="selectVenueFunctionZoneInfoByVenueId" resultType="com.bsehk.business.domain.VenueInfrastructureInfo">
+     SELECT  v.venue_id AS venueId,f.id AS functionZoneId ,f.type_name
+    FROM venue_function_zone  v  INNER  JOIN
+         function_zone f ON v.function_zone_id = f.id
+    WHERE v.venue_id = #{venueId}
+  </select>
 </mapper>

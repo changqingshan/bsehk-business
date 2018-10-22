@@ -31,29 +31,6 @@ public class CoachServiceImpl implements CoachService {
     @Resource
     CoachMediaService coachMediaService;
 
-
-    /**
-     *  获取所有教练
-     * @return
-     */
-    public List<Coach> selectAllCoach(){
-
-       // List<Coach> coachList=coachMapper.selectAllCoach();
-       return  null;
-    }
-
-    @Override
-    public Coach selectCoachById(long id) {
-        return null;
-    }
-
-    /**
-     *  获取单个教练信息
-     * @return
-     */
-
-
-
     @Override
     public List<Coach> listByIds(List<Long> coachIds) {
        List<Coach> coaches = this.coachMapper.listByIds(coachIds);

@@ -1,5 +1,6 @@
 package com.bsehk.business.web.controller;
 import com.bsehk.business.service.VenueService;
+import com.bsehk.business.service.vo.VenueInfoVo;
 import com.bsehk.business.service.vo.VenueVO;
 import com.bsehk.common.exception.BizException;
 import com.bsehk.common.response.ResultData;
@@ -23,6 +24,14 @@ public class VenueController {
     public ResultData selectVenueById(Long venueId) {
         VenueVO venueVo=venueService.selectVenueById(venueId);
         return ResultData.success(venueVo);
+    }
+    /*
+     * 查询场馆基础设施
+     * */
+    @RequestMapping("/selectVenueInfo")
+    public ResultData selectVenueInfoById(Long venueId) {
+        VenueInfoVo venueInfoVo = venueService.selectVenueInfoById(venueId);
+        return ResultData.success(venueInfoVo);
     }
 }
 

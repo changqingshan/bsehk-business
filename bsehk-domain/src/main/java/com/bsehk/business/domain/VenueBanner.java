@@ -9,7 +9,7 @@ public class VenueBanner {
 
     private Long venueId;
 
-    private String type;
+    private String typeName;
 
     private Long size;
 

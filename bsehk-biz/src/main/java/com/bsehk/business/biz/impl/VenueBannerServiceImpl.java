@@ -26,7 +26,8 @@ public class VenueBannerServiceImpl implements VenueBannerService {
         List<VenueBannerVO> venueBannerVOList = new ArrayList<VenueBannerVO>();
 
         List<VenueBanner> venueBanners = venueBannerMapper.selectBannerByVenueId(venueId);
-        Map<String,List<VenueBanner>> map = venueBanners.parallelStream().collect(Collectors.groupingBy(VenueBanner::getType));
+        log.info("venueBanners : [{}]",venueBanners);
+        Map<String,List<VenueBanner>> map = venueBanners.parallelStream().collect(Collectors.groupingBy(VenueBanner::getTypeName));
         Set<String> types = map.keySet();
         for (String type:types){
             VenueBannerVO venueBannerVO = new VenueBannerVO();

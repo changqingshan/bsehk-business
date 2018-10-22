@@ -1,13 +1,14 @@
 package com.bsehk.business.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+
 @Data
+@Builder
 public class Exercise {
     private Long id;
-
-    private Long coachId;
 
     private Long venueId;
 
@@ -17,12 +18,13 @@ public class Exercise {
 
     private Date exerciseStart;
 
-    private Date exercieseEnd;
+    private Date exerciseEnd;
 
     private Date gmtCreate;
 
     private Date gmtModified;
 
     private Byte isDelete;
+
 
 }

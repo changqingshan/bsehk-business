@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.ExerciseFieldRelationMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.ExerciseFieldRelation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exercise_id" jdbcType="BIGINT" property="exerciseId" />
+    <result column="exercise_field_id" jdbcType="BIGINT" property="exerciseFieldId" />
+    <result column="coach_id" jdbcType="BIGINT" property="coachId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exercise_id, exercise_field_id, coach_id, gmt_create, gmt_modified, is_deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exercise_field_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from exercise_field_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.ExerciseFieldRelation">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exercise_field_relation (exercise_id, exercise_field_id, coach_id, 
+      gmt_create, gmt_modified, is_deleted
+      )
+    values (#{exerciseId,jdbcType=BIGINT}, #{exerciseFieldId,jdbcType=BIGINT}, #{coachId,jdbcType=BIGINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.ExerciseFieldRelation">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exercise_field_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exerciseId != null">
+        exercise_id,
+      </if>
+      <if test="exerciseFieldId != null">
+        exercise_field_id,
+      </if>
+      <if test="coachId != null">
+        coach_id,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exerciseId != null">
+        #{exerciseId,jdbcType=BIGINT},
+      </if>
+      <if test="exerciseFieldId != null">
+        #{exerciseFieldId,jdbcType=BIGINT},
+      </if>
+      <if test="coachId != null">
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.ExerciseFieldRelation">
+    update exercise_field_relation
+    <set>
+      <if test="exerciseId != null">
+        exercise_id = #{exerciseId,jdbcType=BIGINT},
+      </if>
+      <if test="exerciseFieldId != null">
+        exercise_field_id = #{exerciseFieldId,jdbcType=BIGINT},
+      </if>
+      <if test="coachId != null">
+        coach_id = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.ExerciseFieldRelation">
+    update exercise_field_relation
+    set exercise_id = #{exerciseId,jdbcType=BIGINT},
+      exercise_field_id = #{exerciseFieldId,jdbcType=BIGINT},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="listByExerciseIds"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exercise_field_relation
+    where exercise_id IN
+    <foreach collection="list" open="(" close=")" item="exerciseId" separator=",">
+      #{exerciseId}
+    </foreach>
+    AND is_deleted = #{isDeleted}
+
+  </select>
+
+</mapper>

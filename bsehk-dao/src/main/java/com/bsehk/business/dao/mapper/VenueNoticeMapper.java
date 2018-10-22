@@ -1,8 +1,9 @@
 package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.VenueNotice;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import java.util.Date;
 
 public interface VenueNoticeMapper {
     int deleteByPrimaryKey(Long id);
@@ -13,9 +14,9 @@ public interface VenueNoticeMapper {
 
     VenueNotice selectByPrimaryKey(Long id);
 
-    VenueNotice selectNoticeByVenueId(Long venueId);
-
     int updateByPrimaryKeySelective(VenueNotice record);
 
     int updateByPrimaryKey(VenueNotice record);
+
+    VenueNotice selectByVenueIdAndType(@Param("venueId") Long venueId, @Param("noticeType") Integer noticeType, @Param("date") Date date, @Param("isDelete") Boolean isDelete);
 }

@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.VenueNotice">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
+    <result column="notice_type" jdbcType="TINYINT" property="noticeType" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
@@ -12,20 +14,14 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, venue_id, content, publish_time, expire_time, gmt_create, gmt_modified, is_delete
+    id, venue_id, notice_type, title, content, publish_time, expire_time, gmt_create, 
+    gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from venue_notice
     where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectAdvertByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id,content,url,end_time
-    from venue_advert
-    where venue_id = #{venue_id,jdbcType=BIGINT}
-    order by start_time desc
-    limit 0,1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from venue_notice
@@ -35,12 +31,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue_notice (venue_id, content, publish_time, 
-      expire_time, gmt_create, gmt_modified, 
-      is_delete)
-    values (#{venueId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
-      #{expireTime,jdbcType=TIMESTAMP}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{isDelete,jdbcType=TINYINT})
+    insert into venue_notice (venue_id, notice_type, title, 
+      content, publish_time, expire_time, 
+      gmt_create, gmt_modified, is_delete
+      )
+    values (#{venueId,jdbcType=BIGINT}, #{noticeType,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.VenueNotice">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -50,6 +48,12 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="venueId != null">
         venue_id,
+      </if>
+      <if test="noticeType != null">
+        notice_type,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="content != null">
         content,
@@ -73,6 +77,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="venueId != null">
         #{venueId,jdbcType=BIGINT},
+      </if>
+      <if test="noticeType != null">
+        #{noticeType,jdbcType=TINYINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -100,6 +110,12 @@
       <if test="venueId != null">
         venue_id = #{venueId,jdbcType=BIGINT},
       </if>
+      <if test="noticeType != null">
+        notice_type = #{noticeType,jdbcType=TINYINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -124,6 +140,8 @@
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.VenueNotice">
     update venue_notice
     set venue_id = #{venueId,jdbcType=BIGINT},
+      notice_type = #{noticeType,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       publish_time = #{publishTime,jdbcType=TIMESTAMP},
       expire_time = #{expireTime,jdbcType=TIMESTAMP},
@@ -132,4 +150,19 @@
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByVenueIdAndType"  resultMap="BaseResultMap">
+    <![CDATA[
+      select
+      <include refid="Base_Column_List" />
+      from venue_notice
+      where venue_id = #{venueId,jdbcType=BIGINT}
+             AND  notice_type = #{noticeType}
+             AND  is_delete = #{isDelete}
+             AND  publish_time >= #{date}
+             AND  expire_time <=#{date}
+      ORDER BY  publish_time DESC
+      limit 1
+    ]]>
+  </select>
 </mapper>

@@ -13,7 +13,7 @@ public interface CoachService {
 
     Coach selectCoachById(long id);
 
-    List<Coach> listByIds(List<Long> coachIds);
+    List<Coach> listByIds(List<Long> coachIds,Boolean isDeleted);
 
     List<CoachVO> selectCoachByVenueId(Long venueId);
 

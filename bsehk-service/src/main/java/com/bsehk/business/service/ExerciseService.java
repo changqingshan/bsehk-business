@@ -1,9 +1,14 @@
 package com.bsehk.business.service;
 
-import com.bsehk.business.service.vo.ExerciseVo;
+
+import com.bsehk.business.service.vo.ExerciseVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ExerciseService {
-    List<ExerciseVo> selectAllExercise();
+
+ List<ExerciseVO> listVenueExercise(Long venueId);
+
+    Map<String,Object> detailExerciseCourse(Long venueId);
 }

@@ -17,8 +17,6 @@ public interface CoachMapper {
 
     Coach selectByPrimaryKey(Long id);
 
-    List<Coach> selectAllCoach();
-
     int updateByPrimaryKeySelective(Coach record);
 
     int updateByPrimaryKey(Coach record);

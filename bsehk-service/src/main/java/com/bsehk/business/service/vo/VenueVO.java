@@ -30,5 +30,11 @@ public class VenueVO {
 
     private List<VenueInfrastructureInfo> infrastructuresList;//场馆基础信息
 
-    //private List<FunctionZone>  functionZoneList;//功能区集合
+    private List<VenueBannerVO> venueBannerVOS;     //场馆banner
+
+    private VenueNotice venueNotice;               //场馆公告
+
+    private VenueAdvert venueAdvert;               //场馆广告
+
+    private Brand brand;                           //场馆品牌介绍
 }

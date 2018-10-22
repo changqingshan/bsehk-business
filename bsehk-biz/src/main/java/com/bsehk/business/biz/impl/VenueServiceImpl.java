@@ -3,6 +3,7 @@ package com.bsehk.business.biz.impl;
 import com.bsehk.business.dao.mapper.VenueMapper;
 import com.bsehk.business.domain.*;
 import com.bsehk.business.service.*;
+import com.bsehk.business.service.vo.VenueBannerVO;
 import com.bsehk.business.service.vo.VenueBriefVO;
 import com.bsehk.business.service.vo.VenueVO;
 import com.bsehk.common.util.StringUtil;
@@ -32,6 +33,14 @@ public class VenueServiceImpl implements VenueService {
     private VenueSportCategoryService venueSportCategoryService;
     @Resource
     private VenueInfrastructureService venueInfrastructureService;
+    @Resource
+    VenueBannerService venueBannerService;
+    @Resource
+    VenueNoticeService venueNoticeService;
+    @Resource
+    VenueAdvertService venueAdvertService;
+    @Resource
+    BrandService brandService;
 
     @Override
     public VenueVO selectVenueById(Long venueId) {
@@ -41,19 +50,6 @@ public class VenueServiceImpl implements VenueService {
         List<Long> venueIds = new ArrayList<>();
         venueIds.add(venueId);
         List<VenueSport> venueSports = venueSportCategoryService.listVenueSport(venueIds);
-        //获取免费设施
-        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId);
-        VenueVO venueVO = VenueVO.builder()
-                .venueId(venueId)
-                .venueName(venue.getVenueName())
-                .detailLocation(venue.getDetailLocation())
-                .mobile(venue.getMobile())
-                .startWeek(venue.getStartWeek())
-                .endWeek(venue.getEndWeek())
-                .openTime(venue.getOpenTime())
-                .endTime(venue.getEndTime())
-                .infrastructuresList(venueInfrastructureInfos)
-                .build();
         //筛选场馆运动类中的小类
         List<VenueSport> venueSmallSports = new ArrayList<>();
         for (int i=0;i<venueSports.size();i++){
@@ -61,7 +57,33 @@ public class VenueServiceImpl implements VenueService {
                 venueSmallSports.add(venueSports.get(i));
             }
         }
-        venueVO.setVenueSportList(venueSmallSports);
+        //获取免费设施
+        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId);
+        //获取场馆banner图分类展示
+        List<VenueBannerVO> venueBannerVOList = venueBannerService.selectBannerByVenueId(venueId);
+        //获取场馆公告展示
+        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId);
+        //获取场馆广告展示
+        VenueAdvert venueAdvert = venueAdvertService.selectAdvertByVenueId(venueId);
+        //获取场馆品牌介绍
+        Brand brand = brandService.selectBrandByVenueId(venueId);
+        //数据打包
+        VenueVO venueVO = VenueVO.builder()
+                        .venueId(venueId)
+                        .venueName(venue.getVenueName())
+                        .detailLocation(venue.getDetailLocation())
+                        .mobile(venue.getMobile())
+                        .startWeek(venue.getStartWeek())
+                        .endWeek(venue.getEndWeek())
+                        .openTime(venue.getOpenTime())
+                        .endTime(venue.getEndTime())
+                        .venueSportList(venueSmallSports)
+                        .infrastructuresList(venueInfrastructureInfos)
+                        .venueBannerVOS(venueBannerVOList)
+                        .venueNotice(venueNotice)
+                        .venueAdvert(venueAdvert)
+                        .brand(brand)
+                        .build();
 
         return venueVO;
     }

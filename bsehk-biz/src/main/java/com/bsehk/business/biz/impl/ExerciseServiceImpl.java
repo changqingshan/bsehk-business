@@ -27,12 +27,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Resource
     private ExerciseFieldRelationService exerciseFieldRelationService;
 
+
     @Override
     public List<ExerciseVO> listVenueExercise(Long venueId) {
           // 查询所有的团操
         List<Exercise> exercises = this.exerciseMapper.listByVenueId(venueId,false);
         if(exercises == null || exercises.isEmpty()){
             return Collections.emptyList();
+
         }
 
          // 查询团操课场地教练关系表

@@ -8,17 +8,21 @@ import java.util.List;
 
 @Data
 @Builder
-public class ExerciseVo {
+public class ExerciseVO {
 
     private String filedName;
     List<WeekDayExercise> weekDayExercises;
 
+    @Data
+    @Builder
     public static class WeekDayExercise{
          private Integer week ;
          List<InnerExercise>  innerExercises;
 
     }
 
+    @Data
+    @Builder
     public static class InnerExercise{
         private Long id;
         private String coachName;

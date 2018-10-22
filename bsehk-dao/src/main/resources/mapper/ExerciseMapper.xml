@@ -3,31 +3,24 @@
 <mapper namespace="com.bsehk.business.dao.mapper.ExerciseMapper">
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.Exercise">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="coach_id" jdbcType="BIGINT" property="coachId" />
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
     <result column="exercise_name" jdbcType="VARCHAR" property="exerciseName" />
     <result column="week" jdbcType="TINYINT" property="week" />
     <result column="exercise_start" jdbcType="TIME" property="exerciseStart" />
-    <result column="exerciese_end" jdbcType="TIME" property="exercieseEnd" />
+    <result column="exercise_end" jdbcType="TIME" property="exerciseEnd" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, coach_id, venue_id, exercise_name, week, exercise_start, exerciese_end, gmt_create, 
-    gmt_modified, is_delete
+    id, venue_id, exercise_name, week, exercise_start, exercise_end, gmt_create, gmt_modified, 
+    is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from exercise
     where id = #{id,jdbcType=BIGINT}
-  </select>
-
-  <select id="selectAllExercise" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from exercise
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from exercise
@@ -37,14 +30,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into exercise (coach_id, venue_id, exercise_name, 
-      week, exercise_start, exerciese_end, 
-      gmt_create, gmt_modified, is_delete
-      )
-    values (#{coachId,jdbcType=BIGINT}, #{venueId,jdbcType=BIGINT}, #{exerciseName,jdbcType=VARCHAR}, 
-      #{week,jdbcType=TINYINT}, #{exerciseStart,jdbcType=TIME}, #{exercieseEnd,jdbcType=TIME}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
-      )
+    insert into exercise (venue_id, exercise_name, week, 
+      exercise_start, exercise_end, gmt_create, 
+      gmt_modified, is_delete)
+    values (#{venueId,jdbcType=BIGINT}, #{exerciseName,jdbcType=VARCHAR}, #{week,jdbcType=TINYINT}, 
+      #{exerciseStart,jdbcType=TIME}, #{exerciseEnd,jdbcType=TIME}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.Exercise">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -52,9 +43,6 @@
     </selectKey>
     insert into exercise
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="coachId != null">
-        coach_id,
-      </if>
       <if test="venueId != null">
         venue_id,
       </if>
@@ -67,8 +55,8 @@
       <if test="exerciseStart != null">
         exercise_start,
       </if>
-      <if test="exercieseEnd != null">
-        exerciese_end,
+      <if test="exerciseEnd != null">
+        exercise_end,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -81,9 +69,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="coachId != null">
-        #{coachId,jdbcType=BIGINT},
-      </if>
       <if test="venueId != null">
         #{venueId,jdbcType=BIGINT},
       </if>
@@ -96,8 +81,8 @@
       <if test="exerciseStart != null">
         #{exerciseStart,jdbcType=TIME},
       </if>
-      <if test="exercieseEnd != null">
-        #{exercieseEnd,jdbcType=TIME},
+      <if test="exerciseEnd != null">
+        #{exerciseEnd,jdbcType=TIME},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -113,9 +98,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.Exercise">
     update exercise
     <set>
-      <if test="coachId != null">
-        coach_id = #{coachId,jdbcType=BIGINT},
-      </if>
       <if test="venueId != null">
         venue_id = #{venueId,jdbcType=BIGINT},
       </if>
@@ -128,8 +110,8 @@
       <if test="exerciseStart != null">
         exercise_start = #{exerciseStart,jdbcType=TIME},
       </if>
-      <if test="exercieseEnd != null">
-        exerciese_end = #{exercieseEnd,jdbcType=TIME},
+      <if test="exerciseEnd != null">
+        exercise_end = #{exerciseEnd,jdbcType=TIME},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -145,15 +127,23 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Exercise">
     update exercise
-    set coach_id = #{coachId,jdbcType=BIGINT},
-      venue_id = #{venueId,jdbcType=BIGINT},
+    set venue_id = #{venueId,jdbcType=BIGINT},
       exercise_name = #{exerciseName,jdbcType=VARCHAR},
       week = #{week,jdbcType=TINYINT},
       exercise_start = #{exerciseStart,jdbcType=TIME},
-      exerciese_end = #{exercieseEnd,jdbcType=TIME},
+      exercise_end = #{exerciseEnd,jdbcType=TIME},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="listByVenueId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exercise
+    where venue_id = #{venueId,jdbcType=BIGINT}
+    AND  is_delete = #{isDeleted}
+  </select>
 </mapper>

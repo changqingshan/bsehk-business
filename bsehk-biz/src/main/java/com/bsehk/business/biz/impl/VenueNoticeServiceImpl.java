@@ -21,11 +21,21 @@ public class VenueNoticeServiceImpl implements VenueNoticeService {
     @Override
     public VenueNotice selectNoticeByVenueId(Long venueId) {
         //获取当前日期
-        Date nowDate = new Date();
+      /*  Date nowDate = new Date();
         VenueNotice venueNotice = venueNoticeMapper.selectNoticeByVenueId(venueId);
+        log.info("venueNotce :  [{}]" ,venueNotice);
         if(venueNotice.getExpireTime().before(nowDate)){
             throw new BizException("当前没有发布的公告");
         }
+        return venueNotice;*/
+      return null;
+    }
+
+    @Override
+    public VenueNotice getExerciseNotice(Long venueId, Boolean isDelete) {
+        Date now = new Date();
+        VenueNotice venueNotice = this.venueNoticeMapper.selectByVenueIdAndType(venueId,2,now,isDelete);
+
         return venueNotice;
     }
 }

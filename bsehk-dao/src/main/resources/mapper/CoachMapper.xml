@@ -180,6 +180,7 @@
     <foreach collection="list" open="(" close=")" item="id" separator=",">
       #{id}
     </foreach>
+    AND   is_delete = #{isDeleted}
 
   </select>
 </mapper>

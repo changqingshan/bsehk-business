@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface CoachService {
 
+
     List<Coach> listByIds(List<Long> coachIds);
+
 
     List<CoachVO> selectCoachByVenueId(Long venueId);
 

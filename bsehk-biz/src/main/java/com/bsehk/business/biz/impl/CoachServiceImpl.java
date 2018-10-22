@@ -32,8 +32,8 @@ public class CoachServiceImpl implements CoachService {
     CoachMediaService coachMediaService;
 
     @Override
-    public List<Coach> listByIds(List<Long> coachIds) {
-       List<Coach> coaches = this.coachMapper.listByIds(coachIds);
+    public List<Coach> listByIds(List<Long> coachIds,Boolean isDeleted) {
+       List<Coach> coaches = this.coachMapper.listByIds(coachIds,isDeleted);
         return coaches;
     }
 

@@ -7,7 +7,7 @@ import com.bsehk.business.service.vo.VenueBriefVO;
 import com.bsehk.business.service.vo.VenueComplexVO;
 
 import com.bsehk.business.service.vo.VenueInfoVo;
-
+import com.bsehk.common.util.PageInfo;
 
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public interface VenueService {
 
 
-    List<VenueBriefVO> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName);
+    PageInfo<List<VenueBriefVO>> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName, Integer pageNum, Integer pageSize);
 
     Venue selectByPrimaryKey(Long id);
 

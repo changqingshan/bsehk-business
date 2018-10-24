@@ -304,4 +304,33 @@
     1 = 1
   </select>
 
+
+  <select id="searchVenueNum"  resultType="java.lang.Long">
+    select
+     count(DISTINCT(venue.id))
+    from
+    venue
+    INNER JOIN
+    venue_sport_category vsc
+    ON  venue.id = vsc.venue_id
+    where
+    <if test="cityId != null and cityId > 0">
+      venue.city_id = #{cityId} AND
+    </if>
+    <if test="cityId != null and cityId &lt; 0">
+      venue.province_id = abs( #{cityId} )AND
+    </if>
+    <if test="list.size > 0">
+      vsc.sport_category_id  IN
+      <foreach collection="list" open="(" close=")" item="id" separator="," >
+        #{id}
+      </foreach>
+      AND
+    </if>
+    <if test="venueName != null">
+      venue.venue_name LIKE concat('%',#{venueName},'%') AND
+    </if>
+    1 = 1
+  </select>
+
 </mapper>

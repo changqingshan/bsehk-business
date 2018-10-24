@@ -7,8 +7,10 @@ import com.bsehk.business.service.*;
 import com.bsehk.common.util.DateUtil;
 
 import com.bsehk.business.service.vo.*;
+import com.bsehk.common.util.PageInfo;
 import com.bsehk.common.util.StringUtil;
 
+import com.github.pagehelper.PageHelper;
 import com.snxy.coordinate.gisutil.Coordinate.Coordinate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -103,7 +105,7 @@ public class VenueServiceImpl implements VenueService {
 
 
     @Override
-    public List<VenueBriefVO> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName) {
+    public PageInfo<List<VenueBriefVO>> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName,Integer pageNum,Integer pageSize) {
         if(StringUtil.isBlank(venueName)){
            venueName = null;
         }
@@ -131,9 +133,13 @@ public class VenueServiceImpl implements VenueService {
             sportCategoryIds = sportCategories.parallelStream().map(SportCategory::getId).collect(Collectors.toList());
         }
 
+        // 查询场馆数量
+        Long total = this.venueMapper.searchVenueNum(cityId,sportCategoryIds,venueName);
+        // 分页查询场馆
+        PageHelper.startPage(pageNum,pageSize);
         List<Venue> venues = this.venueMapper.searchVenue(cityId,sportCategoryIds,venueName);
         if(venues == null || venues.isEmpty()){
-            return Collections.emptyList();
+            return new PageInfo<>();
         }
         // 查询所有场馆的体育运动标签
         List<Long> venueIds = venues.parallelStream().map(Venue::getId).collect(Collectors.toList());
@@ -166,7 +172,9 @@ public class VenueServiceImpl implements VenueService {
                                           .build()).collect(Collectors.toList());
 
 
-        return venueBriefVOS;
+        PageInfo<List<VenueBriefVO>> pageInfo = new PageInfo(pageNum,pageSize,total,venueBriefVOS);
+
+        return pageInfo;
 
 
     }

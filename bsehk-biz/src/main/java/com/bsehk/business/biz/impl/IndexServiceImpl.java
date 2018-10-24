@@ -8,6 +8,7 @@ import com.bsehk.business.service.VenueService;
 import com.bsehk.business.service.vo.CityVO;
 import com.bsehk.business.service.vo.SportCategoryVO;
 import com.bsehk.business.service.vo.VenueBriefVO;
+import com.bsehk.common.util.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class IndexServiceImpl implements IndexService {
 
 
     @Override
-    public Map<String, Object> getPageHomeData(Long cityId, Double longitude, Double latitude) {
+    public Map<String, Object> getPageHomeData(Long cityId, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
         // 查询城市
         List<CityVO> cityVOS = this.cityService.listCity();
         // 查询运动类别
@@ -42,51 +43,47 @@ public class IndexServiceImpl implements IndexService {
         sportCategories.forEach(sportCategory -> sportCategory.setUrl("http://dpic.tiankong.com/9a/ee/QJ6203205716.jpg"));
 
         // 查询场馆
-        List<VenueBriefVO> venueBriefVOS = this.venueService.searchVenue(cityId,null,longitude,latitude,null);
+        PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(cityId, null, longitude, latitude, null, pageNum, pageSize);
 
         Map<String,Object> map = new HashMap<>();
         map.put("cities",cityVOS);
         map.put("sportCategories",sportCategories);
-        map.put("venueBriefInfos",venueBriefVOS);
+        map.put("pageInfo",pageInfo);
         return map;
     }
 
 
 
     @Override
-    public Map<String, Object> searchIndexVenue(Long cityId, String venueName, Double longitude, Double latitude) {
+    public PageInfo<List<VenueBriefVO>> searchIndexVenue(Long cityId, String venueName, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
         // 查询场馆
-        List<VenueBriefVO> venueBriefVOS = this.venueService.searchVenue(cityId,null,longitude,latitude,venueName);
+        PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(cityId,null,longitude,latitude,venueName, pageNum, pageSize);
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("venueBriefInfos",venueBriefVOS);
-        return map;
+        return pageInfo;
     }
 
 
     @Override
-    public Map<String, Object> secondaryPageData(Long cityId, Long sportCategoryId, Double longitude, Double latitude) {
+    public Map<String, Object> secondaryPageData(Long cityId, Long sportCategoryId, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
         // 查询城市
          List<CityVO> cityVOS = this.cityService.listCity();
         // 查询体育类别
         List<SportCategoryVO> sportCategories = this.sportCategoryService.selectAllSport();
         // 条件查询场馆
-        List<VenueBriefVO> venueBriefVOS = this.venueService.searchVenue(cityId,sportCategoryId,longitude,latitude,null);
+        PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(cityId,sportCategoryId,longitude,latitude,null,pageNum,pageSize);
 
         Map<String,Object> map = new HashMap<>();
         map.put("cities",cityVOS);
         map.put("sportCategories",sportCategories);
-        map.put("venueBriefInfos",venueBriefVOS);
+        map.put("venuePageInfo",pageInfo);
         return map;
     }
 
     @Override
-    public Map<String, Object> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude) {
+    public  PageInfo<List<VenueBriefVO>> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
         // 查询场馆
-        List<VenueBriefVO> venueBriefVOS = this.venueService.searchVenue(cityId,sportCategoryId,longitude,latitude,null);
+        PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(cityId, sportCategoryId, longitude, latitude, null, pageNum, pageSize);
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("venueBriefInfos",venueBriefVOS);
-        return map;
+        return pageInfo;
     }
 }

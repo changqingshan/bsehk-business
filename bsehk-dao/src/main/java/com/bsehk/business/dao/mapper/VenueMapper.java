@@ -22,4 +22,5 @@ public interface VenueMapper {
 
     List<Venue> searchVenue(@Param("cityId") Long cityId, @Param("list") List<Long> sportCategoryIds, @Param("venueName") String venueName);
 
+    Long searchVenueNum(@Param("cityId")Long cityId, @Param("list") List<Long> sportCategoryIds, @Param("venueName")String venueName);
 }

@@ -52,7 +52,7 @@ public class CoachServiceImpl implements CoachService {
         //通过教练的id获取教练的topphoto，id，放入coachMedia集合
         List<CoachMedia> coachMediaList = coachMediaService.selectPhotoByCoachId(coacheList);
         //遍历教练集合与教练媒体集合，把两个集合中id相同的对象属性放入CoachVO，把CoachVO存入集合，返回前端
-/*        for (int i = 0; i<coacheList.size();i++){
+        for (int i = 0; i<coacheList.size();i++){
             for (int j=0;j<coachMediaList.size();j++){
                 //如果coach的id与coachMedia的coachId相同，把俩个对象的信息存入coachVO
                 if(coacheList.get(i).getId() == coachMediaList.get(j).getCoachId()){
@@ -68,10 +68,10 @@ public class CoachServiceImpl implements CoachService {
                 }
             }
 
-        }*/
+        }
 
 
-        List<CoachVO> coachVOS  = coacheList.parallelStream().map(coach -> {
+       /* List<CoachVO> coachVOS  = coacheList.parallelStream().map(coach -> {
             CoachMedia coachMedia = coachMediaList.parallelStream().filter(coachMedia1 ->
                                                      coachMedia1.getCoachId().equals(coach.getId()))
                                          .findFirst().orElse(null);
@@ -82,8 +82,7 @@ public class CoachServiceImpl implements CoachService {
                                     .topPhotoUrl(coachMedia.getUrl())
                                     .build();
                }).collect(Collectors.toList());
-
-
+*/
 
         return coachVOList;
     }

@@ -1,6 +1,9 @@
 package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.VenueFunctionZone;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface VenueFunctionZoneMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,6 @@ public interface VenueFunctionZoneMapper {
     int updateByPrimaryKeySelective(VenueFunctionZone record);
 
     int updateByPrimaryKey(VenueFunctionZone record);
+
+    List<VenueFunctionZone> listByVenueId(@Param("venueId") Long venueId, @Param("isDelete") Boolean isDelete);
 }

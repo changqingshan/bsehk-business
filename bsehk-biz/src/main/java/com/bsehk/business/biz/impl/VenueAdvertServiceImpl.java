@@ -21,6 +21,7 @@ public class VenueAdvertServiceImpl implements VenueAdvertService {
 
         VenueAdvert venueAdvert = venueAdvertMapper.selectAdvertByVenueId(venueId,now,isDelete);
 
+
         return venueAdvert;
     }
 }

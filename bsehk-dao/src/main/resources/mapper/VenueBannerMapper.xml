@@ -13,6 +13,7 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
+
     id, venue_id, venue_banner_category_id, file_size, url, remark, gmt_create, gmt_modified, 
     is_delete
   </sql>
@@ -22,6 +23,8 @@
     from venue_banner
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from venue_banner
     where id = #{id,jdbcType=BIGINT}
@@ -30,10 +33,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
+
     insert into venue_banner (venue_id, venue_banner_category_id, file_size, 
       url, remark, gmt_create, 
       gmt_modified, is_delete)
-    values (#{venueId,jdbcType=BIGINT}, #{venueBannerCategoryId,jdbcType=BIGINT}, #{fileSize,jdbcType=BIGINT}, 
+    values (#{venueId,jdbcType=BIGINT}, #{venueBannerCategoryId,jdbcType=BIGINT}, #{fileSize,jdbcType=BIGINT},
       #{url,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
   </insert>
@@ -47,7 +51,6 @@
         venue_id,
       </if>
       <if test="venueBannerCategoryId != null">
-        venue_banner_category_id,
       </if>
       <if test="fileSize != null">
         file_size,

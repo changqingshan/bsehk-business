@@ -5,13 +5,15 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="function_zone_id" jdbcType="BIGINT" property="functionZoneId" />
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
-    <result column="function_zone_name" jdbcType="VARCHAR" property="functionZoneName" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="function_zone_number" jdbcType="INTEGER" property="functionZoneNumber" />
+    <result column="function_zone_name" jdbcType="INTEGER" property="functionZoneName" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, function_zone_id, venue_id, function_zone_name, gmt_create, gmt_modified, is_delete
+    id, function_zone_id, venue_id, logo, gmt_create, gmt_modified, is_delete, function_zone_number
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -27,12 +29,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue_function_zone (function_zone_id, venue_id, function_zone_name, 
-      gmt_create, gmt_modified, is_delete
-      )
-    values (#{functionZoneId,jdbcType=BIGINT}, #{venueId,jdbcType=BIGINT}, #{functionZoneName,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
-      )
+    insert into venue_function_zone (function_zone_id, venue_id, logo, 
+      gmt_create, gmt_modified, is_delete, 
+      function_zone_number)
+    values (#{functionZoneId,jdbcType=BIGINT}, #{venueId,jdbcType=BIGINT}, #{logo,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}, 
+      #{functionZoneNumber,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.VenueFunctionZone">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -46,8 +48,8 @@
       <if test="venueId != null">
         venue_id,
       </if>
-      <if test="functionZoneName != null">
-        function_zone_name,
+      <if test="logo != null">
+        logo,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -58,6 +60,9 @@
       <if test="isDelete != null">
         is_delete,
       </if>
+      <if test="functionZoneNumber != null">
+        function_zone_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="functionZoneId != null">
@@ -66,8 +71,8 @@
       <if test="venueId != null">
         #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="functionZoneName != null">
-        #{functionZoneName,jdbcType=VARCHAR},
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -77,6 +82,9 @@
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="functionZoneNumber != null">
+        #{functionZoneNumber,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -89,8 +97,8 @@
       <if test="venueId != null">
         venue_id = #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="functionZoneName != null">
-        function_zone_name = #{functionZoneName,jdbcType=VARCHAR},
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -101,6 +109,9 @@
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=TINYINT},
       </if>
+      <if test="functionZoneNumber != null">
+        function_zone_number = #{functionZoneNumber,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -108,10 +119,20 @@
     update venue_function_zone
     set function_zone_id = #{functionZoneId,jdbcType=BIGINT},
       venue_id = #{venueId,jdbcType=BIGINT},
-      function_zone_name = #{functionZoneName,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      is_delete = #{isDelete,jdbcType=TINYINT}
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      function_zone_number = #{functionZoneNumber,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="listByVenueId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from venue_function_zone
+    where  venue_id = #{venueId}
+    and  is_delete = #{isDelete}
+  </select>
 </mapper>

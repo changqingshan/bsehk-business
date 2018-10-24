@@ -24,11 +24,13 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
+
+
   <select id="selectNoticeByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id,content,url,end_time
-    from venue_advert
+    select id,content,venue_id,expire_time
+    from venue_notice
     where venue_id = #{venue_id,jdbcType=BIGINT}
-    order by start_time desc
+    order by publish_time desc
     limit 0,1
   </select>
 

@@ -11,6 +11,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, intro, url, gmt_create, gmt_modified, is_delete
+
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -54,6 +55,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+
       <if test="intro != null">
         #{intro,jdbcType=VARCHAR},
       </if>
@@ -94,6 +96,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Brand">
     update brand
+
     set intro = #{intro,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},

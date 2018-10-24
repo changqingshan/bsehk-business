@@ -33,7 +33,6 @@ public class CoachServiceImpl implements CoachService {
     @Resource
     CoachMediaService coachMediaService;
 
-
     @Override
     public List<Coach> listByIds(List<Long> coachIds,Boolean isDeleted) {
        List<Coach> coaches = this.coachMapper.listByIds(coachIds,isDeleted);

@@ -3,15 +3,15 @@
 <mapper namespace="com.bsehk.business.dao.mapper.FunctionZoneMapper">
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.FunctionZone">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="logo" jdbcType="VARCHAR" property="logo" />
-    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="function_zone_name" jdbcType="VARCHAR" property="functionZoneName" />
+    <result column="is_public" jdbcType="TINYINT" property="isPublic" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, logo, type_name, remark, gmt_create, gmt_modified, is_delete
+    id, function_zone_name, is_public, remark, gmt_create, gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -27,10 +27,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into function_zone (logo, type_name, remark, 
+    insert into function_zone (function_zone_name, is_public, remark, 
       gmt_create, gmt_modified, is_delete
       )
-    values (#{logo,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+    values (#{functionZoneName,jdbcType=VARCHAR}, #{isPublic,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
       )
   </insert>
@@ -40,11 +40,11 @@
     </selectKey>
     insert into function_zone
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="logo != null">
-        logo,
+      <if test="functionZoneName != null">
+        function_zone_name,
       </if>
-      <if test="typeName != null">
-        type_name,
+      <if test="isPublic != null">
+        is_public,
       </if>
       <if test="remark != null">
         remark,
@@ -60,11 +60,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="logo != null">
-        #{logo,jdbcType=VARCHAR},
+      <if test="functionZoneName != null">
+        #{functionZoneName,jdbcType=VARCHAR},
       </if>
-      <if test="typeName != null">
-        #{typeName,jdbcType=VARCHAR},
+      <if test="isPublic != null">
+        #{isPublic,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -83,11 +83,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.FunctionZone">
     update function_zone
     <set>
-      <if test="logo != null">
-        logo = #{logo,jdbcType=VARCHAR},
+      <if test="functionZoneName != null">
+        function_zone_name = #{functionZoneName,jdbcType=VARCHAR},
       </if>
-      <if test="typeName != null">
-        type_name = #{typeName,jdbcType=VARCHAR},
+      <if test="isPublic != null">
+        is_public = #{isPublic,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -106,12 +106,24 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.FunctionZone">
     update function_zone
-    set logo = #{logo,jdbcType=VARCHAR},
-      type_name = #{typeName,jdbcType=VARCHAR},
+    set function_zone_name = #{functionZoneName,jdbcType=VARCHAR},
+      is_public = #{isPublic,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="listByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from function_zone
+    where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+    and is_delete = #{isDelete}
+  </select>
+
 </mapper>

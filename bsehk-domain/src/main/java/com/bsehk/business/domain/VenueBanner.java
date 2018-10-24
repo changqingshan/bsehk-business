@@ -9,6 +9,7 @@ public class VenueBanner {
 
     private Long venueId;
 
+
     private Long venueBannerCategoryId;
 
     private Long fileSize;

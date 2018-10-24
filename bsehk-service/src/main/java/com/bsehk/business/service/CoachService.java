@@ -11,7 +11,10 @@ import java.util.Map;
 public interface CoachService {
 
 
-    List<Coach> listByIds(List<Long> coachIds,Boolean isDeleted);
+
+    List<Coach> listByIds(List<Long> coachIds,Boolean isDelete);
+
+
 
     Map<Byte,List<CoachVO>> selectCoachByVenueId(Long venueId);
 

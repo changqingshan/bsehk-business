@@ -3,11 +3,9 @@ package com.bsehk.business.web.controller;
 import com.bsehk.business.domain.Brand;
 import com.bsehk.business.domain.VenueAdvert;
 import com.bsehk.business.domain.VenueNotice;
-import com.bsehk.business.service.BrandService;
-import com.bsehk.business.service.VenueAdvertService;
-import com.bsehk.business.service.VenueBannerService;
-import com.bsehk.business.service.VenueNoticeService;
+import com.bsehk.business.service.*;
 import com.bsehk.business.service.vo.VenueBannerVO;
+import com.bsehk.business.service.vo.VenueComplexVO;
 import com.bsehk.common.response.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +26,9 @@ public class VenueHomeController {
     VenueAdvertService venueAdvertService;
     @Resource
     BrandService brandService;
+     @Resource
+     VenueService venueService;
+
 
     //场馆banner图分类展示
     @RequestMapping("/selectBannerByVenueId")
@@ -39,14 +40,14 @@ public class VenueHomeController {
     //场馆公告展示
     @RequestMapping("/selectNoticeByVenueId")
     public ResultData selectNoticeByVenueId(Long venueId) {
-        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId);
+        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId,(byte)1,false);
         return ResultData.success(venueNotice);
     }
 
     //场馆广告展示
     @RequestMapping("/selectAdvertByVenueId")
     public ResultData selectAdvertByVenueId(Long venueId) {
-        VenueAdvert venueAdvert = venueAdvertService.selectAdvertByVenueId(venueId);
+        VenueAdvert venueAdvert = venueAdvertService.selectAdvertByVenueId(venueId,false);
         return ResultData.success(venueAdvert);
     }
 
@@ -56,4 +57,14 @@ public class VenueHomeController {
         Brand brand = brandService.selectBrandByVenueId(venueId);
         return ResultData.success(brand);
     }
+
+
+
+
+    @RequestMapping("/complexInfo")
+    public ResultData venueComplexInfo(Long venueId) {
+        VenueComplexVO venueComplexVO = venueService.getVenueComplexInfo(venueId);
+        return ResultData.success(venueComplexVO);
+    }
+
 }

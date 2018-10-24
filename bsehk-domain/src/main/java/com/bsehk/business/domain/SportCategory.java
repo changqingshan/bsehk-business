@@ -6,7 +6,7 @@ import java.util.Date;
 @Data
 public class SportCategory {
     private Long id;
-
+    private String url;
     private String sportName;
 
     private Long parentId;

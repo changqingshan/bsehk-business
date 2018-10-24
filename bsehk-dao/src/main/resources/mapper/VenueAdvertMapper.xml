@@ -21,10 +21,12 @@
     from venue_advert
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectAdvertByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id,content,end_time
+  <select id="selectAdvertByVenueId"  resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
     from venue_advert
-    where venue_id = #{venue_id,jdbcType=BIGINT}
+    where venue_id = #{venueId,jdbcType=BIGINT}
+    AND  start_time &lt;= #{date}
+    AND end_time >=#{date}
     order by start_time desc
     limit 0,1
   </select>

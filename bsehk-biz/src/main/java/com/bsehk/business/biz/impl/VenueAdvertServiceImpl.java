@@ -16,13 +16,11 @@ public class VenueAdvertServiceImpl implements VenueAdvertService {
     @Resource
     VenueAdvertMapper venueAdvertMapper;
     @Override
-    public VenueAdvert selectAdvertByVenueId(Long venueId) {
-        Date nowDate = new Date();
+    public VenueAdvert selectAdvertByVenueId(Long venueId,Boolean isDelete) {
+        Date now = new Date();
 
-        VenueAdvert venueAdvert = venueAdvertMapper.selectAdvertByVenueId(venueId);
-        if(venueAdvert.getEndTime().before(nowDate)){
-            throw new BizException("没有发布中的广告");
-        }
+        VenueAdvert venueAdvert = venueAdvertMapper.selectAdvertByVenueId(venueId,now,isDelete);
+
         return venueAdvert;
     }
 }

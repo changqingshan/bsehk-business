@@ -5,13 +5,14 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="brand_id" jdbcType="BIGINT" property="brandId" />
     <result column="venue_name" jdbcType="VARCHAR" property="venueName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="venue_category" jdbcType="INTEGER" property="venueCategory" />
     <result column="province_id" jdbcType="BIGINT" property="provinceId" />
     <result column="city_id" jdbcType="BIGINT" property="cityId" />
     <result column="district_id" jdbcType="BIGINT" property="districtId" />
     <result column="detail_location" jdbcType="VARCHAR" property="detailLocation" />
-    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
-    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
     <result column="intro" jdbcType="VARCHAR" property="intro" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="start_week" jdbcType="TINYINT" property="startWeek" />
@@ -23,9 +24,9 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, brand_id, venue_name, venue_category, province_id, city_id, district_id, detail_location,
-    longitude, latitude, intro, mobile, start_week, end_week, open_time, end_time, gmt_create, 
-    gmt_modified, is_delete
+    id, brand_id, venue_name, url, venue_category, province_id, city_id, district_id,
+    detail_location, longitude, latitude, intro, mobile, start_week, end_week, open_time,
+    end_time, gmt_create, gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
@@ -33,7 +34,6 @@
     from venue
     where id = #{id,jdbcType=BIGINT}
   </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from venue
     where id = #{id,jdbcType=BIGINT}
@@ -42,20 +42,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue (brand_id, venue_name, venue_category, 
-      province_id, city_id, district_id,
-      detail_location, longitude, latitude, 
-      intro, mobile, start_week, 
-      end_week, open_time, end_time, 
-      gmt_create, gmt_modified, is_delete
-      )
-    values (#{brandId,jdbcType=BIGINT}, #{venueName,jdbcType=VARCHAR}, #{venueCategory,jdbcType=INTEGER}, 
-      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{districtId,jdbcType=BIGINT},
-      #{detailLocation,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
-      #{intro,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{startWeek,jdbcType=TINYINT}, 
-      #{endWeek,jdbcType=TINYINT}, #{openTime,jdbcType=TIME}, #{endTime,jdbcType=TIME}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
-      )
+    insert into venue (brand_id, venue_name, url,
+    venue_category, province_id, city_id,
+    district_id, detail_location, longitude,
+    latitude, intro, mobile,
+    start_week, end_week, open_time,
+    end_time, gmt_create, gmt_modified,
+    is_delete)
+    values (#{brandId,jdbcType=BIGINT}, #{venueName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
+    #{venueCategory,jdbcType=INTEGER}, #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT},
+    #{districtId,jdbcType=BIGINT}, #{detailLocation,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE},
+    #{latitude,jdbcType=DOUBLE}, #{intro,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+    #{startWeek,jdbcType=TINYINT}, #{endWeek,jdbcType=TINYINT}, #{openTime,jdbcType=TIME},
+    #{endTime,jdbcType=TIME}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
+    #{isDelete,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.Venue">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -68,6 +68,9 @@
       </if>
       <if test="venueName != null">
         venue_name,
+      </if>
+      <if test="url != null">
+        url,
       </if>
       <if test="venueCategory != null">
         venue_category,
@@ -125,6 +128,9 @@
       <if test="venueName != null">
         #{venueName,jdbcType=VARCHAR},
       </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
       <if test="venueCategory != null">
         #{venueCategory,jdbcType=INTEGER},
       </if>
@@ -141,10 +147,10 @@
         #{detailLocation,jdbcType=VARCHAR},
       </if>
       <if test="longitude != null">
-        #{longitude,jdbcType=VARCHAR},
+        #{longitude,jdbcType=DOUBLE},
       </if>
       <if test="latitude != null">
-        #{latitude,jdbcType=VARCHAR},
+        #{latitude,jdbcType=DOUBLE},
       </if>
       <if test="intro != null">
         #{intro,jdbcType=VARCHAR},
@@ -184,6 +190,9 @@
       <if test="venueName != null">
         venue_name = #{venueName,jdbcType=VARCHAR},
       </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
       <if test="venueCategory != null">
         venue_category = #{venueCategory,jdbcType=INTEGER},
       </if>
@@ -200,10 +209,10 @@
         detail_location = #{detailLocation,jdbcType=VARCHAR},
       </if>
       <if test="longitude != null">
-        longitude = #{longitude,jdbcType=VARCHAR},
+        longitude = #{longitude,jdbcType=DOUBLE},
       </if>
       <if test="latitude != null">
-        latitude = #{latitude,jdbcType=VARCHAR},
+        latitude = #{latitude,jdbcType=DOUBLE},
       </if>
       <if test="intro != null">
         intro = #{intro,jdbcType=VARCHAR},
@@ -239,13 +248,14 @@
     update venue
     set brand_id = #{brandId,jdbcType=BIGINT},
       venue_name = #{venueName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
       venue_category = #{venueCategory,jdbcType=INTEGER},
       province_id = #{provinceId,jdbcType=BIGINT},
       city_id = #{cityId,jdbcType=BIGINT},
       district_id = #{districtId,jdbcType=BIGINT},
       detail_location = #{detailLocation,jdbcType=VARCHAR},
-      longitude = #{longitude,jdbcType=VARCHAR},
-      latitude = #{latitude,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
       intro = #{intro,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       start_week = #{startWeek,jdbcType=TINYINT},
@@ -260,22 +270,21 @@
 
   <select id="searchVenue"  resultMap="BaseResultMap">
     select DISTINCT
-      venue.id AS  id,
-      venue.venue_name AS venue_name,
-      venue.venue_category AS venue_category,
-      venue.province_id AS province_id,
-      venue.city_id AS city_id,
-      venue.district_id as district_id,
-      venue.detail_location AS detail_location,
-      venue.longitude as longitude,
-      venue.latitude as latitude
+    venue.id AS  id,
+    venue.venue_name AS venue_name,
+    venue.venue_category AS venue_category,
+    venue.province_id AS province_id,
+    venue.city_id AS city_id,
+    venue.district_id as district_id,
+    venue.detail_location AS detail_location,
+    venue.longitude as longitude,
+    venue.latitude as latitude
     from
-        venue
+    venue
     INNER JOIN
-         venue_sport_category vsc
+    venue_sport_category vsc
     ON  venue.id = vsc.venue_id
     where
-
     <if test="cityId != null and cityId > 0">
       venue.city_id = #{cityId} AND
     </if>
@@ -287,13 +296,12 @@
       <foreach collection="list" open="(" close=")" item="id" separator="," >
         #{id}
       </foreach>
-       AND
+      AND
     </if>
     <if test="venueName != null">
       venue.venue_name LIKE concat('%',#{venueName},'%') AND
     </if>
     1 = 1
   </select>
-
 
 </mapper>

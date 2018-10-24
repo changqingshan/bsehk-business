@@ -1,6 +1,9 @@
 package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.VenueAdvert;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 
 public interface VenueAdvertMapper {
     int deleteByPrimaryKey(Long id);
@@ -11,7 +14,7 @@ public interface VenueAdvertMapper {
 
     VenueAdvert selectByPrimaryKey(Long id);
 
-    VenueAdvert selectAdvertByVenueId(Long venueId);
+    VenueAdvert selectAdvertByVenueId(@Param("venueId") Long venueId, @Param("date") Date now , @Param("isDelete") Boolean isDelete);
 
     int updateByPrimaryKeySelective(VenueAdvert record);
 

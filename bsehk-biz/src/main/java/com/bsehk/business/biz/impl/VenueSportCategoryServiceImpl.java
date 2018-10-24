@@ -18,8 +18,8 @@ public class VenueSportCategoryServiceImpl implements VenueSportCategoryService 
     private VenueSportCategoryMapper venueSportCategoryMapper;
 
     @Override
-    public List<VenueSport> listVenueSport(List<Long> venueIds) {
-        List<VenueSport> venueSports = this.venueSportCategoryMapper.listVenueSport(venueIds);
+    public List<VenueSport> listVenueSport(List<Long> venueIds,Boolean isDelete) {
+        List<VenueSport> venueSports = this.venueSportCategoryMapper.listVenueSport(venueIds,isDelete);
         return venueSports;
     }
 

@@ -39,6 +39,7 @@ public class IndexServiceImpl implements IndexService {
         List<CityVO> cityVOS = this.cityService.listCity();
         // 查询运动类别
         List<SportCategory> sportCategories = this.sportCategoryService.selectParentSport();
+        sportCategories.forEach(sportCategory -> sportCategory.setUrl("http://dpic.tiankong.com/9a/ee/QJ6203205716.jpg"));
 
         // 查询场馆
         List<VenueBriefVO> venueBriefVOS = this.venueService.searchVenue(cityId,null,longitude,latitude,null);

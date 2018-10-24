@@ -114,5 +114,7 @@
     <foreach collection="list" open="(" close=")" separator="," item="id">
          #{id}
     </foreach>
+    AND   v.is_delete = #{isDelete}
+    AND   s.is_delete = #{isDelete}
   </select>
 </mapper>

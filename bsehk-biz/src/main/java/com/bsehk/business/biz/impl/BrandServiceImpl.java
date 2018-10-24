@@ -27,8 +27,8 @@ public class BrandServiceImpl implements BrandService {
     public Brand selectBrandByVenueId(Long venueId) {
 
         Venue venue = venueService.selectByPrimaryKey(venueId);
-        if(venue.getBrandId()==null){
-            throw new BizException("该场馆没有品牌介绍");
+        if(venue == null){
+            return null;
         }
         Brand brand = brandMapper.selectByPrimaryKey(venue.getBrandId());
         return brand;

@@ -3,13 +3,13 @@ package com.bsehk.business.service;
 import com.bsehk.business.domain.Venue;
 
 import com.bsehk.business.service.vo.VenueBriefVO;
-import com.bsehk.business.service.vo.VenueVO;
+import com.bsehk.business.service.vo.VenueComplexVO;
 
 
 import java.util.List;
 
 public interface VenueService {
-    VenueVO selectVenueById(Long venueId);
+
 
     List<VenueBriefVO> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName);
 
@@ -17,4 +17,5 @@ public interface VenueService {
     Venue selectByPrimaryKey(Long id);
 
 
+    VenueComplexVO getVenueComplexInfo(Long venueId);
 }

@@ -5,5 +5,7 @@ import com.bsehk.business.domain.VenueInfrastructureInfo;
 import java.util.List;
 
 public interface VenueInfrastructureService {
-    List<VenueInfrastructureInfo> selectVenueInfrastructureInfoByVenueId(Long venueId);
+    List<VenueInfrastructureInfo> selectVenueInfrastructureInfoByVenueId(Long venueId,Boolean isDeletd);
+
+    List<VenueInfrastructureInfo> pageVenueInfrastructureInfoByVenueId(Long venueId, Integer pageNum, Integer pageSize,Boolean isDelete);
 }

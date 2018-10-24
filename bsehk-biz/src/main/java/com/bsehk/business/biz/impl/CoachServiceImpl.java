@@ -2,18 +2,19 @@ package com.bsehk.business.biz.impl;
 
 import com.bsehk.business.dao.mapper.CoachMapper;
 import com.bsehk.business.domain.Coach;
+
 import com.bsehk.business.domain.CoachMedia;
 import com.bsehk.business.service.CoachMediaService;
 import com.bsehk.business.service.CoachService;
 import com.bsehk.business.service.CoachVenueService;
 import com.bsehk.business.service.vo.CoachVO;
+import com.bsehk.common.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -38,84 +39,72 @@ public class CoachServiceImpl implements CoachService {
 
 
     @Override
-    public Map<Byte,List<CoachVO>> selectCoachByVenueId(Long venueId) {
-    /*    double [] bannerTypeArray = new double[]{1,2,3,4};
-        String[] typeNameArray = new String[]{"咱片","短视频","长视频","资质证明"};
-        ChoiceFormat choiceFormat = new ChoiceFormat(bannerTypeArray,typeNameArray);*/
-
+    public Map<Byte, List<CoachVO>> selectCoachByVenueId(Long venueId) {
         List<CoachVO> coachVOList = new ArrayList<>();
+
         //通过场馆id获取教练id集合
         List<Long> coachIdList = coachVenueService.selectByVenueId(venueId);
-        if(coachIdList.size() == 0){
-          return new HashMap<>();
+        if (coachIdList.size() == 0) {
+            throw new BizException("该场馆没有教练");
         }
         //通过教练id集合获取教练的名称，职称，
         List<Coach> coacheList = coachMapper.selectCoachByCoachId(coachIdList);
+        //通过教练的id获取教练的topphoto，id，放入coachMedia集合
         //遍历教练集合与教练媒体集合，把两个集合中id相同的对象属性放入CoachVO，把CoachVO存入集合，返回前端
-        /*for (int i = 0; i<coacheList.size();i++){
+       /* for (int i = 0; i<coacheList.size();i++){
             for (int j=0;j<coachMediaList.size();j++){
                 //如果coach的id与coachMedia的coachId相同，把俩个对象的信息存入coachVO
                 if(coacheList.get(i).getId() == coachMediaList.get(j).getCoachId()){
                     CoachVO coachVO =  CoachVO.builder()
                                               .id(coacheList.get(i).getId())
                                               .title(coacheList.get(i).getTitle())
-                                              .name(coacheList.get(i).getName())
-                                              .topPhotoUrl(coachMediaList.get(j).getUrl())
+                                              .name(coacheList.get(i).getCoachName())
+                                              .appearanceUrl(coachMediaList.get(j).getUrl())
                                               .build();
 
                     coachVOList.add(coachVO);
+
                 }
             }
+
         }*/
-
-
-      /* List<CoachVO> coachVOS  = coacheList.parallelStream().map(coach -> {
+        List<CoachMedia> coachMediaList = coachMediaService.selectPhotoByCoachId(coacheList);
+        List<CoachVO> coachVOS = coacheList.parallelStream().map(coach -> {
             CoachMedia coachMedia = coachMediaList.parallelStream().filter(coachMedia1 ->
-                                                     coachMedia1.getCoachId().equals(coach.getId()))
-                                         .findFirst().orElse(null);
-*/
-        List<CoachVO> coachVOS  = coacheList.parallelStream().map(coach -> {
+                    coachMedia1.getCoachId().equals(coach.getId()))
+                    .findFirst().orElse(null);
 
             return CoachVO.builder().id(coach.getId())
-                                    .coachType(coach.getCoachType())
-                                    .title(coach.getTitle())
-                                    .name(coach.getCoachName())
-                                 //   .appearanceUrl(coach.getAppearanceUrl())
-                                    .appearanceUrl("http://img1.imgtn.bdimg.com/it/u=4141238339,394399032&fm=26&gp=0.jpg")
-                                    .build();
-               }).collect(Collectors.toList());
+                    .title(coach.getTitle())
+                    .name(coach.getCoachName())
+                    .appearanceUrl(coachMedia.getUrl())
+                    .build();
+        }).collect(Collectors.toList());
 
-
-        Map<Byte,List<CoachVO>> coachMap = coachVOS.parallelStream().collect(Collectors.groupingBy(CoachVO::getCoachType));
-
-        return coachMap;
     }
-
-
-
     @Override
     public CoachVO detailInfo(Long coachId) {
         Coach coach = coachMapper.selectByPrimaryKey(coachId);
-        if(coach == null){
-            return null;
-        }
         List<CoachMedia> coachMediaList = coachMediaService.selectOneByCochId(coachId);
         //类型：1、照片；2、15s短视频；3、长视频；4、资质证明，默认media_type只有1、2、3、4
         Map<Integer, List<CoachMedia>> map = coachMediaList.parallelStream().collect(Collectors.groupingBy(CoachMedia::getMediaType));
         CoachVO coachVO = CoachVO.builder()
-                .id(coach.getId())
-                .title(coach.getTitle())
-                .name(coach.getCoachName())
-                .intro(coach.getIntro())
-           //     .appearanceUrl(coach.getAppearanceUrl())
-                .appearanceUrl("http://img1.imgtn.bdimg.com/it/u=187045518,1243225819&fm=26&gp=0.jpg")
-                .photoList(map.get(1))
-                .shortVideoList(map.get(2))
-                .longVideoList(map.get(3))
-                .qualificationList(map.get(4))
-                .build();
-
+                        .id(coach.getId())
+                        .title(coach.getTitle())
+                        .name(coach.getCoachName())
+                        .intro(coach.getIntro())
+                        .photoList(map.get(1))
+                        .shortVideoList(map.get(2))
+                        .longVideoList(map.get(3))
+                        .qualificationList(map.get(4))
+                        .build();
+        /*for (int i = 0;i<map.get(1).size();i++){
+            if(map.get(1).get(i).appearanceUrl() == 1){
+                coachVO.appearanceUrl(map.get(1).get(i).getUrl());
+            }
+        }*/
 
         return coachVO;
     }
+
 }

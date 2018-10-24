@@ -26,7 +26,7 @@ public class VenueController {
         return ResultData.success(venueVo);
     }
     /*
-     * 查询场馆基础设施
+     * 查询场馆信息
      * */
     @RequestMapping("/selectVenueInfo")
     public ResultData selectVenueInfoById(Long venueId) {

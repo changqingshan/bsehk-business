@@ -20,6 +20,7 @@ public class VenueAdvertServiceImpl implements VenueAdvertService {
         Date nowDate = new Date();
 
         VenueAdvert venueAdvert = venueAdvertMapper.selectAdvertByVenueId(venueId);
+        log.info("venueAdvert ----------> :[{}]",venueAdvert);
         if(venueAdvert.getEndTime().before(nowDate)){
             throw new BizException("没有发布中的广告");
         }

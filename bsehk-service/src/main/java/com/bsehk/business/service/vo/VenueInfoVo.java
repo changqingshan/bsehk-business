@@ -1,12 +1,10 @@
 package com.bsehk.business.service.vo;
 
 import com.bsehk.business.domain.Brand;
-import com.bsehk.business.domain.VenueFunctionZoneInfo;
 import com.bsehk.business.domain.VenueInfrastructureInfo;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 @Data
 @Builder
@@ -15,17 +13,19 @@ public class VenueInfoVo {
 
     private List<VenueInfrastructureInfo> infrastructuresList;//场馆基础设施
 
-    private List<VenueFunctionZoneInfo> functionZoneInfoList;//场馆功能区
+    private List<VenueFunctionZoneVO>  FunctionZoneList;//场馆功能区
 
     private Brand brand;                           //场馆品牌介绍
 
-    private String intro;                        //场馆简介
+//    private String brandName;                      //场馆品牌简介
 
-    private Byte startWeek;
+    private String startWeek;
 
-    private Byte endWeek;
+    private String endWeek;
 
-    private Date openTime;
+    private String openTime;
 
-    private Date endTime;
+    private String endTime;
+
+
 }

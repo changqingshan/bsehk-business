@@ -3,10 +3,7 @@ package com.bsehk.business.biz.impl;
 import com.bsehk.business.dao.mapper.VenueMapper;
 import com.bsehk.business.domain.*;
 import com.bsehk.business.service.*;
-import com.bsehk.business.service.vo.VenueBannerVO;
-import com.bsehk.business.service.vo.VenueBriefVO;
-import com.bsehk.business.service.vo.VenueInfoVo;
-import com.bsehk.business.service.vo.VenueVO;
+import com.bsehk.business.service.vo.*;
 import com.bsehk.common.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,6 +39,8 @@ public class VenueServiceImpl implements VenueService {
     VenueAdvertService venueAdvertService;
     @Resource
     BrandService brandService;
+    @Resource
+    private FunctionZoneService functionZoneService;
 
     @Override
     public VenueVO selectVenueById(Long venueId) {
@@ -157,30 +157,93 @@ public class VenueServiceImpl implements VenueService {
         return venueMapper.selectByPrimaryKey(id);
 
     }
-//获取场馆基础信息
+        //获取场馆基础信息
     @Override
     public VenueInfoVo selectVenueInfoById(Long venueId) {
         //获取场馆信息
         Venue venue = venueMapper.selectByPrimaryKey(venueId);
-//        获取场馆基础设施
+        List<VenueFunctionZoneVO> venueFunctionZoneVOS=new ArrayList<>();
+        //获取场馆基础设施
         List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId);
-//        获取场馆功能区
-        List<VenueFunctionZoneInfo> venueFunctionZoneInfos = venueFunctionZoneService.selectVenueFunctionZoneInfoByVenueId(venueId);
-//        获取场馆品牌介绍
+        //获取场馆功能区
+        List<VenueFunctionZone> venueFunctionZones = this.venueFunctionZoneService.listByVenueId(venueId,false);
+        List<Long> functionZoneIds = venueFunctionZones.parallelStream().map(VenueFunctionZone::getFunctionZoneId).distinct().collect(Collectors.toList());
+        List<FunctionZone> functionZones = this.functionZoneService.listByIds(functionZoneIds,false);
+        Map<Long,String> map = functionZones.parallelStream().collect(Collectors.toMap(FunctionZone::getId, FunctionZone::getFunctionZoneName));
+
+        /*List<VenueFunctionZoneVO> venueFunctionZoneVOS = venueFunctionZones.parallelStream().map(venueFunctionZone -> VenueFunctionZoneVO.builder()
+                                                                                .logo(venueFunctionZone.getLogo())
+                                                                                .FunctionZoneNumber(venueFunctionZone.getFunctionZoneNumber())
+                                                                                .FunctionZoneName(map.get(venueFunctionZone.getFunctionZoneId()))
+                                                                                .build())
+                                                                         .collect(Collectors.toList());*/
+
+       for (int i = 0; i<functionZones.size();i++){
+            for (int j=0;j<venueFunctionZones.size();j++)
+                if (functionZones.get(i).getId().equals( venueFunctionZones.get(j).getFunctionZoneId())) {
+                    log.info("========================");
+                    VenueFunctionZoneVO venueFunctionZoneVO = VenueFunctionZoneVO.builder()
+                            .FunctionZoneNumber(venueFunctionZones.get(j).getFunctionZoneNumber())
+                            .logo(venueFunctionZones.get(j).getLogo())
+                            .FunctionZoneName(functionZones.get(i).getFunctionZoneName())
+                            .build();
+                    venueFunctionZoneVOS.add(venueFunctionZoneVO);
+                }
+        }
+
+        log.info("venueFunctionZoneVOS : [{}]",venueFunctionZoneVOS);
+
+
+
+        //获取场馆品牌介绍
         Brand brand = brandService.selectBrandByVenueId(venueId);
         //数据打包
         VenueInfoVo venueInfoVo= VenueInfoVo.builder()
                 .venueId(venue.getId())
                 .infrastructuresList(venueInfrastructureInfos)
-                .functionZoneInfoList(venueFunctionZoneInfos)
+                .FunctionZoneList(venueFunctionZoneVOS)
                 .brand(brand)
-                .intro(venue.getIntro())
-                .startWeek(venue.getStartWeek())
-                .endWeek(venue.getEndWeek())
-                .openTime(venue.getOpenTime())
-                .endTime(venue.getEndTime()).
+                .startWeek(venue.getStartWeek()+"")
+                .endWeek(venue.getEndWeek()+"")
+                .openTime(venue.getOpenTime()+"")
+                .endTime(venue.getEndTime()+"").
                 build();
-
+        //时间格式转换
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String openTime = format.format(venue.getOpenTime());
+        String endTime = format.format(venue.getEndTime());
+        venueInfoVo.setOpenTime(openTime.substring(10));
+        venueInfoVo.setEndTime(endTime.substring(10));
+        if (venue.getStartWeek()==1){
+            venueInfoVo.setStartWeek("周一");
+        }else if(venue.getStartWeek()==2){
+            venueInfoVo.setStartWeek("周二");
+        }else if(venue.getStartWeek()==3){
+            venueInfoVo.setStartWeek("周三");
+        }else if(venue.getStartWeek()==4){
+            venueInfoVo.setStartWeek("周四");
+        }else if(venue.getStartWeek()==5){
+            venueInfoVo.setStartWeek("周五");
+        }else if(venue.getStartWeek()==6){
+            venueInfoVo.setStartWeek("周六");
+        }else if(venue.getStartWeek()==7){
+            venueInfoVo.setStartWeek("周日");
+        }
+        if (venue.getEndWeek()==1){
+            venueInfoVo.setEndWeek("周一");
+        }else if(venue.getEndWeek()==2){
+            venueInfoVo.setEndWeek("周二");
+        }else if(venue.getEndWeek()==3){
+            venueInfoVo.setEndWeek("周三");
+        }else if(venue.getEndWeek()==4){
+            venueInfoVo.setEndWeek("周四");
+        }else if(venue.getEndWeek()==5){
+            venueInfoVo.setEndWeek("周五");
+        }else if(venue.getEndWeek()==6){
+            venueInfoVo.setEndWeek("周六");
+        }else if(venue.getEndWeek()==7){
+            venueInfoVo.setEndWeek("周日");
+        }
 
         return venueInfoVo;
     }

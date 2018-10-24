@@ -8,4 +8,5 @@ public class VenueInfrastructureInfo {
     private Long infrastructureId;
     private String infrastructureName;
     private String logo;
+
 }

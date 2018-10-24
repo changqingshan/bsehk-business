@@ -1,6 +1,9 @@
 package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.FunctionZone;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FunctionZoneMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,6 @@ public interface FunctionZoneMapper {
     int updateByPrimaryKeySelective(FunctionZone record);
 
     int updateByPrimaryKey(FunctionZone record);
+
+    List<FunctionZone> listByIds(@Param("list") List<Long> functionZoneIds,@Param("isDelete") Boolean isDelete);
 }

@@ -1,5 +1,6 @@
 package com.bsehk.business.biz;
 
+import com.alibaba.fastjson.JSON;
 import com.bsehk.business.service.ExerciseService;
 import com.bsehk.business.service.vo.ExerciseVO;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,9 +28,33 @@ public class ExerciseServiceImplTest {
     @Test
     public void listVenueExerciseTest(){
         List<ExerciseVO> exerciseVOS = exerciseService.listVenueExercise(1L);
-
-        log.info("exerciseVOS : [{}]",exerciseVOS);
+        log.info("exerciseVOS : [{}]", JSON.toJSONString(exerciseVOS));
     }
+
+    @Test
+    public void listSortTest(){
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(4);
+        list.add(10);
+        list.add(3);
+        list.add(-1);
+
+        list.sort((o1, o2) -> {
+            if(o1 > o2 ){
+                return 1;
+            }else if(o1 < o2){
+                return -1;
+            }else{
+                return 0;
+            }
+        });
+
+       log.info("list  :   [{}]",list);
+
+
+    }
+
 
 
 }

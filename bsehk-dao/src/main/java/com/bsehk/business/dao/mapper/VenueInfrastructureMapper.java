@@ -2,6 +2,7 @@ package com.bsehk.business.dao.mapper;
 
 import com.bsehk.business.domain.VenueInfrastructure;
 import com.bsehk.business.domain.VenueInfrastructureInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface VenueInfrastructureMapper {
 
     int updateByPrimaryKey(VenueInfrastructure record);
 
-    List<VenueInfrastructureInfo> selectVenueInfrastructureInfoByVenueId(Long venueId);
+    List<VenueInfrastructureInfo> selectVenueInfrastructureInfoByVenueId(@Param("venueId") Long venueId,@Param("isDelete") Boolean isDelete);
 }

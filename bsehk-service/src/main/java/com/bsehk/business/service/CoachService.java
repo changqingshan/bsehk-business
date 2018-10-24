@@ -6,15 +6,18 @@ import com.bsehk.business.service.vo.CoachVO;
 
 
 import java.util.List;
+import java.util.Map;
 
 public interface CoachService {
+
 
 
     List<Coach> listByIds(List<Long> coachIds,Boolean isDelete);
 
 
-    List<CoachVO> selectCoachByVenueId(Long venueId);
 
-    CoachVO selectCoachInfoById(Long coachId);
+    Map<Byte,List<CoachVO>> selectCoachByVenueId(Long venueId);
 
+
+    CoachVO detailInfo(Long coachId);
 }

@@ -163,17 +163,16 @@
   </update>
 
   <select id="selectByVenueIdAndType"  resultMap="BaseResultMap">
-    <![CDATA[
       select
       <include refid="Base_Column_List" />
-      from venue_notice
+      from  venue_notice
       where venue_id = #{venueId,jdbcType=BIGINT}
              AND  notice_type = #{noticeType}
              AND  is_delete = #{isDelete}
-             AND  publish_time >= #{date}
-             AND  expire_time <=#{date}
+             AND  publish_time &lt;= #{date}
+             AND  expire_time >=#{date}
       ORDER BY  publish_time DESC
       limit 1
-    ]]>
+
   </select>
 </mapper>

@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.VenueBanner">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
-    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
-    <result column="size" jdbcType="BIGINT" property="size" />
+    <result column="venue_banner_category_id" jdbcType="BIGINT" property="venueBannerCategoryId" />
+    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
@@ -13,7 +13,9 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, venue_id, type_name, size, url, remark, gmt_create, gmt_modified, is_delete
+
+    id, venue_id, venue_banner_category_id, file_size, url, remark, gmt_create, gmt_modified, 
+    is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -21,11 +23,8 @@
     from venue_banner
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectBannerByVenueId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id,type_name,url
-    from venue_banner
-    where venue_id = #{venue_id,jdbcType=BIGINT}
-  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from venue_banner
     where id = #{id,jdbcType=BIGINT}
@@ -34,10 +33,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into venue_banner (venue_id, type_name, size,
+
+    insert into venue_banner (venue_id, venue_banner_category_id, file_size, 
       url, remark, gmt_create, 
       gmt_modified, is_delete)
-    values (#{venueId,jdbcType=BIGINT}, #{typeName,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT},
+    values (#{venueId,jdbcType=BIGINT}, #{venueBannerCategoryId,jdbcType=BIGINT}, #{fileSize,jdbcType=BIGINT},
       #{url,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
   </insert>
@@ -50,11 +50,10 @@
       <if test="venueId != null">
         venue_id,
       </if>
-      <if test="type_name != null">
-        typeName,
+      <if test="venueBannerCategoryId != null">
       </if>
-      <if test="size != null">
-        size,
+      <if test="fileSize != null">
+        file_size,
       </if>
       <if test="url != null">
         url,
@@ -76,11 +75,11 @@
       <if test="venueId != null">
         #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="type_name != null">
-        #{typeName,jdbcType=VARCHAR},
+      <if test="venueBannerCategoryId != null">
+        #{venueBannerCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="size != null">
-        #{size,jdbcType=BIGINT},
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
@@ -105,11 +104,11 @@
       <if test="venueId != null">
         venue_id = #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="type_name != null">
-        type = #{typeName,jdbcType=VARCHAR},
+      <if test="venueBannerCategoryId != null">
+        venue_banner_category_id = #{venueBannerCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="size != null">
-        size = #{size,jdbcType=BIGINT},
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
       </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
@@ -132,8 +131,8 @@
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.VenueBanner">
     update venue_banner
     set venue_id = #{venueId,jdbcType=BIGINT},
-      type_name= #{typeName,jdbcType=VARCHAR},
-      size = #{size,jdbcType=BIGINT},
+      venue_banner_category_id = #{venueBannerCategoryId,jdbcType=BIGINT},
+      file_size = #{fileSize,jdbcType=BIGINT},
       url = #{url,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -141,4 +140,14 @@
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="numberBanner"  resultType="java.lang.Integer">
+    select
+     count(1)
+    from venue_banner
+    where venue_id = #{venueId,jdbcType=BIGINT}
+     AND  is_delete = #{isDelete}
+  </select>
+
+
 </mapper>

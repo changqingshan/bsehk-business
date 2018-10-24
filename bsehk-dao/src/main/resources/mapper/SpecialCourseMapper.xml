@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.SpecialCourseMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.SpecialCourse">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="BIGINT" property="title" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="venue_id" jdbcType="BIGINT" property="venueId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bsehk.business.domain.SpecialCourse">
+    <result column="intro" jdbcType="LONGVARCHAR" property="intro" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, publish_time, expire_time, is_delete, venue_id
+  </sql>
+  <sql id="Blob_Column_List">
+    intro
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from special_course
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from special_course
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.SpecialCourse">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into special_course (title, publish_time, expire_time, 
+      is_delete, venue_id, intro
+      )
+    values (#{title,jdbcType=BIGINT}, #{publishTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=TINYINT}, #{venueId,jdbcType=BIGINT}, #{intro,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.SpecialCourse">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into special_course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="expireTime != null">
+        expire_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="venueId != null">
+        venue_id,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=BIGINT},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null">
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="venueId != null">
+        #{venueId,jdbcType=BIGINT},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.SpecialCourse">
+    update special_course
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=BIGINT},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null">
+        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="venueId != null">
+        venue_id = #{venueId,jdbcType=BIGINT},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bsehk.business.domain.SpecialCourse">
+    update special_course
+    set title = #{title,jdbcType=BIGINT},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      venue_id = #{venueId,jdbcType=BIGINT},
+      intro = #{intro,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.SpecialCourse">
+    update special_course
+    set title = #{title,jdbcType=BIGINT},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      venue_id = #{venueId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByVenueId"  resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from special_course
+    where venue_id = #{venueId,jdbcType=BIGINT}
+    AND publish_time &lt;= #{date}
+    AND  expire_time >= #{date}
+    AND   is_delete = #{isDelete}
+    ORDER BY publish_time DESC
+    limit 1
+  </select>
+
+</mapper>

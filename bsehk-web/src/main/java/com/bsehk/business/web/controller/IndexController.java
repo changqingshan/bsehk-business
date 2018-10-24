@@ -1,12 +1,17 @@
 package com.bsehk.business.web.controller;
 
 import com.bsehk.business.service.IndexService;
+import com.bsehk.business.service.vo.VenueBriefVO;
 import com.bsehk.common.response.ResultData;
+import com.bsehk.common.util.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,13 +33,15 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/index/data")
-    public ResultData  index(Long cityId,Double longitude,Double latitude){
-        Map<String,Object> map = this.indexService.getPageHomeData(cityId,longitude,latitude);
+    public ResultData  index(Long cityId,Double longitude,Double latitude,
+                             @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                             @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
+        Map<String,Object> map = this.indexService.getPageHomeData(cityId,longitude,latitude,pageNum,pageSize);
         return ResultData.success(map);
     }
 
     /***
-     * 首页查询场馆
+     * 首页刷新场馆
      * @param cityId
      * @param venueName
      * @param longitude
@@ -42,9 +49,11 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/index/search/venue")
-    public ResultData searchIndexVenue(Long cityId,String venueName,Double longitude,Double latitude){
-        Map<String,Object> map = this.indexService.searchIndexVenue(cityId,venueName,longitude,latitude);
-        return ResultData.success(map);
+    public ResultData searchIndexVenue(Long cityId, String venueName, Double longitude, Double latitude,
+                                       @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
+        PageInfo<List<VenueBriefVO>> pageInfo = this.indexService.searchIndexVenue(cityId,venueName,longitude,latitude,pageNum,pageSize);
+        return ResultData.success(pageInfo);
     }
 
 
@@ -57,9 +66,11 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/secondary/data")
-    public ResultData secondaryPage(Long cityId,Long sportCategoryId,Double longitude,Double latitude){
+    public ResultData secondaryPage(Long cityId,Long sportCategoryId,Double longitude,Double latitude,
+                                    @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                    @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
 
-        Map<String,Object> map  = this.indexService.secondaryPageData( cityId, sportCategoryId, longitude, latitude);
+        Map<String,Object> map  = this.indexService.secondaryPageData( cityId, sportCategoryId, longitude, latitude,  pageNum,pageSize);
         return ResultData.success(map);
     }
 
@@ -72,9 +83,11 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/secondary/search/venue")
-    public ResultData searchVenue(Long cityId,Long sportCategoryId,Double longitude,Double latitude){
-        Map<String,Object> map = this.indexService.searchVenue(cityId,sportCategoryId,longitude,latitude);
-        return ResultData.success(map);
+    public ResultData searchVenue(Long cityId,Long sportCategoryId,Double longitude,Double latitude,
+                                  @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
+        PageInfo<List<VenueBriefVO>> pageInfo = this.indexService.searchVenue(cityId,sportCategoryId,longitude,latitude,pageNum,pageSize);
+        return ResultData.success(pageInfo);
     }
 
 

@@ -1,8 +1,6 @@
 package com.bsehk.business.web.controller;
 import com.bsehk.business.service.VenueService;
 import com.bsehk.business.service.vo.VenueInfoVo;
-import com.bsehk.business.service.vo.VenueVO;
-import com.bsehk.common.exception.BizException;
 import com.bsehk.common.response.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,14 +15,6 @@ public class VenueController {
     @Resource
     VenueService venueService;
 
-    /*
-     * 查询场馆基本信息
-     * */
-    @RequestMapping("/selectVenue")
-    public ResultData selectVenueById(Long venueId) {
-        VenueVO venueVo=venueService.selectVenueById(venueId);
-        return ResultData.success(venueVo);
-    }
     /*
      * 查询场馆信息
      * */

@@ -3,9 +3,15 @@ package com.bsehk.business.biz.impl;
 import com.bsehk.business.dao.mapper.VenueMapper;
 import com.bsehk.business.domain.*;
 import com.bsehk.business.service.*;
+
+import com.bsehk.common.util.DateUtil;
+
 import com.bsehk.business.service.vo.*;
+import com.bsehk.common.util.PageInfo;
 import com.bsehk.common.util.StringUtil;
 
+import com.github.pagehelper.PageHelper;
+import com.snxy.coordinate.gisutil.Coordinate.Coordinate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -43,13 +49,13 @@ public class VenueServiceImpl implements VenueService {
     private FunctionZoneService functionZoneService;
 
     @Override
-    public VenueVO selectVenueById(Long venueId) {
+    public VenueComplexVO getVenueComplexInfo(Long venueId) {
         //获取场馆信息
         Venue venue = venueMapper.selectByPrimaryKey(venueId);
         //获取场馆所有运动类别
         List<Long> venueIds = new ArrayList<>();
         venueIds.add(venueId);
-        List<VenueSport> venueSports = venueSportCategoryService.listVenueSport(venueIds);
+        List<VenueSport> venueSports = venueSportCategoryService.listVenueSport(venueIds,false);
         //筛选场馆运动类中的小类
         List<VenueSport> venueSmallSports = new ArrayList<>();
         for (int i=0;i<venueSports.size();i++){
@@ -58,41 +64,48 @@ public class VenueServiceImpl implements VenueService {
             }
         }
         //获取免费设施
-        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId);
-        //获取场馆banner图分类展示
-        List<VenueBannerVO> venueBannerVOList = venueBannerService.selectBannerByVenueId(venueId);
+        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.pageVenueInfrastructureInfoByVenueId(venueId,1,3,false);
+       venueInfrastructureInfos.forEach(venueInfrastructureInfo -> venueInfrastructureInfo.setLogo("http://img1.imgtn.bdimg.com/it/u=14004142,3966287589&fm=26&gp=0.jpg"));
+
+        // 查询场馆普通banner图数量
+        Integer bannerNumber = this.venueBannerService.numberBanner(venueId,false);
         //获取场馆公告展示
-        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId);
+        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId,(byte)1,false);
         //获取场馆广告展示
-        VenueAdvert venueAdvert = venueAdvertService.selectAdvertByVenueId(venueId);
+        VenueAdvert venueAdvert = venueAdvertService.selectAdvertByVenueId(venueId,false);
         //获取场馆品牌介绍
         Brand brand = brandService.selectBrandByVenueId(venueId);
+        // 场馆教练
+      //  List<Coach> coaches = this.coachService.selectCoachByVenueId(venueId);
+        // 场馆技师
+
         //数据打包
-        VenueVO venueVO = VenueVO.builder()
+        VenueComplexVO venueComplexVO = VenueComplexVO.builder()
                         .venueId(venueId)
                         .venueName(venue.getVenueName())
+                        .url(venue.getUrl())
+                        .bannerNumber(bannerNumber)
                         .detailLocation(venue.getDetailLocation())
                         .mobile(venue.getMobile())
                         .startWeek(venue.getStartWeek())
                         .endWeek(venue.getEndWeek())
-                        .openTime(venue.getOpenTime())
-                        .endTime(venue.getEndTime())
+                        .openTime(DateUtil.date2Str(venue.getOpenTime(),"HH:mm"))
+                        .endTime(DateUtil.date2Str(venue.getEndTime(),"HH:mm"))
                         .venueSportList(venueSmallSports)
                         .infrastructuresList(venueInfrastructureInfos)
-                        .venueBannerVOS(venueBannerVOList)
                         .venueNotice(venueNotice)
                         .venueAdvert(venueAdvert)
                         .brand(brand)
                         .build();
 
-        return venueVO;
+        return venueComplexVO;
     }
 
 
 
 
     @Override
-    public List<VenueBriefVO> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName) {
+    public PageInfo<List<VenueBriefVO>> searchVenue(Long cityId, Long sportCategoryId, Double longitude, Double latitude, String venueName,Integer pageNum,Integer pageSize) {
         if(StringUtil.isBlank(venueName)){
            venueName = null;
         }
@@ -120,13 +133,17 @@ public class VenueServiceImpl implements VenueService {
             sportCategoryIds = sportCategories.parallelStream().map(SportCategory::getId).collect(Collectors.toList());
         }
 
+        // 查询场馆数量
+        Long total = this.venueMapper.searchVenueNum(cityId,sportCategoryIds,venueName);
+        // 分页查询场馆
+        PageHelper.startPage(pageNum,pageSize);
         List<Venue> venues = this.venueMapper.searchVenue(cityId,sportCategoryIds,venueName);
         if(venues == null || venues.isEmpty()){
-            return Collections.emptyList();
+            return new PageInfo<>();
         }
         // 查询所有场馆的体育运动标签
         List<Long> venueIds = venues.parallelStream().map(Venue::getId).collect(Collectors.toList());
-        List<VenueSport> venueSports = this.venueSportCategoryService.listVenueSport(venueIds);
+        List<VenueSport> venueSports = this.venueSportCategoryService.listVenueSport(venueIds,false);
         Map<Long,List<String>> venueSportLabelMap = venueSports.parallelStream().collect(Collectors.groupingBy(VenueSport::getVenueId,
                                                  Collectors.mapping(VenueSport::getSportName,Collectors.toList())));
 
@@ -135,18 +152,29 @@ public class VenueServiceImpl implements VenueService {
         List<City> cities  = this.cityService.listByIds(cityIds);
         Map<Long,String> venueCityMap = cities.parallelStream().collect(Collectors.toMap(City::getId,City::getName));
         // 计算距离
+         Map<Long,Double> distanceMap = new HashMap<>();
+         if(latitude != null && longitude != null){
+             venues.forEach(venue -> {
+                 Double distance = Coordinate.getDistanceOfGCJ02Pts(latitude,longitude,venue.getLatitude(),venue.getLongitude());
+                distanceMap.put(venue.getId(),distance);
+             });
+         }
 
 
         // 组装
         List<VenueBriefVO> venueBriefVOS = venues.parallelStream().map(venue -> VenueBriefVO.builder()
                                           .venueId(venue.getId())
                                           .venueName(venue.getVenueName())
-                                          .location(venueCityMap.get(venue.getCityId())+venue.getDetailLocation())
+                                          .distance(distanceMap.get(venue.getId()))
+                                          .location("500m")
+                             //             .location(venueCityMap.get(venue.getCityId())+venue.getDetailLocation())
                                           .sportLabel(venueSportLabelMap.get(venue.getId()))
                                           .build()).collect(Collectors.toList());
 
 
-        return venueBriefVOS;
+        PageInfo<List<VenueBriefVO>> pageInfo = new PageInfo(pageNum,pageSize,total,venueBriefVOS);
+
+        return pageInfo;
 
 
     }
@@ -157,6 +185,7 @@ public class VenueServiceImpl implements VenueService {
         return venueMapper.selectByPrimaryKey(id);
 
     }
+
         //获取场馆基础信息
     @Override
     public VenueInfoVo selectVenueInfoById(Long venueId) {
@@ -164,7 +193,7 @@ public class VenueServiceImpl implements VenueService {
         Venue venue = venueMapper.selectByPrimaryKey(venueId);
         List<VenueFunctionZoneVO> venueFunctionZoneVOS=new ArrayList<>();
         //获取场馆基础设施
-        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId);
+        List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId,false);
         //获取场馆功能区
         List<VenueFunctionZone> venueFunctionZones = this.venueFunctionZoneService.listByVenueId(venueId,false);
         List<Long> functionZoneIds = venueFunctionZones.parallelStream().map(VenueFunctionZone::getFunctionZoneId).distinct().collect(Collectors.toList());
@@ -181,7 +210,6 @@ public class VenueServiceImpl implements VenueService {
        for (int i = 0; i<functionZones.size();i++){
             for (int j=0;j<venueFunctionZones.size();j++)
                 if (functionZones.get(i).getId().equals( venueFunctionZones.get(j).getFunctionZoneId())) {
-                    log.info("========================");
                     VenueFunctionZoneVO venueFunctionZoneVO = VenueFunctionZoneVO.builder()
                             .FunctionZoneNumber(venueFunctionZones.get(j).getFunctionZoneNumber())
                             .logo(venueFunctionZones.get(j).getLogo())
@@ -190,10 +218,6 @@ public class VenueServiceImpl implements VenueService {
                     venueFunctionZoneVOS.add(venueFunctionZoneVO);
                 }
         }
-
-        log.info("venueFunctionZoneVOS : [{}]",venueFunctionZoneVOS);
-
-
 
         //获取场馆品牌介绍
         Brand brand = brandService.selectBrandByVenueId(venueId);

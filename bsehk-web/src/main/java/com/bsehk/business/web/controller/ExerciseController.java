@@ -1,6 +1,7 @@
 package com.bsehk.business.web.controller;
 
 import com.bsehk.business.service.ExerciseService;
+import com.bsehk.business.service.vo.ExerciseComplexVO;
 import com.bsehk.business.service.vo.ExerciseVO;
 import com.bsehk.common.exception.BizException;
 import com.bsehk.common.response.ResultData;
@@ -23,8 +24,8 @@ public class ExerciseController {
 
     @RequestMapping("/exerciseCourse")
     public ResultData detailExerciseCourse(Long venueId){
-        Map<String,Object>  map = this.exerciseService.detailExerciseCourse(venueId);
-        return ResultData.success(map);
+        ExerciseComplexVO exerciseComplexVO = this.exerciseService.detailExerciseCourse(venueId);
+        return ResultData.success(exerciseComplexVO);
     }
 
 }

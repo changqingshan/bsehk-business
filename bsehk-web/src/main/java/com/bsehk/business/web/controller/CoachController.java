@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -20,20 +21,20 @@ public class CoachController {
     CoachService coachService;
 
     /*
-    * 教练展示接口
+    * 教练，技师展示接口
     * */
     @RequestMapping("/selectCoachByVenueId")
     public ResultData selectCoachByVenueId(Long venueId) {
-        List<CoachVO> coachVOList = coachService.selectCoachByVenueId(venueId);
-        return ResultData.success(coachVOList);
+        Map<Byte,List<CoachVO>> map = coachService.selectCoachByVenueId(venueId);
+        return ResultData.success(map);
     }
 
     /*
     * 教练详情展示
     * */
-    @RequestMapping("/selectCoachInfoById")
-    public ResultData selectCoachInfoById(Long coachId){
-        CoachVO coachVO = coachService.selectCoachInfoById(coachId);
+    @RequestMapping("/detail")
+    public ResultData detailCoach(Long coachId){
+        CoachVO coachVO = coachService.detailInfo(coachId);
         return ResultData.success(coachVO);
 
     }

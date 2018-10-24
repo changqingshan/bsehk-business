@@ -107,5 +107,7 @@
     from venue_infrastructure  v INNER JOIN
          infrastructure i on v.infrastructrue_id = i.id
     where v.venue_id = #{venueId}
+    AND v.is_delete = #{isDelete}
+    AND  i.is_delete = #{isDelete}
   </select>
 </mapper>

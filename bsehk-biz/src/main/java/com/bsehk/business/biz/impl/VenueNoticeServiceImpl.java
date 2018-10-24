@@ -9,9 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -19,23 +17,14 @@ public class VenueNoticeServiceImpl implements VenueNoticeService {
     @Resource
     VenueNoticeMapper venueNoticeMapper;
     @Override
-    public VenueNotice selectNoticeByVenueId(Long venueId) {
+    public VenueNotice selectNoticeByVenueId(Long venueId,Byte noticeType,Boolean isDelete) {
         //获取当前日期
-      /*  Date nowDate = new Date();
-        VenueNotice venueNotice = venueNoticeMapper.selectNoticeByVenueId(venueId);
-        log.info("venueNotce :  [{}]" ,venueNotice);
-        if(venueNotice.getExpireTime().before(nowDate)){
-            throw new BizException("当前没有发布的公告");
-        }
-        return venueNotice;*/
-      return null;
-    }
-
-    @Override
-    public VenueNotice getExerciseNotice(Long venueId, Boolean isDelete) {
         Date now = new Date();
-        VenueNotice venueNotice = this.venueNoticeMapper.selectByVenueIdAndType(venueId,2,now,isDelete);
+        VenueNotice venueNotice = venueNoticeMapper.selectByVenueIdAndType(venueId, noticeType.intValue(),now,false);
+        log.info("venueNotice :  [{}]" ,venueNotice);
 
         return venueNotice;
     }
+
+
 }

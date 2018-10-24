@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.bsehk.business.dao.mapper.VenueMapper;
 import com.bsehk.business.domain.Venue;
 import com.bsehk.business.service.VenueService;
+import com.bsehk.business.service.vo.VenueComplexVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +38,14 @@ public class VenueServiceTest {
         list.add(5L);
         List<Venue> venues = venueMapper.searchVenue(5L,list,"亚泰");
         log.info("venues  ------> [{}]", JSON.toJSONString(venues));
+    }
+
+
+    @Test
+    public void getVenueComplexInfoTest(){
+        Long venueId = 1L;
+        VenueComplexVO venueComplexVO = this.venueService.getVenueComplexInfo(venueId);
+        log.info("venueComplexVO ----------- > [{}]",venueComplexVO);
     }
 
 

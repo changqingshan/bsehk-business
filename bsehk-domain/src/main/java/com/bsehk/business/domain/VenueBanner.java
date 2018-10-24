@@ -9,9 +9,10 @@ public class VenueBanner {
 
     private Long venueId;
 
-    private String typeName;
 
-    private Long size;
+    private Long venueBannerCategoryId;
+
+    private Long fileSize;
 
     private String url;
 
@@ -22,5 +23,6 @@ public class VenueBanner {
     private Date gmtModified;
 
     private Byte isDelete;
+
 
 }

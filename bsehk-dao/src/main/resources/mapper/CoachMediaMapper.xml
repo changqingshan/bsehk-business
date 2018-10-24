@@ -7,34 +7,18 @@
     <result column="media_type" jdbcType="INTEGER" property="mediaType" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="is_top" jdbcType="INTEGER" property="isTop" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, coach_id, media_type, title, url, is_top, gmt_create, gmt_modified, is_delete
+    id, coach_id, media_type, title, url, gmt_create, gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from coach_media
     where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectByCoachId" resultMap="BaseResultMap">
-    select id,coach_id,url
-    from coach_media
-    where coach_id in
-    <foreach collection="list" open="(" close=")" separator="," item="coach">
-      #{coach.id}
-    </foreach>
-    and media_type = 1
-    and is_top = 1
-  </select>
-  <select id="selectOneByCochId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id,media_type,title,is_top,url
-    from coach_media
-    where coach_id = #{coachId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from coach_media
@@ -44,12 +28,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into coach_media (coach_id, media_type, title, 
-      url, is_top, gmt_create, 
-      gmt_modified, is_delete)
-    values (#{coachId,jdbcType=BIGINT}, #{mediaType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{isTop,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
+    insert into coach_media (coach_id, media_type, title,
+    url, gmt_create, gmt_modified,
+    is_delete)
+    values (#{coachId,jdbcType=BIGINT}, #{mediaType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+    #{url,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
+    #{isDelete,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.CoachMedia">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -68,9 +52,6 @@
       </if>
       <if test="url != null">
         url,
-      </if>
-      <if test="isTop != null">
-        is_top,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -94,9 +75,6 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="isTop != null">
-        #{isTop,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -124,9 +102,6 @@
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="isTop != null">
-        is_top = #{isTop,jdbcType=INTEGER},
-      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -142,13 +117,26 @@
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.CoachMedia">
     update coach_media
     set coach_id = #{coachId,jdbcType=BIGINT},
-      media_type = #{mediaType,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      is_top = #{isTop,jdbcType=INTEGER},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      is_delete = #{isDelete,jdbcType=TINYINT}
+    media_type = #{mediaType,jdbcType=INTEGER},
+    title = #{title,jdbcType=VARCHAR},
+    url = #{url,jdbcType=VARCHAR},
+    gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+    gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+    is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByCoachId" resultMap="BaseResultMap">
+    select id,coach_id,url
+    from coach_media
+    where coach_id in
+    <foreach collection="list" open="(" close=")" separator="," item="coach">
+      #{coach.id}
+    </foreach>
+    and media_type = 1
+  </select>
+  <select id="selectOneByCochId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id,media_type,title,url
+    from coach_media
+    where coach_id = #{coachId}
+  </select>
 </mapper>

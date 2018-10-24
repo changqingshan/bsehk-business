@@ -19,6 +19,6 @@ public interface VenueSportCategoryMapper {
 
     int updateByPrimaryKey(VenueSportCategory record);
 
-    List<VenueSport> listVenueSport( List<Long> venueIds);
+    List<VenueSport> listVenueSport( @Param("list") List<Long> venueIds,@Param("isDelete") Boolean isDelete);
 
 }

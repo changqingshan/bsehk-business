@@ -1,5 +1,6 @@
 package com.bsehk.business.service.vo;
 
+import com.bsehk.business.domain.ExerciseFieldNotice;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +12,9 @@ import java.util.List;
 public class ExerciseVO {
 
     private String filedName;
+    private ExerciseFieldNotice exerciseFieldNotice;
     List<WeekDayExercise> weekDayExercises;
+
 
     @Data
     @Builder
@@ -27,8 +30,8 @@ public class ExerciseVO {
         private Long id;
         private String coachName;
         private String exerciseName;
-        private Date exerciseStart;
-        private Date exerciseEnd;
+        private String exerciseStart;   // HH:MM
+        private String exerciseEnd;     // HH:MM
     }
 
 }

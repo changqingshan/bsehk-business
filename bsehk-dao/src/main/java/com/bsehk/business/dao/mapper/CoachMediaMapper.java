@@ -14,11 +14,11 @@ public interface CoachMediaMapper {
 
     CoachMedia selectByPrimaryKey(Long id);
 
-    List<CoachMedia> selectByCoachId(List<Coach> coacheList);
 
     int updateByPrimaryKeySelective(CoachMedia record);
 
     int updateByPrimaryKey(CoachMedia record);
 
+    List<CoachMedia> selectByCoachId(List<Coach> coacheList);
     List<CoachMedia> selectOneByCochId(Long venueId);
 }

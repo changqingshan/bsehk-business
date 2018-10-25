@@ -17,8 +17,6 @@ public class VenueInfoVo {
 
     private Brand brand;                           //场馆品牌介绍
 
-//    private String brandName;                      //场馆品牌简介
-
     private String startWeek;
 
     private String endWeek;

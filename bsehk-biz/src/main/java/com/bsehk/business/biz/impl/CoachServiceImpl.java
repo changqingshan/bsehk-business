@@ -68,19 +68,16 @@ public class CoachServiceImpl implements CoachService {
             }
 
         }*/
-        List<CoachMedia> coachMediaList = coachMediaService.selectPhotoByCoachId(coacheList);
         List<CoachVO> coachVOS = coacheList.parallelStream().map(coach -> {
-            CoachMedia coachMedia = coachMediaList.parallelStream().filter(coachMedia1 ->
-                    coachMedia1.getCoachId().equals(coach.getId()))
-                    .findFirst().orElse(null);
-
             return CoachVO.builder().id(coach.getId())
+                    .coachType(coach.getCoachType())
                     .title(coach.getTitle())
                     .name(coach.getCoachName())
-                    .appearanceUrl(coachMedia.getUrl())
+                    .appearanceUrl("http://pic.58pic.com/58pic/10/97/02/30a58PICH7N.jpg")
                     .build();
         }).collect(Collectors.toList());
-
+        Map<Byte,List<CoachVO>> coachMap=coachVOS.parallelStream().collect(Collectors.groupingBy(CoachVO::getCoachType));
+        return  coachMap;
     }
     @Override
     public CoachVO detailInfo(Long coachId) {
@@ -98,12 +95,6 @@ public class CoachServiceImpl implements CoachService {
                         .longVideoList(map.get(3))
                         .qualificationList(map.get(4))
                         .build();
-        /*for (int i = 0;i<map.get(1).size();i++){
-            if(map.get(1).get(i).appearanceUrl() == 1){
-                coachVO.appearanceUrl(map.get(1).get(i).getUrl());
-            }
-        }*/
-
         return coachVO;
     }
 

@@ -6,6 +6,7 @@ import com.bsehk.business.service.vo.CityVO;
 import com.bsehk.business.service.vo.SportCategoryDisPlayVO;
 import com.bsehk.business.service.vo.SportCategoryVO;
 import com.bsehk.business.service.vo.VenueBriefVO;
+import com.bsehk.common.exception.BizException;
 import com.bsehk.common.util.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

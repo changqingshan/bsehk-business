@@ -125,13 +125,13 @@ public class VenueServiceImpl implements VenueService {
             sportCategoryIds = Collections.emptyList();
         }else if(  sportCategoryId > 0){
             sportCategoryIds = new ArrayList<>();
-            // 判断可能是出入二级页时的运动标签
              SportCategory sportCategory = this.sportCategoryService.selectById(sportCategoryId);
-             if(sportCategory != null){
-                 // 是刚进入二级页面时选择的运动标签
+             if(sportCategory.getIsParent()){
+                 // 一级标题   刚进入二级页
                  List<SportCategory> sportCategories = this.sportCategoryService.listByParentId(sportCategoryId);
                  sportCategoryIds = sportCategories.parallelStream().map(SportCategory::getId).collect(Collectors.toList());
              }else{
+                 // 二级运动标签  刚进入二级页 或者二级页中选择的的二级标签
                sportCategoryIds.add(sportCategoryId);
              }
         }else{

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -76,5 +77,15 @@ public class SportCategoryServiceImpl implements SportCategoryService {
     public SportCategory selectById(Long sportCategoryId) {
         SportCategory sportCategory = this.sportCategoryMapper.selectByPrimaryKey(sportCategoryId);
         return sportCategory;
+    }
+
+
+    @Override
+    public List<SportCategory> listByIds(List<Long> sportCategoryIds, Boolean isDelete) {
+        if(sportCategoryIds.isEmpty()){
+            return Collections.emptyList();
+        }
+        List<SportCategory> sportCategories = this.sportCategoryMapper.listByIds(sportCategoryIds,isDelete);
+        return sportCategories;
     }
 }

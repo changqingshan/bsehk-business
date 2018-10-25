@@ -13,6 +13,8 @@ public class VenueComplexVO {
 
     private String venueName;
 
+    private Integer otherTrainSite;
+
     private String detailLocation;      //详细地址
 
     private String mobile;
@@ -24,7 +26,7 @@ public class VenueComplexVO {
     private String openTime;
 
     private String endTime;
-    private String url;           //场馆形象图
+    private String appearanceUrl;           //场馆形象图
 
     private List<VenueSport> venueSportList;       //场馆运动小类
 

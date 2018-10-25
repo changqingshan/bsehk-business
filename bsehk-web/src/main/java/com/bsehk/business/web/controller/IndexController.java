@@ -36,6 +36,7 @@ public class IndexController {
     public ResultData  index(Long cityId,Double longitude,Double latitude,
                              @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                              @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
+        log.info("cityId : [{}]   ; pageNum : [{}]  ; pageSize : [{}]",cityId,pageNum,pageSize);
         Map<String,Object> map = this.indexService.getPageHomeData(cityId,longitude,latitude,pageNum,pageSize);
         return ResultData.success(map);
     }
@@ -52,6 +53,7 @@ public class IndexController {
     public ResultData searchIndexVenue(Long cityId, String venueName, Double longitude, Double latitude,
                                        @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                        @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
+        log.info("cityId : [{}]   ;   venueName : [{}]  ; pageNum : [{}]  ; pageSize : [{}]",cityId,venueName,pageNum,pageSize);
         PageInfo<List<VenueBriefVO>> pageInfo = this.indexService.searchIndexVenue(cityId,venueName,longitude,latitude,pageNum,pageSize);
         return ResultData.success(pageInfo);
     }

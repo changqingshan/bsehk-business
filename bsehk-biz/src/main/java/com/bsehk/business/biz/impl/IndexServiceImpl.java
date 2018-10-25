@@ -1,11 +1,9 @@
 package com.bsehk.business.biz.impl;
 
 import com.bsehk.business.domain.SportCategory;
-import com.bsehk.business.service.CityService;
-import com.bsehk.business.service.IndexService;
-import com.bsehk.business.service.SportCategoryService;
-import com.bsehk.business.service.VenueService;
+import com.bsehk.business.service.*;
 import com.bsehk.business.service.vo.CityVO;
+import com.bsehk.business.service.vo.SportCategoryDisPlayVO;
 import com.bsehk.business.service.vo.SportCategoryVO;
 import com.bsehk.business.service.vo.VenueBriefVO;
 import com.bsehk.common.util.PageInfo;
@@ -31,23 +29,26 @@ public class IndexServiceImpl implements IndexService {
     private SportCategoryService sportCategoryService;
     @Resource
     private VenueService venueService;
+    @Resource
+    private SportCategoryDisPlayService sportCategoryDisPlayService;
 
 
 
     @Override
     public Map<String, Object> getPageHomeData(Long cityId, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
         // 查询城市
-        List<CityVO> cityVOS = this.cityService.listCity();
+        List<CityVO> cityVOS = this.cityService.getCityTree();
         // 查询运动类别
-        List<SportCategory> sportCategories = this.sportCategoryService.selectParentSport();
-        sportCategories.forEach(sportCategory -> sportCategory.setUrl("http://dpic.tiankong.com/9a/ee/QJ6203205716.jpg"));
+       // List<SportCategory> sportCategories = this.sportCategoryService.selectParentSport();
+        List<SportCategoryDisPlayVO> sportCategoryDisPlayVOS = this.sportCategoryDisPlayService.listSportCategoryDisplayVO();
+        sportCategoryDisPlayVOS.forEach(sportCategory -> sportCategory.setLogo("http://dpic.tiankong.com/9a/ee/QJ6203205716.jpg"));
 
         // 查询场馆
         PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(cityId, null, longitude, latitude, null, pageNum, pageSize);
 
         Map<String,Object> map = new HashMap<>();
         map.put("cities",cityVOS);
-        map.put("sportCategories",sportCategories);
+        map.put("sportCategories",sportCategoryDisPlayVOS);
         map.put("pageInfo",pageInfo);
         return map;
     }
@@ -66,7 +67,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public Map<String, Object> secondaryPageData(Long cityId, Long sportCategoryId, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
         // 查询城市
-         List<CityVO> cityVOS = this.cityService.listCity();
+         List<CityVO> cityVOS = this.cityService.getCityTree();
         // 查询体育类别
         List<SportCategoryVO> sportCategories = this.sportCategoryService.selectAllSport();
         // 条件查询场馆

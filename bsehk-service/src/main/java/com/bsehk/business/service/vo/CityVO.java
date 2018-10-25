@@ -14,6 +14,7 @@ public class CityVO {
     private Long id;
     private String name;
     private Integer level;
+    private Long parentId;
     private List<CityVO> children;
 
 }

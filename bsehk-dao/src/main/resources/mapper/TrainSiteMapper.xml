@@ -1,56 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bsehk.business.dao.mapper.SportCategoryMapper">
-  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.SportCategory">
+<mapper namespace="com.bsehk.business.dao.mapper.TrainSiteMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.TrainSite">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="sport_name" jdbcType="VARCHAR" property="sportName" />
-    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="venue_id" jdbcType="BIGINT" property="venueId" />
+    <result column="train_venue_id" jdbcType="BIGINT" property="trainVenueId" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, sport_name, parent_id, gmt_create, gmt_modified, is_delete
+    id, venue_id, train_venue_id, gmt_create, gmt_modified, is_delete
   </sql>
-  <select id="selectAllSport" resultMap="BaseResultMap">
-    select id,sport_name,parent_id
-    from sport_category
-  </select>
-  <select id="selectSportByParentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id,sport_name
-    from sport_category
-    where parent_id = #{parent_id,jdbcType=BIGINT}
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sport_category
+    from train_site
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from sport_category
+    delete from train_site
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.bsehk.business.domain.SportCategory">
+  <insert id="insert" parameterType="com.bsehk.business.domain.TrainSite">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sport_category (sport_name, parent_id, gmt_create, 
+    insert into train_site (venue_id, train_venue_id, gmt_create, 
       gmt_modified, is_delete)
-    values (#{sportName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+    values (#{venueId,jdbcType=BIGINT}, #{trainVenueId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bsehk.business.domain.SportCategory">
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.TrainSite">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sport_category
+    insert into train_site
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="sportName != null">
-        sport_name,
+      <if test="venueId != null">
+        venue_id,
       </if>
-      <if test="parentId != null">
-        parent_id,
+      <if test="trainVenueId != null">
+        train_venue_id,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -63,11 +54,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="sportName != null">
-        #{sportName,jdbcType=VARCHAR},
+      <if test="venueId != null">
+        #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="parentId != null">
-        #{parentId,jdbcType=BIGINT},
+      <if test="trainVenueId != null">
+        #{trainVenueId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -80,14 +71,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.SportCategory">
-    update sport_category
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.TrainSite">
+    update train_site
     <set>
-      <if test="sportName != null">
-        sport_name = #{sportName,jdbcType=VARCHAR},
+      <if test="venueId != null">
+        venue_id = #{venueId,jdbcType=BIGINT},
       </if>
-      <if test="parentId != null">
-        parent_id = #{parentId,jdbcType=BIGINT},
+      <if test="trainVenueId != null">
+        train_venue_id = #{trainVenueId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -101,32 +92,45 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.SportCategory">
-    update sport_category
-    set sport_name = #{sportName,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=BIGINT},
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.TrainSite">
+    update train_site
+    set venue_id = #{venueId,jdbcType=BIGINT},
+      train_venue_id = #{trainVenueId,jdbcType=BIGINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="listByParentId" resultMap="BaseResultMap">
+  <select id="listTrainSiteInfo"  resultType="com.bsehk.business.domain.TrainSiteInfo">
     select
-    <include refid="Base_Column_List" />
-    from sport_category
-    where parent_id = #{parentId,jdbcType=BIGINT} AND is_delete = #{isDeleted}
+     ts.id AS id, ts.train_venue_id AS trainVenueId,
+      v.province_id AS provinceId,v.city_id AS cityId,v.district_id AS districtId,
+      v.detail_location as detailLocation,v.venue_name AS  venueName
+    from train_site ts INNER JOIN venue v
+    ON  ts.train_venue_id = v.id
+    where ts.venue_id = #{venueId}
+    AND
+    <if test="provinceId != null">
+      v.province_id = #{provinceId} AND
+    </if>
+    <if test="cityId != null">
+      v.city_id = #{cityId}  AND
+    </if>
+    <if test="districtId != null">
+      v.district_id = #{districtId}  AND
+    </if>
+       ts.is_delete = #{isDelete}
+    AND   v.is_delete = #{isDelete}
   </select>
 
 
-  <select id="listByIds"  resultMap="BaseResultMap">
+  <select id="getTrainSiteNumber"  resultType="java.lang.Integer">
     select
-    <include refid="Base_Column_List" />
-    from sport_category
-    where id IN
-    <foreach collection="list" open="(" close=")" item="id" separator=",">
-      #{id}
-    </foreach>
-    AND  is_delete = #{isDelete}
+     count(1)
+    from train_site
+    where venue_id = #{venueId}
+    AND   is_delete = #{isDelete}
   </select>
+
 </mapper>

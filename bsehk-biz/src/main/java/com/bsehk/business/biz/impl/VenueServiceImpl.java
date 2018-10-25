@@ -38,6 +38,8 @@ public class VenueServiceImpl implements VenueService {
     @Resource
     private  VenueFunctionZoneService venueFunctionZoneService;
     @Resource
+    private TrainSiteService trainSiteService;
+    @Resource
     VenueBannerService venueBannerService;
     @Resource
     VenueNoticeService venueNoticeService;
@@ -52,6 +54,11 @@ public class VenueServiceImpl implements VenueService {
     public VenueComplexVO getVenueComplexInfo(Long venueId) {
         //获取场馆信息
         Venue venue = venueMapper.selectByPrimaryKey(venueId);
+        // 若为培训机构查询其他培训地点
+        Integer otherTrainSiteNumber = null;
+        if(venue.getVenueCategory() == 4){
+            otherTrainSiteNumber = this.trainSiteService.getTrainSiteNumber(venueId,false);
+        }
         //获取场馆所有运动类别
         List<Long> venueIds = new ArrayList<>();
         venueIds.add(venueId);
@@ -83,8 +90,10 @@ public class VenueServiceImpl implements VenueService {
         VenueComplexVO venueComplexVO = VenueComplexVO.builder()
                         .venueId(venueId)
                         .venueName(venue.getVenueName())
-                        .url(venue.getUrl())
+                     //   .appearanceUrl(venue.getUrl())
+                        .appearanceUrl("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=749686236,2274486353&fm=11&gp=0.jpg")
                         .bannerNumber(bannerNumber)
+                        .otherTrainSite(otherTrainSiteNumber)
                         .detailLocation(venue.getDetailLocation())
                         .mobile(venue.getMobile())
                         .startWeek(venue.getStartWeek())

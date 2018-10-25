@@ -2,6 +2,7 @@ package com.bsehk.business.biz;
 
 import com.alibaba.fastjson.JSON;
 import com.bsehk.business.service.CoachService;
+import com.bsehk.business.service.vo.CityVO;
 import com.bsehk.business.service.vo.CoachVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

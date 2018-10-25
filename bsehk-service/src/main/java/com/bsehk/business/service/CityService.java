@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface CityService {
 
-    List<CityVO>  listCity();
+    List<CityVO>  getCityTree();
 
     List<City> listByIds(List<Long> cityIds);
+
+    List<City> listAll(Boolean isDelete);
 }

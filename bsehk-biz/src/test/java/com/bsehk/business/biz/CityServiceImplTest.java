@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +26,28 @@ public class CityServiceImplTest {
     private CityService cityService;
 
     @Test
-    public void listCityTest(){
-        List<CityVO> cityVOList = cityService.listCity();
+    public void getCityTree(){
+        List<CityVO> cityVOList = cityService.getCityTree();
         log.info("cityVOList ------>   [{}]", JSON.toJSONString(cityVOList));
     }
+
+    @Test
+    public void listTest(){
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        log.info("insert  Before  : [{}]",list);
+        list.add(0,0);
+        log.info("insert after  :  [{}]",list);
+
+
+
+    }
+
+
+
 
 
 

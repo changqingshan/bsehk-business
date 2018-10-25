@@ -23,4 +23,6 @@ public interface SportCategoryMapper {
     int updateByPrimaryKey(SportCategory record);
 
     List<SportCategory> listByParentId(@Param("parentId") Long sportCategoryId,@Param("isDeleted") Boolean isDeleted);
+
+    List<SportCategory> listByIds(@Param("list") List<Long> sportCategoryIds, @Param("isDelete") Boolean isDelete);
 }

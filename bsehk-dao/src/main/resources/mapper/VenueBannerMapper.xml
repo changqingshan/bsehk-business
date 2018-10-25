@@ -149,5 +149,11 @@
      AND  is_delete = #{isDelete}
   </select>
 
-
+  <select id="selectBannerByVenueId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from venue_banner
+    where venue_id = #{venueId,jdbcType=BIGINT}
+    AND  is_delete = #{isDelete}
+  </select>
 </mapper>

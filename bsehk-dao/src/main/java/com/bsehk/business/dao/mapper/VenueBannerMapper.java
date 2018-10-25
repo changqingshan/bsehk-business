@@ -18,7 +18,7 @@ public interface VenueBannerMapper {
 
     int updateByPrimaryKey(VenueBanner record);
 
-    List<VenueBanner> selectBannerByVenueId(Long venueId, Boolean  isDelete);
+    List<VenueBanner> selectBannerByVenueId(@Param("venueId") Long venueId,@Param("isDelete") Boolean isDelete);
 
     Integer numberBanner(@Param("venueId") Long venueId,@Param("isDelete") Boolean isDelete);
 }

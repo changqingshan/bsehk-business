@@ -6,7 +6,7 @@ import java.util.Date;
 @Data
 public class SportCategory {
     private Long id;
-    private String url;
+
     private String sportName;
 
     private Long parentId;
@@ -15,7 +15,9 @@ public class SportCategory {
 
     private Date gmtModified;
 
-    private Byte isDelete;
+    private Boolean isDelete;
+
+    private Boolean isParent;
 
 
 }

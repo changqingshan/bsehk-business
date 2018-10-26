@@ -2,7 +2,7 @@ package com.bsehk.business.domain;
 
 import java.util.Date;
 
-public class Brand {
+public class    Brand {
     private Long id;
 
     private String brandName;

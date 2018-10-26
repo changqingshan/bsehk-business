@@ -3,6 +3,7 @@
 <mapper namespace="com.bsehk.business.dao.mapper.BrandMapper">
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.Brand">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
     <result column="intro" jdbcType="VARCHAR" property="intro" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
@@ -10,8 +11,7 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, intro, url, gmt_create, gmt_modified, is_delete
-
+    id, brand_name, intro, url, gmt_create, gmt_modified, is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -27,10 +27,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into brand (intro, url, gmt_create, 
-      gmt_modified, is_delete)
-    values (#{intro,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
+    insert into brand (brand_name, intro, url, 
+      gmt_create, gmt_modified, is_delete
+      )
+    values (#{brandName,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.Brand">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -38,6 +40,9 @@
     </selectKey>
     insert into brand
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="brandName != null">
+        brand_name,
+      </if>
       <if test="intro != null">
         intro,
       </if>
@@ -55,7 +60,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
       <if test="intro != null">
         #{intro,jdbcType=VARCHAR},
       </if>
@@ -76,6 +83,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.Brand">
     update brand
     <set>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
       <if test="intro != null">
         intro = #{intro,jdbcType=VARCHAR},
       </if>
@@ -96,8 +106,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Brand">
     update brand
-
-    set intro = #{intro,jdbcType=VARCHAR},
+    set brand_name = #{brandName,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},

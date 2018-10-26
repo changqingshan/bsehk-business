@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsehk.business.dao.mapper.ProductionMapper">
+  <resultMap id="BaseResultMap" type="com.bsehk.business.domain.Production">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="production_type" jdbcType="TINYINT" property="productionType" />
+    <result column="production_name" jdbcType="VARCHAR" property="productionName" />
+    <result column="production_url" jdbcType="VARCHAR" property="productionUrl" />
+    <result column="production_intro" jdbcType="VARCHAR" property="productionIntro" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="venue_id" jdbcType="BIGINT" property="venueId" />
+    <result column="production_price" jdbcType="DECIMAL" property="productionPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, production_type, production_name, production_url, production_intro, gmt_create, 
+    gmt_modified, is_delete, venue_id, production_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from production
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from production
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bsehk.business.domain.Production">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into production (production_type, production_name, production_url, 
+      production_intro, gmt_create, gmt_modified, 
+      is_delete, venue_id, production_price
+      )
+    values (#{productionType,jdbcType=TINYINT}, #{productionName,jdbcType=VARCHAR}, #{productionUrl,jdbcType=VARCHAR}, 
+      #{productionIntro,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=TINYINT}, #{venueId,jdbcType=BIGINT}, #{productionPrice,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsehk.business.domain.Production">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into production
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productionType != null">
+        production_type,
+      </if>
+      <if test="productionName != null">
+        production_name,
+      </if>
+      <if test="productionUrl != null">
+        production_url,
+      </if>
+      <if test="productionIntro != null">
+        production_intro,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="venueId != null">
+        venue_id,
+      </if>
+      <if test="productionPrice != null">
+        production_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productionType != null">
+        #{productionType,jdbcType=TINYINT},
+      </if>
+      <if test="productionName != null">
+        #{productionName,jdbcType=VARCHAR},
+      </if>
+      <if test="productionUrl != null">
+        #{productionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productionIntro != null">
+        #{productionIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="venueId != null">
+        #{venueId,jdbcType=BIGINT},
+      </if>
+      <if test="productionPrice != null">
+        #{productionPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.Production">
+    update production
+    <set>
+      <if test="productionType != null">
+        production_type = #{productionType,jdbcType=TINYINT},
+      </if>
+      <if test="productionName != null">
+        production_name = #{productionName,jdbcType=VARCHAR},
+      </if>
+      <if test="productionUrl != null">
+        production_url = #{productionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="productionIntro != null">
+        production_intro = #{productionIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="venueId != null">
+        venue_id = #{venueId,jdbcType=BIGINT},
+      </if>
+      <if test="productionPrice != null">
+        production_price = #{productionPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Production">
+    update production
+    set production_type = #{productionType,jdbcType=TINYINT},
+      production_name = #{productionName,jdbcType=VARCHAR},
+      production_url = #{productionUrl,jdbcType=VARCHAR},
+      production_intro = #{productionIntro,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      venue_id = #{venueId,jdbcType=BIGINT},
+      production_price = #{productionPrice,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="numberByVenueId"  resultType="java.lang.Long">
+    select
+    count(1)
+    from production
+    where venue_id = #{venueId}
+    AND is_delete = #{isDelete}
+  </select>
+
+  <select id="listByVenueId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from production
+    where venue_id = #{venueId}
+    AND is_delete = #{isDelete}
+  </select>
+
+  <select id="listByIds"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from production
+    where id  IN
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </select>
+
+</mapper>

@@ -63,7 +63,7 @@ public class VenueProductionGroupServiceImpl implements VenueProductionGroupServ
                                                          .productionId(production.getId())
                                                          .productionName(production.getProductionName())
                                                          .url(production.getProductionUrl())
-                                                         .productionPrice("￥"+production.getProductionPrice())
+                                                         .productionPrice(""+production.getProductionPrice())
                                                          .build() )
                                                      .collect(Collectors.toList());
 

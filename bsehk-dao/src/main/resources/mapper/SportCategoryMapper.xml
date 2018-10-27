@@ -133,4 +133,11 @@
     </foreach>
     AND  is_delete = #{isDelete}
   </select>
+
+
+  <select id="selectAllSport"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sport_category
+  </select>
 </mapper>

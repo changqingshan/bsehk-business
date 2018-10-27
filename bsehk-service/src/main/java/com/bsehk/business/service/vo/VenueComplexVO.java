@@ -1,6 +1,7 @@
 package com.bsehk.business.service.vo;
 
 import com.bsehk.business.domain.*;
+import com.bsehk.common.util.PageInfo;
 import lombok.Builder;
 import lombok.Data;
 
@@ -31,6 +32,10 @@ public class VenueComplexVO {
     private List<VenueSport> venueSportList;       //场馆运动小类
 
     private List<VenueInfrastructureInfo> infrastructuresList;//场馆基础信息
+
+    private CoachComplexVO coachComplexVO;  // 展示教练技师列表
+
+    private PageInfo<List<ProductionVO>>  productionPageInfo;  // 产品列表
 
     private Integer bannerNumber;                   //场馆banner数量
 

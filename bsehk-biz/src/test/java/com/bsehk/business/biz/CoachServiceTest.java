@@ -3,6 +3,7 @@ package com.bsehk.business.biz;
 import com.alibaba.fastjson.JSON;
 import com.bsehk.business.service.CoachService;
 import com.bsehk.business.service.vo.CityVO;
+import com.bsehk.business.service.vo.CoachComplexVO;
 import com.bsehk.business.service.vo.CoachVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class CoachServiceTest {
     @Test
     public void selectCoachByVenueIdTest(){
         Long venueId = 1L;
-        Map<Byte,List<CoachVO>> map = this.coachService.selectCoachByVenueId(1L);
+        CoachComplexVO map = this.coachService.selectCoachByVenueId(1L);
         log.info( JSON.toJSONString(map));
     }
 

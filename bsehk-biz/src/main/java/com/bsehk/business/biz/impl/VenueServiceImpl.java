@@ -49,6 +49,12 @@ public class VenueServiceImpl implements VenueService {
     BrandService brandService;
     @Resource
     private FunctionZoneService functionZoneService;
+    @Resource
+    private CoachService coachService;
+    @Resource
+    private ProductionService productionService;
+
+
 
     @Override
     public VenueComplexVO getVenueComplexInfo(Long venueId) {
@@ -82,10 +88,11 @@ public class VenueServiceImpl implements VenueService {
         VenueAdvert venueAdvert = venueAdvertService.selectAdvertByVenueId(venueId,false);
         //获取场馆品牌介绍
         Brand brand = brandService.selectBrandByVenueId(venueId);
-        // 场馆教练
-      //  List<Coach> coaches = this.coachService.selectCoachByVenueId(venueId);
-        // 场馆技师
-
+        // 场馆教练技师
+        CoachComplexVO coachComplexVO = this.coachService.selectCoachByVenueId(venueId);
+        // 场馆 产品列表
+     //   PageInfo productionPageInfo = this.productionService.pageProduction(venueId,1,3);
+       // log.info("productionPageInfo  :  [{}]",productionPageInfo);
         //数据打包
         VenueComplexVO venueComplexVO = VenueComplexVO.builder()
                         .venueId(venueId)
@@ -102,6 +109,8 @@ public class VenueServiceImpl implements VenueService {
                         .endTime(DateUtil.date2Str(venue.getEndTime(),"HH:mm"))
                         .venueSportList(venueSmallSports)
                         .infrastructuresList(venueInfrastructureInfos)
+                        .coachComplexVO(coachComplexVO)
+                 //       .productionPageInfo(productionPageInfo)
                         .venueNotice(venueNotice)
                         .venueAdvert(venueAdvert)
                         .brand(brand)

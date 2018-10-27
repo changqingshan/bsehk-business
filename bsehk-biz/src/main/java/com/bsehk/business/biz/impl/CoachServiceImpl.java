@@ -7,6 +7,7 @@ import com.bsehk.business.domain.CoachMedia;
 import com.bsehk.business.service.CoachMediaService;
 import com.bsehk.business.service.CoachService;
 import com.bsehk.business.service.CoachVenueService;
+import com.bsehk.business.service.vo.CoachComplexVO;
 import com.bsehk.business.service.vo.CoachVO;
 import com.bsehk.common.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class CoachServiceImpl implements CoachService {
 
 
     @Override
-    public Map<Byte, List<CoachVO>> selectCoachByVenueId(Long venueId) {
+    public CoachComplexVO selectCoachByVenueId(Long venueId) {
         List<CoachVO> coachVOList = new ArrayList<>();
 
         //通过场馆id获取教练id集合
@@ -50,24 +51,6 @@ public class CoachServiceImpl implements CoachService {
         //通过教练id集合获取教练的名称，职称，
         List<Coach> coacheList = coachMapper.selectCoachByCoachId(coachIdList);
         //通过教练的id获取教练的topphoto，id，放入coachMedia集合
-        //遍历教练集合与教练媒体集合，把两个集合中id相同的对象属性放入CoachVO，把CoachVO存入集合，返回前端
-       /* for (int i = 0; i<coacheList.size();i++){
-            for (int j=0;j<coachMediaList.size();j++){
-                //如果coach的id与coachMedia的coachId相同，把俩个对象的信息存入coachVO
-                if(coacheList.get(i).getId() == coachMediaList.get(j).getCoachId()){
-                    CoachVO coachVO =  CoachVO.builder()
-                                              .id(coacheList.get(i).getId())
-                                              .title(coacheList.get(i).getTitle())
-                                              .name(coacheList.get(i).getCoachName())
-                                              .appearanceUrl(coachMediaList.get(j).getUrl())
-                                              .build();
-
-                    coachVOList.add(coachVO);
-
-                }
-            }
-
-        }*/
         List<CoachVO> coachVOS = coacheList.parallelStream().map(coach -> {
             return CoachVO.builder().id(coach.getId())
                     .coachType(coach.getCoachType())
@@ -76,8 +59,14 @@ public class CoachServiceImpl implements CoachService {
                     .appearanceUrl("http://pic.58pic.com/58pic/10/97/02/30a58PICH7N.jpg")
                     .build();
         }).collect(Collectors.toList());
-        Map<Byte,List<CoachVO>> coachMap=coachVOS.parallelStream().collect(Collectors.groupingBy(CoachVO::getCoachType));
-        return  coachMap;
+        CoachComplexVO coachComplexVO = CoachComplexVO.builder().build();
+        Map<Byte,List<CoachVO>> map = coachVOS.parallelStream().collect(Collectors.groupingBy(CoachVO::getCoachType));
+        map.forEach((k,v) ->{
+            coachComplexVO.setCoachType(k);
+            coachComplexVO.setCoachVOS(v);
+        });
+
+        return  coachComplexVO;
     }
     @Override
     public CoachVO detailInfo(Long coachId) {

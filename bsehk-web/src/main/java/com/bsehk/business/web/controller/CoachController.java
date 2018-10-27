@@ -2,6 +2,7 @@ package com.bsehk.business.web.controller;
 
 
 import com.bsehk.business.service.CoachService;
+import com.bsehk.business.service.vo.CoachComplexVO;
 import com.bsehk.business.service.vo.CoachVO;
 
 import com.bsehk.common.response.ResultData;
@@ -25,8 +26,8 @@ public class CoachController {
     * */
     @RequestMapping("/selectCoachByVenueId")
     public ResultData selectCoachByVenueId(Long venueId) {
-        Map<Byte,List<CoachVO>> map = coachService.selectCoachByVenueId(venueId);
-        return ResultData.success(map);
+       CoachComplexVO coachComplexVO = coachService.selectCoachByVenueId(venueId);
+        return ResultData.success(coachComplexVO);
     }
 
     /*

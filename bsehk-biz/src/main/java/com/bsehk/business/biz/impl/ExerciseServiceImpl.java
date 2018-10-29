@@ -66,6 +66,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         relationMap.forEach((k,v) ->{
             ExerciseVO exerciseVO = ExerciseVO.builder().filedName(exerciseFieldMap.get(k).getField())
                                                         .exerciseFieldNotice(exerciseFieldNoticeMap.get(k))
+                                           //             .exerciseCourseTimeVOS(new ArrayList<>())
                                                         .weekDayExercises(new ArrayList<>())
                                                         .build();
 
@@ -98,8 +99,8 @@ public class ExerciseServiceImpl implements ExerciseService {
                 List<ExerciseVO.InnerExercise> innerExercises = n.stream().map(exercise -> ExerciseVO.InnerExercise.builder()
                                                                    .id(exercise.getId())
                                                                    .exerciseName(exercise.getExerciseName())
-                                                                   .exerciseStart(DateUtil.date2Str(exercise.getExerciseStart(),"HH:mm"))
-                                                                   .exerciseEnd(DateUtil.date2Str(exercise.getExerciseEnd(),"HH:mm"))
+                                                            //       .exerciseStart(DateUtil.date2Str(exercise.getExerciseStart(),"HH:mm"))
+                                                            //       .exerciseEnd(DateUtil.date2Str(exercise.getExerciseEnd(),"HH:mm"))
                                                                    .coachName(coachIdNameMap.get(exerciseCoachMap.get(exercise.getId())))
                                                                    .build())
                                                                        .collect(Collectors.toList());

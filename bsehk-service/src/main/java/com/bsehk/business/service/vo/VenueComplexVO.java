@@ -35,7 +35,7 @@ public class VenueComplexVO {
 
     private CoachComplexVO coachComplexVO;  // 展示教练技师列表
 
-    private PageInfo<List<ProductionVO>>  productionPageInfo;  // 产品列表
+  //  private PageInfo<List<ProductionVO>>  productionPageInfo;  // 产品列表
 
     private Integer bannerNumber;                   //场馆banner数量
 

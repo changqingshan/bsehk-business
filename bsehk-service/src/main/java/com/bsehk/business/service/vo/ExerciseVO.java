@@ -13,6 +13,7 @@ public class ExerciseVO {
 
     private String filedName;
     private ExerciseFieldNotice exerciseFieldNotice;
+    private List<ExerciseCourseTimeVO> exerciseCourseTimeVOS;
     List<WeekDayExercise> weekDayExercises;
 
 
@@ -30,8 +31,7 @@ public class ExerciseVO {
         private Long id;
         private String coachName;
         private String exerciseName;
-        private String exerciseStart;   // HH:MM
-        private String exerciseEnd;     // HH:MM
+        private Integer ordinal; // 节次
     }
 
 }

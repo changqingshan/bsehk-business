@@ -13,7 +13,7 @@ public class VenueInfoVo {
 
     private List<VenueInfrastructureInfo> infrastructuresList;//场馆基础设施
 
-    private List<VenueFunctionZoneVO>  FunctionZoneList;//场馆功能区
+    private List<VenueFunctionZoneVO>  functionZoneList;//场馆功能区
 
     private Brand brand;                           //场馆品牌介绍
 

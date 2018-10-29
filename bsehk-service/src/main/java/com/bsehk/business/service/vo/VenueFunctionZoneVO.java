@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class VenueFunctionZoneVO {
-    private String FunctionZoneName;
+    private String functionZoneName;
     private String logo;
-    private Integer FunctionZoneNumber;
+    private Integer functionZoneNumber;
 }

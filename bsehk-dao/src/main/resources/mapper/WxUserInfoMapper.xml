@@ -11,15 +11,16 @@
     <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
-    <result column="language" jdbcType="VARCHAR" property="language" />
+    <result column="wx_language" jdbcType="VARCHAR" property="wxLanguage" />
     <result column="headimgurl" jdbcType="VARCHAR" property="headimgurl" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="last_location_city_id" jdbcType="BIGINT" property="lastLocationCityId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, openid, subscribe, subscribe_time, nickname, sex, country, province, city, language, 
-    headimgurl, gmt_create, gmt_modified, is_delete
+    id, openid, subscribe, subscribe_time, nickname, sex, country, province, city, wx_language, 
+    headimgurl, gmt_create, gmt_modified, is_delete, last_location_city_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -37,14 +38,14 @@
     </selectKey>
     insert into wx_user_info (openid, subscribe, subscribe_time, 
       nickname, sex, country, 
-      province, city, language, 
+      province, city, wx_language, 
       headimgurl, gmt_create, gmt_modified, 
-      is_delete)
+      is_delete, last_location_city_id)
     values (#{openid,jdbcType=VARCHAR}, #{subscribe,jdbcType=INTEGER}, #{subscribeTime,jdbcType=TIMESTAMP}, 
       #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{wxLanguage,jdbcType=VARCHAR}, 
       #{headimgurl,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{isDelete,jdbcType=TINYINT})
+      #{isDelete,jdbcType=TINYINT}, #{lastLocationCityId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.WxUserInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -76,8 +77,8 @@
       <if test="city != null">
         city,
       </if>
-      <if test="language != null">
-        language,
+      <if test="wxLanguage != null">
+        wx_language,
       </if>
       <if test="headimgurl != null">
         headimgurl,
@@ -90,6 +91,9 @@
       </if>
       <if test="isDelete != null">
         is_delete,
+      </if>
+      <if test="lastLocationCityId != null">
+        last_location_city_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -117,8 +121,8 @@
       <if test="city != null">
         #{city,jdbcType=VARCHAR},
       </if>
-      <if test="language != null">
-        #{language,jdbcType=VARCHAR},
+      <if test="wxLanguage != null">
+        #{wxLanguage,jdbcType=VARCHAR},
       </if>
       <if test="headimgurl != null">
         #{headimgurl,jdbcType=VARCHAR},
@@ -131,6 +135,9 @@
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="lastLocationCityId != null">
+        #{lastLocationCityId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -161,8 +168,8 @@
       <if test="city != null">
         city = #{city,jdbcType=VARCHAR},
       </if>
-      <if test="language != null">
-        language = #{language,jdbcType=VARCHAR},
+      <if test="wxLanguage != null">
+        wx_language = #{wxLanguage,jdbcType=VARCHAR},
       </if>
       <if test="headimgurl != null">
         headimgurl = #{headimgurl,jdbcType=VARCHAR},
@@ -175,6 +182,9 @@
       </if>
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="lastLocationCityId != null">
+        last_location_city_id = #{lastLocationCityId,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -189,11 +199,29 @@
       country = #{country,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
-      language = #{language,jdbcType=VARCHAR},
+      wx_language = #{wxLanguage,jdbcType=VARCHAR},
       headimgurl = #{headimgurl,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      is_delete = #{isDelete,jdbcType=TINYINT}
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      last_location_city_id = #{lastLocationCityId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectByOpenid"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_user_info
+    where openid = #{openid}
+    AND is_delete = #{isDelete}
+  </select>
+
+  <update id="saveLastLocationCity"  >
+    UPDATE wx_user_info
+    SET
+    last_location_city_id = #{lastLocationCityId}
+    where openid = #{openid}
+    AND is_delete = #{isDelete}
   </update>
 </mapper>

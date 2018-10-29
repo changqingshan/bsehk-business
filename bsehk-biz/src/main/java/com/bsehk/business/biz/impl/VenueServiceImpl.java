@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -184,7 +185,7 @@ public class VenueServiceImpl implements VenueService {
                                           .venueId(venue.getId())
                                           .venueName(venue.getVenueName())
                                           .distance(distanceMap.get(venue.getId()))
-                                          .location("500m")
+                                          .location(this.convertDistance(distanceMap.get(venue.getId())))
                              //             .location(venueCityMap.get(venue.getCityId())+venue.getDetailLocation())
                                           .sportLabel(venueSportLabelMap.get(venue.getId()))
                                           .build()).collect(Collectors.toList());
@@ -196,6 +197,25 @@ public class VenueServiceImpl implements VenueService {
 
 
     }
+
+    public String convertDistance(Double distance){
+        if(distance == null){
+            return "";
+        }
+        if(distance > 50000){
+            // 大于50km 不显示距离
+            return " -- ";
+        }else if(distance > 1000){
+            DecimalFormat format = new DecimalFormat("###.##");
+            return   format.format(distance/1000);
+        }else{
+            DecimalFormat format = new DecimalFormat("###");
+            return format.format(distance);
+        }
+
+    }
+
+
 
     @Override
     public Venue selectByPrimaryKey(Long id) {
@@ -229,9 +249,9 @@ public class VenueServiceImpl implements VenueService {
             for (int j=0;j<venueFunctionZones.size();j++)
                 if (functionZones.get(i).getId().equals( venueFunctionZones.get(j).getFunctionZoneId())) {
                     VenueFunctionZoneVO venueFunctionZoneVO = VenueFunctionZoneVO.builder()
-                            .FunctionZoneNumber(venueFunctionZones.get(j).getFunctionZoneNumber())
+                            .functionZoneNumber(venueFunctionZones.get(j).getFunctionZoneNumber())
                             .logo(venueFunctionZones.get(j).getLogo())
-                            .FunctionZoneName(functionZones.get(i).getFunctionZoneName())
+                            .functionZoneName(functionZones.get(i).getFunctionZoneName())
                             .build();
                     venueFunctionZoneVOS.add(venueFunctionZoneVO);
                 }
@@ -243,7 +263,7 @@ public class VenueServiceImpl implements VenueService {
         VenueInfoVo venueInfoVo= VenueInfoVo.builder()
                 .venueId(venue.getId())
                 .infrastructuresList(venueInfrastructureInfos)
-                .FunctionZoneList(venueFunctionZoneVOS)
+                .functionZoneList(venueFunctionZoneVOS)
                 .brand(brand)
                 .startWeek(venue.getStartWeek()+"")
                 .endWeek(venue.getEndWeek()+"")

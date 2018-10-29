@@ -23,7 +23,7 @@ public class WxUserInfo {
 
     private String city;
 
-    private String language;
+    private String wxLanguage;
 
     private String headimgurl;
 
@@ -32,6 +32,8 @@ public class WxUserInfo {
     private Date gmtModified;
 
     private Byte isDelete;
+
+    private Long lastLocationCityId;
 
 
 }

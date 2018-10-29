@@ -75,14 +75,14 @@ public class VenueProductionGroupServiceImpl implements VenueProductionGroupServ
 
 
     @Override
-    public Map<String, Object> defaultGroupProduction(Long venueId) {
+    public Map<String, Object> defaultGroupProduction(Long venueId,Integer pageNum,Integer pageSize) {
         // 查询产品分组
          List<VenueProductionGroup> venueProductionGroups = this.venueProductionGroupMapper.listByVenueId(venueId,false);
          if(venueProductionGroups == null || venueProductionGroups.isEmpty()){
              return new HashMap();
          }
          // 查询默认分组产品
-        PageInfo<List<ProductionVO>> pageInfo = this.pageProduction(venueId,null,1,15);
+        PageInfo<List<ProductionVO>> pageInfo = this.pageProduction(venueId,null,pageNum,pageSize);
 
         Map<String,Object> map = new HashMap<>();
         map.put("venueProductionGroups",venueProductionGroups);

@@ -12,5 +12,5 @@ import java.util.Map;
 public interface VenueProductionGroupService {
     PageInfo<List<ProductionVO>> pageProduction(Long venueId, Long venueProductionGroupId, Integer pageNum, Integer pageSize);
 
-    Map<String,Object> defaultGroupProduction(Long venueId);
+    Map<String,Object> defaultGroupProduction(Long venueId,Integer pageNum,Integer pageSize);
 }

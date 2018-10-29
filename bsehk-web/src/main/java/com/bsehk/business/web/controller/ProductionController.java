@@ -30,14 +30,15 @@ public class ProductionController {
 
   @RequestMapping("/production/list")
   public ResultData showProduction(Long venueId, @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                   @RequestParam(value = "pageSize",defaultValue = "15") Integer pageSize){
+                                   @RequestParam(value = "pageSize",defaultValue = "4") Integer pageSize){
       PageInfo<List<ProductionVO>> pageInfo = this.productionService.pageProduction(venueId,pageNum,pageSize);
       return ResultData.success(pageInfo);
   }
 
   @RequestMapping("/production/default/group")
-  public ResultData  defaultGroupProduction(Long venueId){
-      Map<String,Object>  map = this.venueProductionGroupService.defaultGroupProduction(venueId);
+  public ResultData  defaultGroupProduction(Long venueId, @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                            @RequestParam(value = "pageSize",defaultValue = "4") Integer pageSize){
+      Map<String,Object>  map = this.venueProductionGroupService.defaultGroupProduction(venueId,pageNum,pageSize);
       return ResultData.success(map);
   }
 
@@ -45,7 +46,7 @@ public class ProductionController {
   @RequestMapping("/production/group")
   public ResultData pageGroupProduction(Long venueId,Long venueProductionGroupId,
                                         @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                    @RequestParam(value = "pageSize",defaultValue = "15") Integer pageSize){
+                                    @RequestParam(value = "pageSize",defaultValue = "4") Integer pageSize){
 
       PageInfo<List<ProductionVO>> pageInfo = this.venueProductionGroupService.pageProduction(venueId,venueProductionGroupId,pageNum,pageSize);
       return ResultData.success(pageInfo);

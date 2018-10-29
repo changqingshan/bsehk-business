@@ -34,7 +34,7 @@ public class ProductionServiceImpl implements ProductionService {
         List<ProductionVO> productionVOS = productions.parallelStream().map(production -> ProductionVO.builder()
                                                          .productionId(production.getId())
                                                          .productionName(production.getProductionName())
-                                                         .productionPrice("￥"+production.getProductionPrice())
+                                                         .productionPrice(""+production.getProductionPrice())
                                                          .url(production.getProductionUrl())
                                                          .build())
                                                     .collect(Collectors.toList());

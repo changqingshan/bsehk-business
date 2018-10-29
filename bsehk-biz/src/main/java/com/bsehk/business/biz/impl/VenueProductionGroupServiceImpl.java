@@ -82,7 +82,7 @@ public class VenueProductionGroupServiceImpl implements VenueProductionGroupServ
              return new HashMap();
          }
          // 查询默认分组产品
-        PageInfo<List<ProductionVO>> pageInfo = this.pageProduction(venueId,null,1,5);
+        PageInfo<List<ProductionVO>> pageInfo = this.pageProduction(venueId,null,1,15);
 
         Map<String,Object> map = new HashMap<>();
         map.put("venueProductionGroups",venueProductionGroups);

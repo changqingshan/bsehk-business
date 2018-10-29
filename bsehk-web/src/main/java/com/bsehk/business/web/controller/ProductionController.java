@@ -30,7 +30,7 @@ public class ProductionController {
 
   @RequestMapping("/production/list")
   public ResultData showProduction(Long venueId, @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                   @RequestParam(value = "pageSize",defaultValue = "3") Integer pageSize){
+                                   @RequestParam(value = "pageSize",defaultValue = "15") Integer pageSize){
       PageInfo<List<ProductionVO>> pageInfo = this.productionService.pageProduction(venueId,pageNum,pageSize);
       return ResultData.success(pageInfo);
   }
@@ -45,7 +45,7 @@ public class ProductionController {
   @RequestMapping("/production/group")
   public ResultData pageGroupProduction(Long venueId,Long venueProductionGroupId,
                                         @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                    @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
+                                    @RequestParam(value = "pageSize",defaultValue = "15") Integer pageSize){
 
       PageInfo<List<ProductionVO>> pageInfo = this.venueProductionGroupService.pageProduction(venueId,venueProductionGroupId,pageNum,pageSize);
       return ResultData.success(pageInfo);

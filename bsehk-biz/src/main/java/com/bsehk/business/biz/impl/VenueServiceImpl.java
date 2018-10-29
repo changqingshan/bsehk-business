@@ -229,9 +229,9 @@ public class VenueServiceImpl implements VenueService {
             for (int j=0;j<venueFunctionZones.size();j++)
                 if (functionZones.get(i).getId().equals( venueFunctionZones.get(j).getFunctionZoneId())) {
                     VenueFunctionZoneVO venueFunctionZoneVO = VenueFunctionZoneVO.builder()
-                            .FunctionZoneNumber(venueFunctionZones.get(j).getFunctionZoneNumber())
+                            .functionZoneNumber(venueFunctionZones.get(j).getFunctionZoneNumber())
                             .logo(venueFunctionZones.get(j).getLogo())
-                            .FunctionZoneName(functionZones.get(i).getFunctionZoneName())
+                            .functionZoneName(functionZones.get(i).getFunctionZoneName())
                             .build();
                     venueFunctionZoneVOS.add(venueFunctionZoneVO);
                 }
@@ -243,7 +243,7 @@ public class VenueServiceImpl implements VenueService {
         VenueInfoVo venueInfoVo= VenueInfoVo.builder()
                 .venueId(venue.getId())
                 .infrastructuresList(venueInfrastructureInfos)
-                .FunctionZoneList(venueFunctionZoneVOS)
+                .functionZoneList(venueFunctionZoneVOS)
                 .brand(brand)
                 .startWeek(venue.getStartWeek()+"")
                 .endWeek(venue.getEndWeek()+"")

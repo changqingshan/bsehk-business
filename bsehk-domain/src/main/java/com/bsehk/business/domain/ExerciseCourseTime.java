@@ -5,16 +5,16 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Exercise {
+public class ExerciseCourseTime {
     private Long id;
 
-    private Long venueId;
+    private Long exerciseFieldId;
 
-    private String exerciseName;
+    private Integer ordinal;
 
-    private Byte week;
+    private Date exerciseStart;
 
-    private Long exerciseCourseTimeId;
+    private Date exercieseEnd;
 
     private Date gmtCreate;
 

@@ -6,14 +6,13 @@
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
     <result column="exercise_name" jdbcType="VARCHAR" property="exerciseName" />
     <result column="week" jdbcType="TINYINT" property="week" />
-    <result column="exercise_start" jdbcType="TIME" property="exerciseStart" />
-    <result column="exercise_end" jdbcType="TIME" property="exerciseEnd" />
+    <result column="exercise_course_time_id" jdbcType="BIGINT" property="exerciseCourseTimeId" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, venue_id, exercise_name, week, exercise_start, exercise_end, gmt_create, gmt_modified, 
+    id, venue_id, exercise_name, week, exercise_course_time_id, gmt_create, gmt_modified, 
     is_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -31,11 +30,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into exercise (venue_id, exercise_name, week, 
-      exercise_start, exercise_end, gmt_create, 
-      gmt_modified, is_delete)
+      exercise_course_time_id, gmt_create, gmt_modified, 
+      is_delete)
     values (#{venueId,jdbcType=BIGINT}, #{exerciseName,jdbcType=VARCHAR}, #{week,jdbcType=TINYINT}, 
-      #{exerciseStart,jdbcType=TIME}, #{exerciseEnd,jdbcType=TIME}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
+      #{exerciseCourseTimeId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.Exercise">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -52,11 +51,8 @@
       <if test="week != null">
         week,
       </if>
-      <if test="exerciseStart != null">
-        exercise_start,
-      </if>
-      <if test="exerciseEnd != null">
-        exercise_end,
+      <if test="exerciseCourseTimeId != null">
+        exercise_course_time_id,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -78,11 +74,8 @@
       <if test="week != null">
         #{week,jdbcType=TINYINT},
       </if>
-      <if test="exerciseStart != null">
-        #{exerciseStart,jdbcType=TIME},
-      </if>
-      <if test="exerciseEnd != null">
-        #{exerciseEnd,jdbcType=TIME},
+      <if test="exerciseCourseTimeId != null">
+        #{exerciseCourseTimeId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -107,11 +100,8 @@
       <if test="week != null">
         week = #{week,jdbcType=TINYINT},
       </if>
-      <if test="exerciseStart != null">
-        exercise_start = #{exerciseStart,jdbcType=TIME},
-      </if>
-      <if test="exerciseEnd != null">
-        exercise_end = #{exerciseEnd,jdbcType=TIME},
+      <if test="exerciseCourseTimeId != null">
+        exercise_course_time_id = #{exerciseCourseTimeId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -130,8 +120,7 @@
     set venue_id = #{venueId,jdbcType=BIGINT},
       exercise_name = #{exerciseName,jdbcType=VARCHAR},
       week = #{week,jdbcType=TINYINT},
-      exercise_start = #{exerciseStart,jdbcType=TIME},
-      exercise_end = #{exerciseEnd,jdbcType=TIME},
+      exercise_course_time_id = #{exerciseCourseTimeId,jdbcType=BIGINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=TINYINT}

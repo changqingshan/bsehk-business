@@ -157,21 +157,19 @@
   </update>
 
   <select id="listByExerciseFieldIds"  resultMap="ResultMapWithBLOBs">
-    select
+    <foreach collection="list" item="exerciseFieldId" separator="union">
+      (select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from exercise_field_notice
-    where exercise_field_id IN
-    <foreach collection="list" open="(" close=")" item="exerciseFieldId" separator=",">
-       #{exerciseFieldId}
-    </foreach>
+    where exercise_field_id = #{exerciseFieldId}
     AND publish_time &lt;= #{date}
     AND  expire_time >= #{date}
     AND   is_delete = #{isDelete}
     ORDER BY  publish_time DESC
-    limit 1
-
+    limit 1)
+    </foreach>
   </select>
 
 </mapper>

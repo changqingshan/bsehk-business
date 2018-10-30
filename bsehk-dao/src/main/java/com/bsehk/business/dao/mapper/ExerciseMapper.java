@@ -18,5 +18,5 @@ public interface ExerciseMapper {
 
     int updateByPrimaryKey(Exercise record);
 
-    List<Exercise> listByVenueId(@Param("venueId") Long venueId,@Param("isDeleted") Boolean isDeleted);
+    List<Exercise>  listByVenueId(@Param("venueId") Long venueId,@Param("isDeleted") Boolean isDeleted);
 }

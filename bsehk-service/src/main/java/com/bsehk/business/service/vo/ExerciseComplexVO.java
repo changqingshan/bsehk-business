@@ -16,6 +16,6 @@ import java.util.List;
 //@NoArgsConstructor
 public class ExerciseComplexVO {
     private List<ExerciseVO> exerciseVOS;
-    private SpecialCourseVO specialCourseVO;
+    private SpecialCourseVO specialCourseVO;    //特色课程
 
 }

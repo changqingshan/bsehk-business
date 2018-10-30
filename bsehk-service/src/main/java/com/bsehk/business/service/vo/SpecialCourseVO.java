@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SpecialCourseVO {
 
-    private Long title;
+    private String title;
 
 
     private String intro;

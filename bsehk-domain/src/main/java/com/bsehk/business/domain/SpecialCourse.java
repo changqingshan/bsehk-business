@@ -8,7 +8,7 @@ import java.util.Date;
 public class SpecialCourse {
     private Long id;
 
-    private Long title;
+    private String title;
 
     private Date publishTime;
 

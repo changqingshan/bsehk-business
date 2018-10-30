@@ -1,37 +1,25 @@
 package com.bsehk.business.service.vo;
 
 import com.bsehk.business.domain.ExerciseFieldNotice;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExerciseVO {
 
-    private String filedName;
-    private ExerciseFieldNotice exerciseFieldNotice;
-    private List<ExerciseCourseTimeVO> exerciseCourseTimeVOS;
-    List<WeekDayExercise> weekDayExercises;
+    private Long exerciesFieldId;
+    private String filedName;       //场地名称
+    private ExerciseFieldNotice exerciseFieldNotice;        //团操课通知
+    private List<ExerciseCourseTimeVO> exerciseCourseTimeVOS;   //团操课节次信息
 
 
-    @Data
-    @Builder
-    public static class WeekDayExercise{
-         private Integer week ;
-         List<InnerExercise>  innerExercises;
-
-    }
-
-    @Data
-    @Builder
-    public static class InnerExercise{
-        private Long id;
-        private String coachName;
-        private String exerciseName;
-        private Integer ordinal; // 节次
-    }
 
 }

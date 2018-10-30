@@ -186,6 +186,7 @@ public class VenueServiceImpl implements VenueService {
         List<VenueBriefVO> venueBriefVOS = venues.parallelStream().map(venue -> VenueBriefVO.builder()
                                           .venueId(venue.getId())
                                           .venueName(venue.getVenueName())
+                                          .url(venue.getUrl())
                                           .distance(distanceMap.get(venue.getId()))
                                           .location(this.convertDistance(distanceMap.get(venue.getId())))
                              //             .location(venueCityMap.get(venue.getCityId())+venue.getDetailLocation())

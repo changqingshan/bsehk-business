@@ -272,6 +272,7 @@
     select DISTINCT
     venue.id AS  id,
     venue.venue_name AS venue_name,
+    venue.url as url,
     venue.venue_category AS venue_category,
     venue.province_id AS province_id,
     venue.city_id AS city_id,

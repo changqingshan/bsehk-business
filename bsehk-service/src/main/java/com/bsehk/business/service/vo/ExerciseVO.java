@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ExerciseVO {
 
-    private Long exerciesFieldId;
+    private Long exerciesFieldId;   //场地id
     private String filedName;       //场地名称
     private ExerciseFieldNotice exerciseFieldNotice;        //团操课通知
     private List<ExerciseCourseTimeVO> exerciseCourseTimeVOS;   //团操课节次信息

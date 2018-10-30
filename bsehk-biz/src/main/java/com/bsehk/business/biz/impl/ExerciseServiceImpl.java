@@ -115,6 +115,13 @@ public class ExerciseServiceImpl implements ExerciseService {
                                             .exerciseCourseTimeVOS(new ArrayList<>())
                                             .build();
                     exerciseVOS.add(exerciseVO);
+                }else {
+                    //找不到与场地对应的场地通知则不添加场地通知
+                    ExerciseVO exerciseVO = ExerciseVO.builder()
+                            .exerciesFieldId(exerciseFieldId)
+                            .filedName(exerciseField.getField())
+                            .exerciseCourseTimeVOS(new ArrayList<>())
+                            .build();
                 }
             });
         });

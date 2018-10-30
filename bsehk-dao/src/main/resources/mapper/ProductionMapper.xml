@@ -12,13 +12,14 @@
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
     <result column="venue_id" jdbcType="BIGINT" property="venueId" />
     <result column="production_price" jdbcType="DECIMAL" property="productionPrice" />
+    <result column="on_shelf" jdbcType="TINYINT" property="onShelf" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, production_type, production_name, production_url, production_intro, gmt_create, 
-    gmt_modified, is_delete, venue_id, production_price
+    id, production_type, production_name, production_url, production_intro, gmt_create,
+    gmt_modified, is_delete, venue_id, production_price, on_shelf
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from production
     where id = #{id,jdbcType=BIGINT}
@@ -31,14 +32,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into production (production_type, production_name, production_url, 
-      production_intro, gmt_create, gmt_modified, 
-      is_delete, venue_id, production_price
-      )
-    values (#{productionType,jdbcType=TINYINT}, #{productionName,jdbcType=VARCHAR}, #{productionUrl,jdbcType=VARCHAR}, 
-      #{productionIntro,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{isDelete,jdbcType=TINYINT}, #{venueId,jdbcType=BIGINT}, #{productionPrice,jdbcType=DECIMAL}
-      )
+    insert into production (production_type, production_name, production_url,
+    production_intro, gmt_create, gmt_modified,
+    is_delete, venue_id, production_price,
+    on_shelf)
+    values (#{productionType,jdbcType=TINYINT}, #{productionName,jdbcType=VARCHAR}, #{productionUrl,jdbcType=VARCHAR},
+    #{productionIntro,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
+    #{isDelete,jdbcType=TINYINT}, #{venueId,jdbcType=BIGINT}, #{productionPrice,jdbcType=DECIMAL},
+    #{onShelf,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.Production">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -73,6 +74,9 @@
       <if test="productionPrice != null">
         production_price,
       </if>
+      <if test="onShelf != null">
+        on_shelf,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="productionType != null">
@@ -101,6 +105,9 @@
       </if>
       <if test="productionPrice != null">
         #{productionPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="onShelf != null">
+        #{onShelf,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -134,24 +141,26 @@
       <if test="productionPrice != null">
         production_price = #{productionPrice,jdbcType=DECIMAL},
       </if>
+      <if test="onShelf != null">
+        on_shelf = #{onShelf,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.Production">
     update production
     set production_type = #{productionType,jdbcType=TINYINT},
-      production_name = #{productionName,jdbcType=VARCHAR},
-      production_url = #{productionUrl,jdbcType=VARCHAR},
-      production_intro = #{productionIntro,jdbcType=VARCHAR},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      is_delete = #{isDelete,jdbcType=TINYINT},
-      venue_id = #{venueId,jdbcType=BIGINT},
-      production_price = #{productionPrice,jdbcType=DECIMAL}
+    production_name = #{productionName,jdbcType=VARCHAR},
+    production_url = #{productionUrl,jdbcType=VARCHAR},
+    production_intro = #{productionIntro,jdbcType=VARCHAR},
+    gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+    gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+    is_delete = #{isDelete,jdbcType=TINYINT},
+    venue_id = #{venueId,jdbcType=BIGINT},
+    production_price = #{productionPrice,jdbcType=DECIMAL},
+    on_shelf = #{onShelf,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-
   <select id="numberByVenueId"  resultType="java.lang.Long">
     select
     count(1)
@@ -165,6 +174,7 @@
     <include refid="Base_Column_List" />
     from production
     where venue_id = #{venueId}
+    AND on_shelf=#{onShelf}
     AND is_delete = #{isDelete}
   </select>
 

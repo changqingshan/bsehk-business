@@ -92,7 +92,7 @@ public class VenueServiceImpl implements VenueService {
         // 场馆教练技师
         CoachComplexVO coachComplexVO = this.coachService.selectCoachByVenueId(venueId);
         // 场馆 产品列表
-     //   PageInfo productionPageInfo = this.productionService.pageProduction(venueId,1,3);
+        List<ProductionVO> productionVOS = this.productionService.listProductionVO(venueId,true,false);
        // log.info("productionPageInfo  :  [{}]",productionPageInfo);
         //数据打包
         VenueComplexVO venueComplexVO = VenueComplexVO.builder()
@@ -112,6 +112,7 @@ public class VenueServiceImpl implements VenueService {
                         .infrastructuresList(venueInfrastructureInfos)
                         .coachComplexVO(coachComplexVO)
                  //       .productionPageInfo(productionPageInfo)
+                        .productionVOS(productionVOS)
                         .venueNotice(venueNotice)
                         .venueAdvert(venueAdvert)
                         .brand(brand)

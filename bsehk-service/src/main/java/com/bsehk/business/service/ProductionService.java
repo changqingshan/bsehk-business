@@ -12,7 +12,7 @@ import java.util.List;
 public interface ProductionService {
 
 
-    PageInfo<List<ProductionVO>> pageProduction(Long venueId, Integer pageNum, Integer pageSize);
+    List<ProductionVO> listProductionVO(Long venueId,Boolean onShelf ,Boolean isDelete);
 
     List<Production> listByIds(List<Long> productionIds, Boolean isDelete);
 }

@@ -1,6 +1,5 @@
 package com.bsehk.business.biz.impl;
 
-import com.bsehk.business.domain.SportCategory;
 import com.bsehk.business.domain.WxUserInfo;
 import com.bsehk.business.service.*;
 import com.bsehk.business.service.vo.*;
@@ -29,6 +28,8 @@ public class IndexServiceImpl implements IndexService {
     @Resource
     private WxUserInfoService wxUserInfoService;
     @Resource
+    private ProductionService productionService;
+    @Resource
     private VenueService venueService;
     @Resource
     private SportCategoryDisPlayService sportCategoryDisPlayService;
@@ -56,6 +57,7 @@ public class IndexServiceImpl implements IndexService {
                                                       .cityVOS(cityVOS)
                                                       .lastLocationId(wxUserInfo.getLastLocationCityId())
                                                       .sportCategoryDisPlayVOS(sportCategoryDisPlayVOS)
+                                 //                     .productionVOS()
                                                       .pageInfo(pageInfo)
                                                       .build();
 

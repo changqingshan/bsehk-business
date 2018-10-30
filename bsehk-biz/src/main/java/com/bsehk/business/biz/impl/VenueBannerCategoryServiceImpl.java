@@ -29,4 +29,5 @@ public class VenueBannerCategoryServiceImpl implements VenueBannerCategoryServic
         List<VenueBannerCategory> venueBannerCategories = this.venueBannerCategoryMapper.listByIds(venueBannerCategoryIds,isDelete);
         return venueBannerCategories;
     }
+
 }

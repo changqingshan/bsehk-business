@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface VenueBannerCategoryService {
     List<VenueBannerCategory> listByIds(List<Long> venueBannerCategoryIds, Boolean isDelete);
+
 }

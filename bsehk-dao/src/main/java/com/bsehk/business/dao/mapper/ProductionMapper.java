@@ -20,7 +20,7 @@ public interface ProductionMapper {
 
     Long numberByVenueId(@Param("venueId") Long venueId,@Param("isDelete")Boolean isDelete);
 
-    List<Production> listByVenueId(@Param("venueId") Long venueId,@Param("isDelete") Boolean isDelete);
+    List<Production> listByVenueId(@Param("venueId") Long venueId,@Param("onShelf") Boolean onShelf,@Param("isDelete") Boolean isDelete);
 
     List<Production> listByIds(@Param("list") List<Long> productionIds,@Param("isDelete") Boolean isDelete);
 }

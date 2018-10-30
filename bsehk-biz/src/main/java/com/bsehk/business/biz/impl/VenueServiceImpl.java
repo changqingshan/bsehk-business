@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,7 +58,8 @@ public class VenueServiceImpl implements VenueService {
 
 
     @Override
-    public VenueComplexVO getVenueComplexInfo(Long venueId) {
+    public VenueComplexVO
+    getVenueComplexInfo(Long venueId) {
         //获取场馆信息
         Venue venue = venueMapper.selectByPrimaryKey(venueId);
         // 若为培训机构查询其他培训地点
@@ -91,7 +93,7 @@ public class VenueServiceImpl implements VenueService {
         // 场馆教练技师
         CoachComplexVO coachComplexVO = this.coachService.selectCoachByVenueId(venueId);
         // 场馆 产品列表
-     //   PageInfo productionPageInfo = this.productionService.pageProduction(venueId,1,3);
+        List<ProductionVO> productionVOS = this.productionService.listProductionVO(venueId,true,false);
        // log.info("productionPageInfo  :  [{}]",productionPageInfo);
         //数据打包
         VenueComplexVO venueComplexVO = VenueComplexVO.builder()
@@ -111,6 +113,7 @@ public class VenueServiceImpl implements VenueService {
                         .infrastructuresList(venueInfrastructureInfos)
                         .coachComplexVO(coachComplexVO)
                  //       .productionPageInfo(productionPageInfo)
+                        .productionVOS(productionVOS)
                         .venueNotice(venueNotice)
                         .venueAdvert(venueAdvert)
                         .brand(brand)
@@ -184,7 +187,7 @@ public class VenueServiceImpl implements VenueService {
                                           .venueId(venue.getId())
                                           .venueName(venue.getVenueName())
                                           .distance(distanceMap.get(venue.getId()))
-                                          .location("500m")
+                                          .location(this.convertDistance(distanceMap.get(venue.getId())))
                              //             .location(venueCityMap.get(venue.getCityId())+venue.getDetailLocation())
                                           .sportLabel(venueSportLabelMap.get(venue.getId()))
                                           .build()).collect(Collectors.toList());
@@ -196,6 +199,25 @@ public class VenueServiceImpl implements VenueService {
 
 
     }
+
+    public String convertDistance(Double distance){
+        if(distance == null){
+            return "";
+        }
+        if(distance > 50000){
+            // 大于50km 不显示距离
+            return " -- ";
+        }else if(distance > 1000){
+            DecimalFormat format = new DecimalFormat("###.##");
+            return   format.format(distance/1000);
+        }else{
+            DecimalFormat format = new DecimalFormat("###");
+            return format.format(distance);
+        }
+
+    }
+
+
 
     @Override
     public Venue selectByPrimaryKey(Long id) {

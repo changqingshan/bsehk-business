@@ -20,5 +20,6 @@ public interface VenueBannerMapper {
 
     List<VenueBanner> selectBannerByVenueId(@Param("venueId") Long venueId,@Param("isDelete") Boolean isDelete);
 
+
     Integer numberBanner(@Param("venueId") Long venueId,@Param("isDelete") Boolean isDelete);
 }

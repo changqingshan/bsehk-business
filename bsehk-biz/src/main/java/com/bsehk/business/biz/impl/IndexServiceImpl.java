@@ -1,11 +1,8 @@
 package com.bsehk.business.biz.impl;
 
-import com.bsehk.business.domain.SportCategory;
+import com.bsehk.business.domain.WxUserInfo;
 import com.bsehk.business.service.*;
-import com.bsehk.business.service.vo.CityVO;
-import com.bsehk.business.service.vo.SportCategoryDisPlayVO;
-import com.bsehk.business.service.vo.SportCategoryVO;
-import com.bsehk.business.service.vo.VenueBriefVO;
+import com.bsehk.business.service.vo.*;
 import com.bsehk.common.exception.BizException;
 import com.bsehk.common.util.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +26,10 @@ public class IndexServiceImpl implements IndexService {
     @Resource
     private SportCategoryService sportCategoryService;
     @Resource
+    private WxUserInfoService wxUserInfoService;
+    @Resource
+    private ProductionService productionService;
+    @Resource
     private VenueService venueService;
     @Resource
     private SportCategoryDisPlayService sportCategoryDisPlayService;
@@ -36,28 +37,40 @@ public class IndexServiceImpl implements IndexService {
 
 
     @Override
-    public Map<String, Object> getPageHomeData(Long cityId, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
+    public IndexComplexVO getPageHomeData(String  openid, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
         // 查询城市
         List<CityVO> cityVOS = this.cityService.getCityTree();
         // 查询运动类别
        // List<SportCategory> sportCategories = this.sportCategoryService.selectParentSport();
         List<SportCategoryDisPlayVO> sportCategoryDisPlayVOS = this.sportCategoryDisPlayService.listSportCategoryDisplayVO();
         sportCategoryDisPlayVOS.forEach(sportCategory -> sportCategory.setLogo("http://dpic.tiankong.com/9a/ee/QJ6203205716.jpg"));
+        // 查询微信用户的openid 的lastCityId
+        WxUserInfo wxUserInfo = this.wxUserInfoService.selectByOpenid(openid,false);
+        if(wxUserInfo == null){
+            throw new BizException("没有查询到微信用户");
+        }
 
         // 查询场馆
-        PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(cityId, null, longitude, latitude, null, pageNum, pageSize);
+        PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(wxUserInfo.getLastLocationCityId(), null, longitude, latitude, null, pageNum, pageSize);
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("cities",cityVOS);
-        map.put("sportCategories",sportCategoryDisPlayVOS);
-        map.put("pageInfo",pageInfo);
-        return map;
+        IndexComplexVO indexComplexVO = IndexComplexVO.builder()
+                                                      .cityVOS(cityVOS)
+                                                      .lastLocationId(wxUserInfo.getLastLocationCityId())
+                                                      .sportCategoryDisPlayVOS(sportCategoryDisPlayVOS)
+                                 //                     .productionVOS()
+                                                      .pageInfo(pageInfo)
+                                                      .build();
+
+        return indexComplexVO;
     }
 
 
 
     @Override
-    public PageInfo<List<VenueBriefVO>> searchIndexVenue(Long cityId, String venueName, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
+    public PageInfo<List<VenueBriefVO>> searchIndexVenue(String openid,Long cityId, String venueName, Double longitude, Double latitude,Integer pageNum,Integer pageSize) {
+         // 保存切换的城市
+         this.wxUserInfoService.saveLastLocationCity(openid,cityId);
+
         // 查询场馆
         PageInfo<List<VenueBriefVO>> pageInfo = this.venueService.searchVenue(cityId,null,longitude,latitude,venueName, pageNum, pageSize);
 

@@ -25,8 +25,8 @@ public class ProductionServiceImplTest {
 
     @Test
     public void pageProductionTest(){
-        PageInfo<List<ProductionVO>> pageInfo = productionService.pageProduction(1L, 1, 3);
-        log.info("pageInfo :   [{}",pageInfo);
+       // PageInfo<List<ProductionVO>> pageInfo = productionService.pageProduction(1L, 1, 3);
+    //    log.info("pageInfo :   [{}",pageInfo);
     }
 
 

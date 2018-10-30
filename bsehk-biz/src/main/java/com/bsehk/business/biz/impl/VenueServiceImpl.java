@@ -57,7 +57,8 @@ public class VenueServiceImpl implements VenueService {
 
 
     @Override
-    public VenueComplexVO getVenueComplexInfo(Long venueId) {
+    public VenueComplexVO
+    getVenueComplexInfo(Long venueId) {
         //获取场馆信息
         Venue venue = venueMapper.selectByPrimaryKey(venueId);
         // 若为培训机构查询其他培训地点

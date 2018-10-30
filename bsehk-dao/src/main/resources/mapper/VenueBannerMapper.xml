@@ -156,4 +156,6 @@
     where venue_id = #{venueId,jdbcType=BIGINT}
     AND  is_delete = #{isDelete}
   </select>
+
+
 </mapper>

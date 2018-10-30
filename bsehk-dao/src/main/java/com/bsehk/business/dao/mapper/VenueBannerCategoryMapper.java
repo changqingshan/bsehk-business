@@ -19,4 +19,5 @@ public interface VenueBannerCategoryMapper {
     int updateByPrimaryKey(VenueBannerCategory record);
 
     List<VenueBannerCategory> listByIds(@Param("list") List<Long> venueBannerCategoryIds,@Param("isDelete") Boolean isDelete);
+
 }

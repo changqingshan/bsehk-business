@@ -12,5 +12,7 @@ public class VenueBannerVO {
 
     private String typeName;
 
+    private Integer size;
+
     private List<VenueBanner> venueBanners;
 }

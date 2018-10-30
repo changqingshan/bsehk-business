@@ -1,6 +1,7 @@
 package com.bsehk.business.web.controller;
 
 import com.bsehk.business.service.IndexService;
+import com.bsehk.business.service.vo.IndexComplexVO;
 import com.bsehk.business.service.vo.VenueBriefVO;
 import com.bsehk.common.response.ResultData;
 import com.bsehk.common.util.PageInfo;
@@ -27,18 +28,18 @@ public class IndexController {
 
     /***
      * 进入首页数据
-     * @param cityId
+     * @param
      * @param longitude
      * @param latitude
      * @return
      */
     @RequestMapping("/index/data")
-    public ResultData  index(Long cityId,Double longitude,Double latitude,
+    public ResultData  index(String openid,Double longitude,Double latitude,
                              @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                              @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
-        log.info("cityId : [{}]   ; pageNum : [{}]  ; pageSize : [{}]",cityId,pageNum,pageSize);
-        Map<String,Object> map = this.indexService.getPageHomeData(cityId,longitude,latitude,pageNum,pageSize);
-        return ResultData.success(map);
+        log.info("openid : [{}]   ; pageNum : [{}]  ; pageSize : [{}]",openid,pageNum,pageSize);
+        IndexComplexVO indexComplexVO = this.indexService.getPageHomeData(openid,longitude,latitude,pageNum,pageSize);
+        return ResultData.success(indexComplexVO);
     }
 
     /***
@@ -50,11 +51,11 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/index/search/venue")
-    public ResultData searchIndexVenue(Long cityId, String venueName, Double longitude, Double latitude,
+    public ResultData searchIndexVenue(String openid ,Long cityId, String venueName, Double longitude, Double latitude,
                                        @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                        @RequestParam(value = "pageSize",defaultValue = "5") Integer pageSize){
         log.info("cityId : [{}]   ;   venueName : [{}]  ; pageNum : [{}]  ; pageSize : [{}]",cityId,venueName,pageNum,pageSize);
-        PageInfo<List<VenueBriefVO>> pageInfo = this.indexService.searchIndexVenue(cityId,venueName,longitude,latitude,pageNum,pageSize);
+        PageInfo<List<VenueBriefVO>> pageInfo = this.indexService.searchIndexVenue(openid,cityId,venueName,longitude,latitude,pageNum,pageSize);
         return ResultData.success(pageInfo);
     }
 

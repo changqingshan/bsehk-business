@@ -27,10 +27,9 @@ public class ProductionServiceImpl implements ProductionService {
 
 
     @Override
-    public PageInfo<List<ProductionVO>> pageProduction(Long venueId, Integer pageNum, Integer pageSize) {
+    public List<ProductionVO> listProductionVO(Long venueId,Boolean onShelf,Boolean isDelete) {
         Long number = this.productionMapper.numberByVenueId(venueId,false);
-        PageHelper.startPage(pageNum,pageSize);
-        List<Production> productions = this.productionMapper.listByVenueId(venueId,false);
+        List<Production> productions = this.productionMapper.listByVenueId(venueId,onShelf,isDelete);
         List<ProductionVO> productionVOS = productions.parallelStream().map(production -> ProductionVO.builder()
                                                          .productionId(production.getId())
                                                          .productionName(production.getProductionName())
@@ -39,9 +38,8 @@ public class ProductionServiceImpl implements ProductionService {
                                                          .build())
                                                     .collect(Collectors.toList());
 
-        PageInfo<List<ProductionVO>>  pageInfo = new PageInfo(pageNum,pageSize,number,productionVOS);
 
-        return pageInfo;
+        return productionVOS;
     }
 
 

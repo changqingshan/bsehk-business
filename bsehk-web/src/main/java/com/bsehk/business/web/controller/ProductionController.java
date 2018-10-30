@@ -29,10 +29,9 @@ public class ProductionController {
     private VenueProductionGroupService venueProductionGroupService;
 
   @RequestMapping("/production/list")
-  public ResultData showProduction(Long venueId, @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                   @RequestParam(value = "pageSize",defaultValue = "4") Integer pageSize){
-      PageInfo<List<ProductionVO>> pageInfo = this.productionService.pageProduction(venueId,pageNum,pageSize);
-      return ResultData.success(pageInfo);
+  public ResultData showProduction(Long venueId){
+      List<ProductionVO> list = this.productionService.listProductionVO(venueId,true,false);
+      return ResultData.success(list);
   }
 
   @RequestMapping("/production/default/group")

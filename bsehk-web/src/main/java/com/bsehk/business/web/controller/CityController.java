@@ -26,5 +26,4 @@ public class CityController {
         return ResultData.success(cityTree);
     }
 
-
 }

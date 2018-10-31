@@ -9,7 +9,6 @@ import com.bsehk.business.service.vo.ExerciseVO;
 import com.bsehk.business.service.vo.SpecialCourseVO;
 import com.bsehk.common.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,8 +22,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Resource
     ExerciseMapper exerciseMapper;
-    @Resource
-    private VenueNoticeService venueNoticeService;
     @Resource
     private SpecialCourseService specialCourseService;
     @Resource
@@ -54,14 +51,14 @@ public class ExerciseServiceImpl implements ExerciseService {
         // 查询场地
             //获取场地id并去重
         List<Long> exerciseFieldIds = exerciseFieldRelations.parallelStream().map(ExerciseFieldRelation::getExerciseFieldId).distinct().collect(Collectors.toList());
-        log.info("相关的场地id：exerciseFieldIds:[{}]",exerciseFieldIds);
+        //log.info("相关的场地id：exerciseFieldIds:[{}]",exerciseFieldIds);
         List<ExerciseField> exerciseFields = this.exerciseFieldService.listByIds(exerciseFieldIds,false);
         Map<Long,ExerciseField> exerciseFieldMap = exerciseFields.parallelStream().collect(Collectors.toMap(ExerciseField::getId, Function.identity()));
         //log.info("相关的场地：exerciseFieldMap:[{}]",exerciseFieldMap);
         // 查询场地通知
         List<ExerciseFieldNotice> exerciseFieldNotices = this.exerciseFieldNoticeService.listByExerciseFieldIds(exerciseFieldIds,false);
         Map<Long,ExerciseFieldNotice> exerciseFieldNoticeMap = exerciseFieldNotices.parallelStream().collect(Collectors.toMap(ExerciseFieldNotice::getExerciseFieldId,Function.identity()));
-        log.info("exerciseFieldNoticeMap:[{}]",exerciseFieldNoticeMap);
+        //log.info("exerciseFieldNoticeMap:[{}]",exerciseFieldNoticeMap);
         // 查询教练
         List<Long> coachIds = exerciseFieldRelations.parallelStream().map(ExerciseFieldRelation::getCoachId).distinct().collect(Collectors.toList());
         List<Coach> coaches = this.coachService.listByIds(coachIds,false);
@@ -98,10 +95,10 @@ public class ExerciseServiceImpl implements ExerciseService {
             }
 
         });
-        log.info("相关节次及对应的周次：exerciseCourseTimeVOS:[{}]",exerciseCourseTimeVOS);
+        //log.info("相关节次及对应的周次：exerciseCourseTimeVOS:[{}]",exerciseCourseTimeVOS);
         //场地节次信息按照场地分组
         Map<Long, List<ExerciseCourseTimeVO>> map = exerciseCourseTimeVOS.parallelStream().collect(Collectors.groupingBy(ExerciseCourseTimeVO::getExerciesFieldId));
-        log.info("map:[{}]",map);
+        //log.info("map:[{}]",map);
         //判断场地id与团操课自带的场地id是否相同，相同的把场地信息存入团操课
         List<ExerciseVO> exerciseVOS = new ArrayList<>();
         //判断场地id与场地通知带的场地id是否相同，相同就把场地名与场地通知放入ExerciseVO
@@ -122,10 +119,11 @@ public class ExerciseServiceImpl implements ExerciseService {
                             .filedName(exerciseField.getField())
                             .exerciseCourseTimeVOS(new ArrayList<>())
                             .build();
+                    //log.info("exerciseVO:[{}]",exerciseVO);
                 }
             });
         });
-        log.info("exerciseVOS:[{}]",exerciseVOS);
+        //log.info("exerciseVOS:[{}]",exerciseVOS);
         //判断exerciseVO自带的场地id与exerciseCourseTimeVOS的场地id是否相同，相同把exerciseCourseTimeVOS放入exerciseVO的属性中
         for (ExerciseCourseTimeVO exerciseCourseTimeVO:exerciseCourseTimeVOS) {
             for (ExerciseVO exerciseVO:exerciseVOS) {
@@ -163,13 +161,17 @@ public class ExerciseServiceImpl implements ExerciseService {
         List<ExerciseVO> exerciseVOS = this.listVenueExercise(venueId);
         // 特色课程
         SpecialCourse specialCourse = this.specialCourseService.getByVenueId(venueId,false);
+        SpecialCourseVO specialCourseVO = new SpecialCourseVO();
+        //log.info("specialCourse:[{}]",specialCourse);
         if(specialCourse == null){
-            SpecialCourseVO specialCourseVO =null;
+            specialCourseVO =null;
+        }else {
+            specialCourseVO = SpecialCourseVO.builder()
+                                            .title(specialCourse.getTitle())
+                                            .intro(specialCourse.getIntro())
+                                            .build();
         }
-        SpecialCourseVO specialCourseVO = SpecialCourseVO.builder()
-                                        .title(specialCourse.getTitle())
-                                        .intro(specialCourse.getIntro())
-                                        .build();
+
 
         ExerciseComplexVO exerciseComplexVO = ExerciseComplexVO.builder()
                 .exerciseVOS(exerciseVOS)

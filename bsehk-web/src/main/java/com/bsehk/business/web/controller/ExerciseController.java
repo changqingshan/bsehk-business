@@ -21,7 +21,7 @@ public class ExerciseController {
     @Resource
     ExerciseService exerciseService;
 
-
+    //团操课展示接口
     @RequestMapping("/exerciseCourse")
     public ResultData detailExerciseCourse(Long venueId){
         ExerciseComplexVO exerciseComplexVO = this.exerciseService.detailExerciseCourse(venueId);

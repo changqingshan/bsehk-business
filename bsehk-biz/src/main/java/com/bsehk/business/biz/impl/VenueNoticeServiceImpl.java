@@ -17,10 +17,10 @@ public class VenueNoticeServiceImpl implements VenueNoticeService {
     @Resource
     VenueNoticeMapper venueNoticeMapper;
     @Override
-    public VenueNotice selectNoticeByVenueId(Long venueId,Byte noticeType,Boolean isDelete) {
+    public VenueNotice selectNoticeByVenueId(Long venueId,Boolean isDelete) {
         //获取当前日期
         Date now = new Date();
-        VenueNotice venueNotice = venueNoticeMapper.selectByVenueIdAndType(venueId, noticeType.intValue(),now,false);
+        VenueNotice venueNotice = venueNoticeMapper.selectByVenueIdAndType(venueId, now,false);
         log.info("venueNotice :  [{}]" ,venueNotice);
 
         return venueNotice;

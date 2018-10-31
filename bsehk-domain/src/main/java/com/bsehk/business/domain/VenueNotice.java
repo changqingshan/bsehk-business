@@ -9,8 +9,6 @@ public class VenueNotice {
 
     private Long venueId;
 
-    private Byte noticeType;
-
     private String title;
 
     private String content;

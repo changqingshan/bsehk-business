@@ -46,7 +46,7 @@ public class CoachServiceImpl implements CoachService {
         //通过场馆id获取教练id集合
         List<Long> coachIdList = coachVenueService.selectByVenueId(venueId);
         if (coachIdList.size() == 0) {
-            throw new BizException("该场馆没有教练");
+             return null;
         }
         //通过教练id集合获取教练的名称，职称，
         List<Coach> coacheList = coachMapper.selectCoachByCoachId(coachIdList);
@@ -56,7 +56,7 @@ public class CoachServiceImpl implements CoachService {
                     .coachType(coach.getCoachType())
                     .title(coach.getTitle())
                     .name(coach.getCoachName())
-                    .appearanceUrl("http://pic.58pic.com/58pic/10/97/02/30a58PICH7N.jpg")
+                    .appearanceUrl(coach.getAppearanceUrl())
                     .build();
         }).collect(Collectors.toList());
         CoachComplexVO coachComplexVO = CoachComplexVO.builder().build();

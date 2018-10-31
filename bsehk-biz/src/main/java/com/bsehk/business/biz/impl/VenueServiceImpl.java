@@ -85,7 +85,7 @@ public class VenueServiceImpl implements VenueService {
         // 查询场馆普通banner图数量
         Integer bannerNumber = this.venueBannerService.numberBanner(venueId,false);
         //获取场馆公告展示
-        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId,(byte)1,false);
+        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId,false);
         //获取场馆广告展示
         VenueAdvert venueAdvert = venueAdvertService.selectAdvertByVenueId(venueId,false);
         //获取场馆品牌介绍
@@ -186,6 +186,7 @@ public class VenueServiceImpl implements VenueService {
         List<VenueBriefVO> venueBriefVOS = venues.parallelStream().map(venue -> VenueBriefVO.builder()
                                           .venueId(venue.getId())
                                           .venueName(venue.getVenueName())
+                                          .url(venue.getUrl())
                                           .distance(distanceMap.get(venue.getId()))
                                           .location(this.convertDistance(distanceMap.get(venue.getId())))
                              //             .location(venueCityMap.get(venue.getCityId())+venue.getDetailLocation())

@@ -18,5 +18,5 @@ public interface VenueNoticeMapper {
 
     int updateByPrimaryKey(VenueNotice record);
 
-    VenueNotice selectByVenueIdAndType(@Param("venueId") Long venueId, @Param("noticeType") Integer noticeType, @Param("date") Date date, @Param("isDelete") Boolean isDelete);
+    VenueNotice selectByVenueIdAndType(@Param("venueId") Long venueId, @Param("date") Date date, @Param("isDelete") Boolean isDelete);
 }

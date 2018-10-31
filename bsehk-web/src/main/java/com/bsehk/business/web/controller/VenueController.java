@@ -50,7 +50,7 @@ public class VenueController {
      */
     @RequestMapping("/selectNoticeByVenueId")
     public ResultData selectNoticeByVenueId(Long venueId){
-        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId, (byte) 1, false);
+        VenueNotice venueNotice = venueNoticeService.selectNoticeByVenueId(venueId,  false);
         return  ResultData.success(venueNotice);
     }
     /**
@@ -70,7 +70,7 @@ public class VenueController {
         return ResultData.success(brand);
     }
     /**
-     * 查询场馆详情
+     * 查询场馆综合
      */
     @RequestMapping("/complexInfo")
     public ResultData complexInfo(Long venueId){

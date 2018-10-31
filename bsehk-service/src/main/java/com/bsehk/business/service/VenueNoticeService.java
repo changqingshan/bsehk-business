@@ -5,6 +5,6 @@ import com.bsehk.business.domain.VenueNotice;
 import java.util.List;
 
 public interface VenueNoticeService {
-    VenueNotice selectNoticeByVenueId(Long venueId,Byte noticeType,Boolean isDelete);
+    VenueNotice selectNoticeByVenueId(Long venueId,Boolean isDelete);
 
 }

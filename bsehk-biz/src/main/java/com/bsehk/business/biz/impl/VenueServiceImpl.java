@@ -61,7 +61,7 @@ public class VenueServiceImpl implements VenueService {
     public VenueComplexVO
     getVenueComplexInfo(Long venueId) {
         //获取场馆信息
-        Venue venue = venueMapper.selectByPrimaryKey(venueId);
+        Venue venue = this.venueMapper.selectByPrimaryKey(venueId);
         // 若为培训机构查询其他培训地点
         Integer otherTrainSiteNumber = null;
         if(venue.getVenueCategory() == 4){
@@ -100,7 +100,7 @@ public class VenueServiceImpl implements VenueService {
                         .venueId(venueId)
                         .venueName(venue.getVenueName())
                      //   .appearanceUrl(venue.getUrl())
-                        .appearanceUrl("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=749686236,2274486353&fm=11&gp=0.jpg")
+                        .appearanceUrl(venue.getUrl())
                         .bannerNumber(bannerNumber)
                         .otherTrainSite(otherTrainSiteNumber)
                         .detailLocation(venue.getDetailLocation())
@@ -232,7 +232,7 @@ public class VenueServiceImpl implements VenueService {
     public VenueInfoVo selectVenueInfoById(Long venueId) {
         //获取场馆信息
         Venue venue = venueMapper.selectByPrimaryKey(venueId);
-        List<VenueFunctionZoneVO> venueFunctionZoneVOS=new ArrayList<>();
+        List<VenueFunctionZoneVO> venueFunctionZoneVOS = new ArrayList<>();
         //获取场馆基础设施
         List<VenueInfrastructureInfo> venueInfrastructureInfos = venueInfrastructureService.selectVenueInfrastructureInfoByVenueId(venueId,false);
         //获取场馆功能区
@@ -241,19 +241,12 @@ public class VenueServiceImpl implements VenueService {
         List<FunctionZone> functionZones = this.functionZoneService.listByIds(functionZoneIds,false);
         Map<Long,String> map = functionZones.parallelStream().collect(Collectors.toMap(FunctionZone::getId, FunctionZone::getFunctionZoneName));
 
-        /*List<VenueFunctionZoneVO> venueFunctionZoneVOS = venueFunctionZones.parallelStream().map(venueFunctionZone -> VenueFunctionZoneVO.builder()
-                                                                                .logo(venueFunctionZone.getLogo())
-                                                                                .FunctionZoneNumber(venueFunctionZone.getFunctionZoneNumber())
-                                                                                .FunctionZoneName(map.get(venueFunctionZone.getFunctionZoneId()))
-                                                                                .build())
-                                                                         .collect(Collectors.toList());*/
-
        for (int i = 0; i<functionZones.size();i++){
             for (int j=0;j<venueFunctionZones.size();j++)
                 if (functionZones.get(i).getId().equals( venueFunctionZones.get(j).getFunctionZoneId())) {
                     VenueFunctionZoneVO venueFunctionZoneVO = VenueFunctionZoneVO.builder()
                             .functionZoneNumber(venueFunctionZones.get(j).getFunctionZoneNumber())
-                            .logo(venueFunctionZones.get(j).getLogo())
+                            .logo(functionZones.get(i).getLogo())
                             .functionZoneName(functionZones.get(i).getFunctionZoneName())
                             .build();
                     venueFunctionZoneVOS.add(venueFunctionZoneVO);

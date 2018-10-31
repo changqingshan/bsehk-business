@@ -34,6 +34,7 @@ public class VenueBannerServiceImpl implements VenueBannerService {
 
         List<VenueBanner> venueBanners = venueBannerMapper.selectBannerByVenueId(venueId,false);
         Map<Long,List<VenueBanner>> map = venueBanners.parallelStream().collect(Collectors.groupingBy(VenueBanner::getVenueBannerCategoryId));
+        log.info("map  -------->  :: [{}]",map);
         // 查询对应类别
         List<Long> venueBannerCategoryIds = venueBanners.parallelStream().map(VenueBanner::getVenueBannerCategoryId).distinct().collect(Collectors.toList());
         List<VenueBannerCategory> venueBannerCategories = this.venueBannerCategoryService.listByIds(venueBannerCategoryIds,false);

@@ -74,6 +74,7 @@ public class VenueController {
      */
     @RequestMapping("/complexInfo")
     public ResultData complexInfo(Long venueId){
+        log.info("venueId  --------->:   [{}]",venueId);
         VenueComplexVO venueComplexInfo = venueService.getVenueComplexInfo(venueId);
         return ResultData.success(venueComplexInfo);
     }

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,12 +29,13 @@ public class ProductionServiceImpl implements ProductionService {
 
     @Override
     public List<ProductionVO> listProductionVO(Long venueId,Boolean onShelf,Boolean isDelete) {
+        DecimalFormat format = new DecimalFormat("#####");
         Long number = this.productionMapper.numberByVenueId(venueId,false);
         List<Production> productions = this.productionMapper.listByVenueId(venueId,onShelf,isDelete);
         List<ProductionVO> productionVOS = productions.parallelStream().map(production -> ProductionVO.builder()
                                                          .productionId(production.getId())
                                                          .productionName(production.getProductionName())
-                                                         .productionPrice(""+production.getProductionPrice())
+                                                         .productionPrice(format.format(production.getProductionPrice()))
                                                          .url(production.getProductionUrl())
                                                          .build())
                                                     .collect(Collectors.toList());

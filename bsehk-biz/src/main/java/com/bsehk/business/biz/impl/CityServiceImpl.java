@@ -56,7 +56,7 @@ public class CityServiceImpl implements CityService {
                 CityVO child = cityVOS.get(j);
                 if(child.getParentId().equals(parent.getId())){
                     if(m == 1){
-                        parent.getChildren().add(0,CityVO.builder().id(-parent.getId()).name("全部").build());
+                     //   parent.getChildren().add(0,CityVO.builder().id(-parent.getId()).name("全部").build());
                     }
                     parent.getChildren().add(child);
                     m++;

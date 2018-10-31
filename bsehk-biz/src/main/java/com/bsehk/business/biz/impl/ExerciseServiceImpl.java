@@ -58,7 +58,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         // 查询场地通知
         List<ExerciseFieldNotice> exerciseFieldNotices = this.exerciseFieldNoticeService.listByExerciseFieldIds(exerciseFieldIds,false);
         Map<Long,ExerciseFieldNotice> exerciseFieldNoticeMap = exerciseFieldNotices.parallelStream().collect(Collectors.toMap(ExerciseFieldNotice::getExerciseFieldId,Function.identity()));
-        //log.info("exerciseFieldNoticeMap:[{}]",exerciseFieldNoticeMap);
+        log.info("exerciseFieldNoticeMap:[{}]",exerciseFieldNoticeMap);
         // 查询教练
         List<Long> coachIds = exerciseFieldRelations.parallelStream().map(ExerciseFieldRelation::getCoachId).distinct().collect(Collectors.toList());
         List<Coach> coaches = this.coachService.listByIds(coachIds,false);
@@ -102,28 +102,43 @@ public class ExerciseServiceImpl implements ExerciseService {
         //判断场地id与团操课自带的场地id是否相同，相同的把场地信息存入团操课
         List<ExerciseVO> exerciseVOS = new ArrayList<>();
         //判断场地id与场地通知带的场地id是否相同，相同就把场地名与场地通知放入ExerciseVO
-        exerciseFieldMap.forEach((exerciseFieldId,exerciseField)->{
-            exerciseFieldNoticeMap.forEach((noticeExerciseFieldId,exerciseFieldNoticeList)->{
-                if(exerciseFieldId.equals(noticeExerciseFieldId)){
-                    ExerciseVO exerciseVO = ExerciseVO.builder()
-                                            .exerciesFieldId(exerciseFieldId)
-                                            .filedName(exerciseField.getField())
-                                            .exerciseFieldNotice(exerciseFieldNoticeList)
-                                            .exerciseCourseTimeVOS(new ArrayList<>())
-                                            .build();
-                    exerciseVOS.add(exerciseVO);
-                }else {
-                    //找不到与场地对应的场地通知则不添加场地通知
-                    ExerciseVO exerciseVO = ExerciseVO.builder()
-                            .exerciesFieldId(exerciseFieldId)
-                            .filedName(exerciseField.getField())
-                            .exerciseCourseTimeVOS(new ArrayList<>())
-                            .build();
-                    //log.info("exerciseVO:[{}]",exerciseVO);
-                }
+        if(exerciseFieldNoticeMap.isEmpty()){
+            log.info("===============");
+            exerciseFieldMap.forEach((exerciseFieldId,exerciseField)->{
+                ExerciseVO exerciseVO = ExerciseVO.builder()
+                        .exerciesFieldId(exerciseFieldId)
+                        .filedName(exerciseField.getField())
+                        .exerciseCourseTimeVOS(new ArrayList<>())
+                        .build();
+                log.info("exerciseVO:[{}]",exerciseVO);
+                exerciseVOS.add(exerciseVO);
             });
-        });
-        //log.info("exerciseVOS:[{}]",exerciseVOS);
+        }else {
+            exerciseFieldMap.forEach((exerciseFieldId,exerciseField)->{
+                exerciseFieldNoticeMap.forEach((noticeExerciseFieldId,exerciseFieldNoticeList)->{
+                    if(exerciseFieldId.equals(noticeExerciseFieldId)){
+                        ExerciseVO exerciseVO = ExerciseVO.builder()
+                                .exerciesFieldId(exerciseFieldId)
+                                .filedName(exerciseField.getField())
+                                .exerciseFieldNotice(exerciseFieldNoticeList)
+                                .exerciseCourseTimeVOS(new ArrayList<>())
+                                .build();
+                        exerciseVOS.add(exerciseVO);
+                    }else {
+                        //找不到与场地对应的场地通知则不添加场地通知
+                        ExerciseVO exerciseVO = ExerciseVO.builder()
+                                .exerciesFieldId(exerciseFieldId)
+                                .filedName(exerciseField.getField())
+                                .exerciseCourseTimeVOS(new ArrayList<>())
+                                .build();
+                        log.info("exerciseVO:[{}]",exerciseVO);
+                        exerciseVOS.add(exerciseVO);
+                    }
+                });
+            });
+        }
+
+        log.info("exerciseVOS:[{}]",exerciseVOS);
         //判断exerciseVO自带的场地id与exerciseCourseTimeVOS的场地id是否相同，相同把exerciseCourseTimeVOS放入exerciseVO的属性中
         for (ExerciseCourseTimeVO exerciseCourseTimeVO:exerciseCourseTimeVOS) {
             for (ExerciseVO exerciseVO:exerciseVOS) {

@@ -91,7 +91,7 @@ public class VenueServiceImpl implements VenueService {
         //获取场馆品牌介绍
         Brand brand = brandService.selectBrandByVenueId(venueId);
         // 场馆教练技师
-        CoachComplexVO coachComplexVO = this.coachService.selectCoachByVenueId(venueId);
+        List<CoachComplexVO> coachComplexVOS = this.coachService.selectCoachByVenueId(venueId);
         // 场馆 产品列表
         List<ProductionVO> productionVOS = this.productionService.listProductionVO(venueId,true,false);
        // log.info("productionPageInfo  :  [{}]",productionPageInfo);
@@ -111,7 +111,7 @@ public class VenueServiceImpl implements VenueService {
                         .endTime(DateUtil.date2Str(venue.getEndTime(),"HH:mm"))
                         .venueSportList(venueSmallSports)
                         .infrastructuresList(venueInfrastructureInfos)
-                        .coachComplexVO(coachComplexVO)
+                        .coachComplexVOS(coachComplexVOS)
                  //       .productionPageInfo(productionPageInfo)
                         .productionVOS(productionVOS)
                         .venueNotice(venueNotice)

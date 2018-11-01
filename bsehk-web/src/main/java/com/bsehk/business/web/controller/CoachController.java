@@ -26,8 +26,8 @@ public class CoachController {
     * */
     @RequestMapping("/selectCoachByVenueId")
     public ResultData selectCoachByVenueId(Long venueId) {
-       CoachComplexVO coachComplexVO = coachService.selectCoachByVenueId(venueId);
-        return ResultData.success(coachComplexVO);
+       List<CoachComplexVO> coachComplexVOS = coachService.selectCoachByVenueId(venueId);
+        return ResultData.success(coachComplexVOS);
     }
 
     /*

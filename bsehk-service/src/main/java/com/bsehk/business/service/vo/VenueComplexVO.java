@@ -33,7 +33,7 @@ public class VenueComplexVO {
 
     private List<VenueInfrastructureInfo> infrastructuresList;//场馆基础信息
 
-    private CoachComplexVO coachComplexVO;  // 展示教练技师列表
+    private List<CoachComplexVO> coachComplexVOS;  // 展示教练技师列表
 
     private List<ProductionVO>  productionVOS;  // 产品列表
 

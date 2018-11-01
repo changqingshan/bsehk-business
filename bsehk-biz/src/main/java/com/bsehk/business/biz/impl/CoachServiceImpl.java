@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.Map;
@@ -40,33 +41,36 @@ public class CoachServiceImpl implements CoachService {
 
 
     @Override
-    public CoachComplexVO selectCoachByVenueId(Long venueId) {
-        List<CoachVO> coachVOList = new ArrayList<>();
-
+    public List<CoachComplexVO> selectCoachByVenueId(Long venueId) {
         //通过场馆id获取教练id集合
         List<Long> coachIdList = coachVenueService.selectByVenueId(venueId);
         if (coachIdList.size() == 0) {
-             return null;
+             return Collections.emptyList();
         }
         //通过教练id集合获取教练的名称，职称，
         List<Coach> coacheList = coachMapper.selectCoachByCoachId(coachIdList);
         //通过教练的id获取教练的topphoto，id，放入coachMedia集合
-        List<CoachVO> coachVOS = coacheList.parallelStream().map(coach -> {
-            return CoachVO.builder().id(coach.getId())
+        List<CoachVO> coachVOS = coacheList.parallelStream().map(coach -> CoachVO.builder()
+                    .id(coach.getId())
                     .coachType(coach.getCoachType())
                     .title(coach.getTitle())
                     .name(coach.getCoachName())
                     .appearanceUrl(coach.getAppearanceUrl())
-                    .build();
-        }).collect(Collectors.toList());
-        CoachComplexVO coachComplexVO = CoachComplexVO.builder().build();
+                    .build()
+        ).collect(Collectors.toList());
+
+        List<CoachComplexVO> coachComplexVOS = new ArrayList<>();
+
         Map<Byte,List<CoachVO>> map = coachVOS.parallelStream().collect(Collectors.groupingBy(CoachVO::getCoachType));
         map.forEach((k,v) ->{
-            coachComplexVO.setCoachType(k);
-            coachComplexVO.setCoachVOS(v);
+           CoachComplexVO coachComplexVO = CoachComplexVO.builder().build();
+              coachComplexVO.setCoachType(k);
+              coachComplexVO.setCoachVOS(v);
+           coachComplexVOS.add(coachComplexVO);
+
         });
 
-        return  coachComplexVO;
+        return  coachComplexVOS;
     }
     @Override
     public CoachVO detailInfo(Long coachId) {

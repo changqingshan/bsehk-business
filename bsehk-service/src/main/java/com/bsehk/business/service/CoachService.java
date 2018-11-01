@@ -17,7 +17,7 @@ public interface CoachService {
 
 
 
-    CoachComplexVO selectCoachByVenueId(Long venueId);
+    List<CoachComplexVO> selectCoachByVenueId(Long venueId);
 
 
     CoachVO detailInfo(Long coachId);

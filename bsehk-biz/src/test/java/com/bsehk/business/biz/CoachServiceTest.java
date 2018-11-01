@@ -30,7 +30,7 @@ public class CoachServiceTest {
     @Test
     public void selectCoachByVenueIdTest(){
         Long venueId = 1L;
-        CoachComplexVO map = this.coachService.selectCoachByVenueId(1L);
+       List< CoachComplexVO> map = this.coachService.selectCoachByVenueId(1L);
         log.info( JSON.toJSONString(map));
     }
 

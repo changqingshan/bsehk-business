@@ -3,9 +3,12 @@ package com.bsehk.business.domain;
 import lombok.Data;
 
 import java.util.Date;
+
 @Data
 public class SportCategory {
     private Long id;
+
+    private String logo;
 
     private String sportName;
 
@@ -15,7 +18,7 @@ public class SportCategory {
 
     private Date gmtModified;
 
-    private Boolean isDelete;
+    private Byte isDelete;
 
     private Boolean isParent;
 

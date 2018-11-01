@@ -43,7 +43,7 @@ public class IndexServiceImpl implements IndexService {
         // 查询运动类别
        // List<SportCategory> sportCategories = this.sportCategoryService.selectParentSport();
         List<SportCategoryDisPlayVO> sportCategoryDisPlayVOS = this.sportCategoryDisPlayService.listSportCategoryDisplayVO();
-        sportCategoryDisPlayVOS.forEach(sportCategory -> sportCategory.setLogo("http://img3.imgtn.bdimg.com/it/u=828106224,558857673&fm=26&gp=0.jpg"));
+       // sportCategoryDisPlayVOS.forEach(sportCategory -> sportCategory.setLogo("http://img3.imgtn.bdimg.com/it/u=828106224,558857673&fm=26&gp=0.jpg"));
         // 查询微信用户的openid 的lastCityId
         WxUserInfo wxUserInfo = this.wxUserInfoService.selectByOpenid(openid,false);
         if(wxUserInfo == null){

@@ -3,6 +3,7 @@
 <mapper namespace="com.bsehk.business.dao.mapper.SportCategoryMapper">
   <resultMap id="BaseResultMap" type="com.bsehk.business.domain.SportCategory">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="sport_name" jdbcType="VARCHAR" property="sportName" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
@@ -11,7 +12,7 @@
     <result column="is_parent" jdbcType="TINYINT" property="isParent" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, sport_name, parent_id, gmt_create, gmt_modified, is_delete, is_parent
+    id, logo, sport_name, parent_id, gmt_create, gmt_modified, is_delete, is_parent
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
@@ -27,12 +28,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sport_category (sport_name, parent_id, gmt_create,
-    gmt_modified, is_delete, is_parent
-    )
-    values (#{sportName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP},
-    #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}, #{isParent,jdbcType=TINYINT}
-    )
+    insert into sport_category (logo, sport_name, parent_id,
+    gmt_create, gmt_modified, is_delete,
+    is_parent)
+    values (#{logo,jdbcType=VARCHAR}, #{sportName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT},
+    #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT},
+    #{isParent,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.bsehk.business.domain.SportCategory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -40,6 +41,9 @@
     </selectKey>
     insert into sport_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logo != null">
+        logo,
+      </if>
       <if test="sportName != null">
         sport_name,
       </if>
@@ -60,6 +64,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
       <if test="sportName != null">
         #{sportName,jdbcType=VARCHAR},
       </if>
@@ -83,6 +90,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bsehk.business.domain.SportCategory">
     update sport_category
     <set>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
       <if test="sportName != null">
         sport_name = #{sportName,jdbcType=VARCHAR},
       </if>
@@ -106,7 +116,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bsehk.business.domain.SportCategory">
     update sport_category
-    set sport_name = #{sportName,jdbcType=VARCHAR},
+    set logo = #{logo,jdbcType=VARCHAR},
+      sport_name = #{sportName,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=BIGINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},

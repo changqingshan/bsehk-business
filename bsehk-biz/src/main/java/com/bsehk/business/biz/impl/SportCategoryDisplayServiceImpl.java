@@ -44,11 +44,12 @@ public class SportCategoryDisplayServiceImpl implements SportCategoryDisPlayServ
                                               SportCategoryDisPlayVO.builder()
                                                  .sportCategoryId(sportCategory.getId())
                                                  .sportCategoryName(sportCategory.getSportName())
-                                                 .logo(sportCategory.getSportName())
+                                                 .logo(sportCategory.getLogo())
                                                  .build())
                                               .collect(Collectors.toList());
 
-        sportCategoryDisPlayVOS.add(SportCategoryDisPlayVO.builder().logo("")
+        sportCategoryDisPlayVOS.add(SportCategoryDisPlayVO.builder()
+                .logo("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=687329704,1284099938&fm=26&gp=0.jpg")
                                                .sportCategoryId(null)
                                                .sportCategoryName("全部项目")
                                                .build());
